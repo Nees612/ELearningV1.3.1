@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace ELearningV1._3._1.Models
 {
     public class User : IdentityUser
     {
-        [Required]
-        public override string UserName { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public override string Email { get; set; }
+        public string Role { get; set; }
+        [NotMapped]
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }

@@ -1,0 +1,13 @@
+
+<h3>{{ header }}</h3>
+<div class="row">
+  <div class="card column" style="width: 18rem;" *ngFor="let module of modules">
+    <div class="card-body">
+      <h5 class="card-title">{{ module.title }}</h5>
+      <p class="card-text">{{ module.description }}</p>
+      <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module.id)" value="Start Module" />
+      <input type="button" class="btn btn-primary custombtn" (click)="onTakeExamClick()" value="Take test" />
+    </div>
+  </div>
+</div>
+

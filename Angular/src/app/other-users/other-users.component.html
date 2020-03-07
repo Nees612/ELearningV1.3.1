@@ -1,0 +1,29 @@
+<div>
+  <h3>Other Students</h3>
+  <hr />
+  <div class="students-container">
+    <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let user of allUsers">
+      <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(user.userName)" />
+      <div class="card-body">
+        <h4 class="card-title">{{ user.userName }}</h4>
+        <p class="card-text">{{ user.email }}</p>
+        <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(user.userName)">
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div *ngIf="selectedUser" class="card my-profile">
+    <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
+    <div class="card-body">
+      <div>
+        <img width="150px" height="150px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+      </div>
+      <div>
+        <p><strong>Username:</strong> {{ selectedUser.userName }}</p>
+        <p><strong>Phone number:</strong> {{ selectedUser.phoneNumber }}</p>
+        <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+        <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+      </div>
+    </div>
+  </div>
+</div>

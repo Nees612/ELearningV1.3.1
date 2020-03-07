@@ -1,0 +1,18 @@
+<div class="module-content" *ngIf="selectedContent">
+  <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
+  <h2>{{ selectedContent.title }}</h2>
+  <h5>{{ selectedContent.description }}</h5><br />
+  <div>
+    <p>{{ selectedContent.lesson }}</p>
+    <div *ngIf="selectedContent.assigmentUrl">
+      <label>Check ot your assigment on this link:</label><a href="{{selectedContent.assigmentUrl}}">
+        <strong>{{ selectedContent.assigmentUrl }}</strong>
+      </a><br />
+    </div>
+    <iframe *ngIf="safeUrl" width="500" height="300" [src]="safeUrl"></iframe>
+  </div>
+  <div>
+    <input type="button" [disabled]="!hasNext" class="btn btn-primary custombtn" style="float: right;" value="Next" (click)="NextContent()" />
+    <input type="button" [disabled]="!hasPrevious" class="btn btn-primary custombtn" style="float: right" value="Back" (click)="PreviousContent()" />
+  </div>
+</div>

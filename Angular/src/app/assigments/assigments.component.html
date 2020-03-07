@@ -1,0 +1,12 @@
+<h3>Assigments:</h3>
+<div class="card">
+  <div class="row">
+    <div class="card column" style="width: 18rem;" *ngFor="let assigment of assigments">
+      <div class="card-body">
+        <h5 class="card-title">{{ assigment.title }}</h5>
+        <p class="card-text">{{ assigment.description }}</p>
+        <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
+      </div>
+    </div>
+  </div>
+</div>

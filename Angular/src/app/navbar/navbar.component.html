@@ -1,0 +1,21 @@
+<div id="navbar" class="navbar navbar-light" [class.hide-nav]="hideNav">
+  <img width="50px" height="50px" src="assets/img/logo.png" />
+  <input class="btn nav-item navButton" type="button" value="Home" (click)="onHomeClick()" />
+  <input *ngIf="isAuthorized" class="btn nav-item navButton" type="button" value="Assigments" (click)="onAssigmentsClick()" />
+  <input *ngIf="isAuthorized" class="btn nav-item navButton" type="button" value="See Other Students" (click)="onOtherStudentsClick()" />
+  <div class="nav-container" *ngIf="!isAuthorized">
+    <input type="button" class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration" (click)='onRegistrationClick()' value="Registration" />
+    <input type="button" class="btn " [class.btn-primary]='!isActiveLogin' [class.btn-danger]="isActiveLogin" (click)='onLoginClick()' value="Login" />
+  </div>
+  <div class="nav-container" *ngIf="isAuthorized">
+    <button class="btn nav-item navButton" (click)="onMyProfileClick()">
+      <img width="30px" height="30px" src="assets/img/avatar.png" />
+    </button>
+    <label id="role">[{{ userRole }}]</label>
+    <label id="name"><strong>{{ userName }}</strong></label>
+    <button class="btn nav-item navButton" type="button" (click)="onLogout()">
+      <img width="30px" height="30px" src="assets/img/logout.png" />
+    </button>
+  </div>
+</div>
+

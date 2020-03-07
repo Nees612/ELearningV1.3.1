@@ -1,0 +1,36 @@
+<h3>My Profile</h3>
+<div class="card my-profile">
+  <div class="card-body">
+    <div>
+      <img width="250px" height="250px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+    </div>
+    <div style="text-align: center;" *ngIf="isEditActive">
+      <!--<input style="width: 120px;" type="button" class="btn btn-primary" value="Upload Photo" (click)="onChangepicture()" />-->
+    </div>
+    <div>
+      <div *ngIf="!isEditActive">
+        <p><strong>Username:</strong> {{ oldUserName }}</p>
+        <p><strong>Phone number:</strong> {{ oldPhoneNumber }}</p>
+        <p><strong>Email:</strong> {{ oldEmail }}</p>
+        <p><strong>Role:</strong> {{ userRole }}</p>
+        <input style="width: 120px;" type="button" class="btn btn-primary" value="Edit" (click)="onEditClick()" />
+      </div>
+      <div *ngIf="isEditActive">
+        <p><strong>Username: </strong></p>
+        <input class="form-control" type="text" [(ngModel)]="user.userName" />
+        <p><strong>Phone number: </strong></p>
+        <input class="form-control" type="text" [(ngModel)]="user.phoneNumber" />
+        <p><strong>Email:</strong></p>
+        <input class="form-control" type="text" [(ngModel)]="user.email" />
+        <p><strong>Role:</strong> {{ userRole }}</p>
+        <div class="alert alert-danger" *ngFor="let error of errors">{{ error }}</div>
+        <hr />
+        <div style="text-align: center;">
+          <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onCancel()" />
+          <input style="width: 120px;" type="button" class="btn btn-success" value="Save" (click)="onSaveClick()" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
