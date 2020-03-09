@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { ModulesService } from '../services/modules.service';
+import { UsersService } from '../services/users.service';
 
 
 @Component({
@@ -12,14 +13,21 @@ export class HomeComponent implements OnInit {
 
   header: string = "Welcome! Feel free to choose a module.";
 
+  currentModuleId: number;
+
+  isUserLoggedIn: boolean = false;
+
+  isSelectedModule: boolean = false;
+
   modules: any[];
 
   @Output() selectChange = new EventEmitter();
 
-  constructor(private modulesService: ModulesService, private cookieService: CookieService) { }
+  constructor(private modulesService: ModulesService, private usersService: UsersService) { }
 
   ngOnInit() {
-    if (this.cookieService.check('tokenCookie')) {
+    if (this.usersService.isUserLoggedIn()) {
+      this.isUserLoggedIn = true;
       this.modulesService.getAllModules().subscribe(response => {
         this.modules = response.json();
       }, _error => {
@@ -31,8 +39,13 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onModuleClick(id) {
-    this.selectChange.emit(id);
+  onModuleClick(id: number) {
+    this.currentModuleId = id;
+    this.isSelectedModule = true;
+  }
+
+  onModuleCancel() {
+    this.isSelectedModule = false;
   }
 
 }

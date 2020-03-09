@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   @Output() cancel = new EventEmitter();
 
-  constructor(private usersService: UsersService) {
+  constructor(private usersService: UsersService, private router: Router, private cookieService: CookieService) {
   }
 
   ngOnInit() {
@@ -29,7 +31,8 @@ export class LoginComponent implements OnInit {
     }
     this.usersService.loginUser(data).subscribe(response => {
       alert("Login was successfull.");
-      location.reload();
+      this.usersService.raiseTokenEvent()
+      this.router.navigate(['home']);
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {

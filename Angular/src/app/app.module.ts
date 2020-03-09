@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { QuestionsComponent } from './questions/questions.component';
@@ -17,6 +15,8 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ModulesService } from './services/modules.service';
 import { AssigmentsService } from './services/assigments.service';
+import { RouterModule } from '@angular/router';
+import { UsersService } from './services/users.service';
 
 @NgModule({
   declarations: [
@@ -33,11 +33,19 @@ import { AssigmentsService } from './services/assigments.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    RouterModule.forRoot([
+      { path: '', component: AppComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
+      { path: 'assigments', component: AssigmentsComponent },
+      { path: 'all_customers', component: OtherUsersComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'registration', component: RegistrationComponent },
+      { path: 'my_profile', component: MyProfileComponent }
+    ])
   ],
-  providers: [CookieService, ModulesService, AssigmentsService],
+  providers: [CookieService, ModulesService, AssigmentsService, UsersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

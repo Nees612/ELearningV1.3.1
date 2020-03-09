@@ -1,13 +1,31 @@
-
 <h3>{{ header }}</h3>
-<div class="row">
-  <div class="card column" style="width: 18rem;" *ngFor="let module of modules">
-    <div class="card-body">
-      <h5 class="card-title">{{ module.title }}</h5>
-      <p class="card-text">{{ module.description }}</p>
-      <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module.id)" value="Start Module" />
-      <input type="button" class="btn btn-primary custombtn" (click)="onTakeExamClick()" value="Take test" />
+<div>
+  <div *ngIf="isUserLoggedIn">
+    <div class="row">
+      <div class="card column" style="width: 18rem;" *ngFor="let module of modules">
+        <div class="card-body">
+          <h5 class="card-title">{{ module.title }}</h5>
+          <p class="card-text">{{ module.description }}</p>
+          <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module.id)" value="Start Module" />
+          <input type="button" class="btn btn-primary custombtn" (click)="onTakeExamClick()" value="Take test" />
+        </div>
+      </div>
     </div>
+    <hr />
+    <app-module *ngIf="isSelectedModule" [moduleId]="currentModuleId" (cancel)="onModuleCancel()"></app-module>
+  </div>
+  <div class="placeholder" *ngIf="!isUserLoggedIn">
+    <hr />
+    <h3> Welcome stranger !</h3>
+    <p>If you want to learn please sign up for free ! </p>
+    <div>
+      <h5>If you sign up you will be able to learn the following topic(s):</h5>
+      <ul>
+        <li><strong>Programing Basics</strong></li>
+      </ul>
+      <p>Other topics will be added soon , I'm working on it :) </p>
+    </div>
+    <iframe height="350" width="750" src="https://www.youtube.com/embed/eZcnTpQGfd8"></iframe>
   </div>
 </div>
 
