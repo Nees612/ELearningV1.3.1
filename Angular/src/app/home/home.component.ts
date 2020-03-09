@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 
@@ -20,8 +19,6 @@ export class HomeComponent implements OnInit {
   isSelectedModule: boolean = false;
 
   modules: any[];
-
-  @Output() selectChange = new EventEmitter();
 
   constructor(private modulesService: ModulesService, private usersService: UsersService) { }
 

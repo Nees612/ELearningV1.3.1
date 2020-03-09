@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
 
   @Output() cancel = new EventEmitter();
 
-  constructor(private usersService: UsersService, private router: Router, private cookieService: CookieService) {
+  constructor(private usersService: UsersService, private router: Router) {
   }
 
   ngOnInit() {

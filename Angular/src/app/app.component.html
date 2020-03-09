@@ -4,54 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-
   <app-navbar></app-navbar>
   <div class="body-content">
     <router-outlet></router-outlet>
   </div>
-
-  <!--id="navbar" [isActiveRegistration]="isRegistration" [userName]="userName" [userRole]="userRole"
-  [isActiveLogin]="isLogin" (authorized)="onAuthorized()"
-  (registration)="onRegistration()" (login)="onLogin()"
-  (homeTabClicked)="onHomeClick()"
-  (usersTabClicked)="onUsersClick()" (assigmentsTabClicked)="onAssigmentsClick()"
-  (myProfileClicked)="onMyProfileClick()"-->
-  <!--<div class="body-content">
-    <div *ngIf="isRegistration">
-      <app-registration (cancel)="onCancel()"></app-registration>
-    </div>
-    <div *ngIf="isLogin">
-      <app-login (cancel)="onCancel()"></app-login>
-    </div>
-    <div id="container" *ngIf="isAuthorized">
-      <div class="home-component" *ngIf="isHomeTabActive">
-        <app-home (selectChange)="onModuleSelected($event)"></app-home>
-        <hr />
-        <app-module *ngIf="isSelectedModule" [moduleId]="moduleId" (cancel)="onModuleCancel()"></app-module>
-      </div>
-      <div *ngIf="isAssigmentsTabActive">
-        <app-assigments></app-assigments>
-      </div>
-      <div class="my-profile-component" *ngIf="isMyProfileTabActive">
-        <app-my-profile [userName]="userName" (updatedProfile)="onUpdatedProfile()"></app-my-profile>
-      </div>
-      <div class="other-students-component" *ngIf="isUsersTabActive">
-        <app-other-users></app-other-users>
-      </div>
-    </div>
-    <div class="placeholder" *ngIf="!isAuthorized && !isLogin && !isRegistration">
-      <hr />
-      <h3> Welcome stranger !</h3>
-      <p>If you want to learn please sign up for free ! </p>
-      <div>
-        <h5>If you sign up you will be able to learn the following topic(s):</h5>
-        <ul>
-          <li><strong>Programing Basics</strong></li>
-        </ul>
-        <p>Other topics will be added soon , I'm working on it :) </p>
-      </div>
-      <iframe height="350" width="750" src="https://www.youtube.com/embed/eZcnTpQGfd8"></iframe>
-    </div>-->
-  <!--</div>-->
 </body>
 </html>

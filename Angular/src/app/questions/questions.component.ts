@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 
 
-// No longer in use
+// ToDo //
 
 @Component({
   selector: 'app-questions',

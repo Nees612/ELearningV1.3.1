@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
 import { UsersService } from '../services/users.service';
-import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-other-users',
@@ -15,7 +13,7 @@ export class OtherUsersComponent implements OnInit {
 
   selectedUser: any;
 
-  constructor(private usersService: UsersService, private cookieService: CookieService) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit() {
     this.isAdmin = this.usersService.isAdmin();

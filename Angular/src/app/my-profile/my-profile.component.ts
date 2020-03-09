@@ -1,5 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -69,6 +68,6 @@ export class MyProfileComponent implements OnInit {
   }
 
   onUploadPhoto() {
-
+    //ToDo
   }
 }
