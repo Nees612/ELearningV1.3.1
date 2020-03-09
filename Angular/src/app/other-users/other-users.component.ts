@@ -18,10 +18,7 @@ export class OtherUsersComponent implements OnInit {
   constructor(private usersService: UsersService, private cookieService: CookieService) { }
 
   ngOnInit() {
-    let decodedToken = jwt_decode(this.cookieService.get('tokenCookie'));
-    if (decodedToken.user_role === "Admin") {
-      this.isAdmin = true;
-    }
+    this.isAdmin = this.usersService.isAdmin();
     this.getAllusers();
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class RegistrationComponent implements OnInit {
 
   @Output() cancel = new EventEmitter();
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -35,7 +36,7 @@ export class RegistrationComponent implements OnInit {
       }
       this.usersService.createUser(data).subscribe(response => {
         alert("Your account succesfully created !");
-        this.onCancel();
+        this.router.navigate(['login']);
       }, error => {
         let errors = error.json().errors;
         for (let key in errors) {

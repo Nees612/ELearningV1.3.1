@@ -11,9 +11,6 @@ export class MyProfileComponent implements OnInit {
 
   isEditActive: boolean = false;
 
-  @Output() updatedProfile = new EventEmitter();
-  @Input() userName: string;
-
   oldUserName: string;
   oldEmail: string;
   oldPhoneNumber: string;
@@ -26,7 +23,7 @@ export class MyProfileComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
-    this.usersService.getUserData(this.userName).subscribe(response => {
+    this.usersService.getCurrentUserData().subscribe(response => {
       this.user = response.json().user;
       this.oldUserName = this.user.userName;
       this.oldEmail = this.user.email;
@@ -54,7 +51,7 @@ export class MyProfileComponent implements OnInit {
       this.oldEmail = this.user.email;
       this.oldPhoneNumber = this.user.phoneNumber;
       this.isEditActive = false;
-      this.updatedProfile.emit();
+      this.usersService.raiseTokenEvent()
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {

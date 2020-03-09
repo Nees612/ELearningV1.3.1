@@ -4,13 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <app-navbar id="navbar" [isActiveRegistration]="isRegistration" [userName]="userName" [userRole]="userRole"
-              [isActiveLogin]="isLogin" (authorized)="onAuthorized()"
-              (registration)="onRegistration()" (login)="onLogin()"
-              (homeTabClicked)="onHomeClick()"
-              (usersTabClicked)="onUsersClick()" (assigmentsTabClicked)="onAssigmentsClick()"
-              (myProfileClicked)="onMyProfileClick()"></app-navbar>
+
+  <app-navbar></app-navbar>
   <div class="body-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!--id="navbar" [isActiveRegistration]="isRegistration" [userName]="userName" [userRole]="userRole"
+  [isActiveLogin]="isLogin" (authorized)="onAuthorized()"
+  (registration)="onRegistration()" (login)="onLogin()"
+  (homeTabClicked)="onHomeClick()"
+  (usersTabClicked)="onUsersClick()" (assigmentsTabClicked)="onAssigmentsClick()"
+  (myProfileClicked)="onMyProfileClick()"-->
+  <!--<div class="body-content">
     <div *ngIf="isRegistration">
       <app-registration (cancel)="onCancel()"></app-registration>
     </div>
@@ -45,7 +51,7 @@
         <p>Other topics will be added soon , I'm working on it :) </p>
       </div>
       <iframe height="350" width="750" src="https://www.youtube.com/embed/eZcnTpQGfd8"></iframe>
-    </div>
-  </div>
+    </div>-->
+  <!--</div>-->
 </body>
 </html>

@@ -11,12 +11,14 @@ export class ModulesService {
   constructor(private http: Http, private cookieService: CookieService) { }
 
   getAllModules() {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    });
-    return this.http.get(environment.API_MODULES_URL, { headers: myHeaders });
+    if (this.cookieService.check('tokenCookie')) {
+      let token = this.cookieService.get('tokenCookie');
+      const myHeaders = new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      });
+      return this.http.get(environment.API_MODULES_URL, { headers: myHeaders });
+    }
   }
 
   getModuleContentByModuleId(moduleId: number) {

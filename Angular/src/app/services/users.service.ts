@@ -1,15 +1,58 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
-
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  constructor(private http: Http, private cookieService: CookieService) { }
+  token: any;
+
+  gotUserTokenEvent: EventEmitter<{ userName: string, userRole: string }>;
+
+  constructor(private http: Http, private cookieService: CookieService) {
+    if (cookieService.check('tokenCookie')) {
+      this.token = jwt_decode(cookieService.get('tokenCookie'));
+    }
+    this.gotUserTokenEvent = new EventEmitter<{ userName: string, userRole: string }>();
+  }
+
+  raiseTokenEvent(): void {
+    this.token = jwt_decode(this.cookieService.get('tokenCookie'));
+    let UserInfo = {
+      userName: this.token.user,
+      userRole: this.token.user_role
+    }
+    this.gotUserTokenEvent.emit(UserInfo);
+  }
+
+  isUserLoggedIn() {
+    if (this.cookieService.check('tokenCookie')) {
+      return true;
+    }
+    return false;
+  }
+
+  isAdmin() {
+    return this.token.user_role === "Admin";
+  }
+
+  getCurrentUserName() {
+    if (this.cookieService.check('tokenCookie')) {
+      return jwt_decode(this.cookieService.get('tokenCookie')).user;
+    }
+    return null;
+  }
+
+  getCurrentUserRole() {
+    if (this.cookieService.check('tokenCookie')) {
+      return jwt_decode(this.cookieService.get('tokenCookie')).user_role;
+    }
+    return null;
+  }
 
   getAllUsers() {
     let token = this.cookieService.get('tokenCookie');
@@ -18,6 +61,10 @@ export class UsersService {
       'Authorization': 'Bearer ' + token
     })
     return this.http.get(environment.API_USERS_URL + '/All', { headers: myHeaders });
+  }
+
+  getCurrentUserData() {
+    return this.http.get(environment.API_USERS_URL + '/' + this.token.user);
   }
 
   getUserData(userName: string) {
