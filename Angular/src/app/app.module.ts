@@ -17,6 +17,7 @@ import { ModulesService } from './services/modules.service';
 import { AssigmentsService } from './services/assigments.service';
 import { RouterModule } from '@angular/router';
 import { UsersService } from './services/users.service';
+import { HeadersService } from './services/headers.service';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,7 @@ import { UsersService } from './services/users.service';
       { path: 'my_profile', component: MyProfileComponent }
     ])
   ],
-  providers: [CookieService, ModulesService, AssigmentsService, UsersService],
+  providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -23,6 +23,9 @@ export class HomeComponent implements OnInit {
   constructor(private modulesService: ModulesService, private usersService: UsersService) { }
 
   ngOnInit() {
+    this.usersService.logoutEvent.subscribe(() => {
+      this.isUserLoggedIn = false;
+    })
     if (this.usersService.isUserLoggedIn()) {
       this.isUserLoggedIn = true;
       this.modulesService.getAllModules().subscribe(response => {

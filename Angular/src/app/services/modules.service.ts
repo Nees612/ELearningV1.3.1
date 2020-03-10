@@ -1,33 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { CookieService } from 'ngx-cookie-service';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { UsersService } from './users.service';
+import { HeadersService } from './headers.service';
+import { debug } from 'util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModulesService {
 
-  constructor(private http: Http, private cookieService: CookieService) { }
+  constructor(private http: Http, private usersService: UsersService, private headersService: HeadersService) { }
 
   getAllModules() {
-    if (this.cookieService.check('tokenCookie')) {
-      let token = this.cookieService.get('tokenCookie');
-      const myHeaders = new Headers({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + token
-      });
-      return this.http.get(environment.API_MODULES_URL, { headers: myHeaders });
+    if (this.usersService.isUserLoggedIn()) {
+      return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.Headers });
     }
   }
 
   getModuleContentByModuleId(moduleId: number) {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    })
-    return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: myHeaders })
+    if (this.usersService.isUserLoggedIn()) {
+      return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.Headers })
+    }
   }
 }
 

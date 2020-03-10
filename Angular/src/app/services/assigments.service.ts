@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
-import { CookieService } from 'ngx-cookie-service';
+import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
+import { UsersService } from './users.service';
+import { HeadersService } from './headers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssigmentsService {
 
-  constructor(private http: Http, private cookieService: CookieService) { }
+  constructor(private http: Http, private usersService: UsersService, private headersService: HeadersService) { }
 
   getAllAssigments() {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    });
-    return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: myHeaders })
+    if (this.usersService.isUserLoggedIn()) {
+      return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: this.headersService.Headers })
+    }
   }
 }

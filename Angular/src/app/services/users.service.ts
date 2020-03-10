@@ -3,17 +3,19 @@ import { Http, Headers } from '@angular/http';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";
+import { HeadersService } from './headers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  token: any;
+  private token: any;
 
   gotUserTokenEvent: EventEmitter<{ userName: string, userRole: string }>;
+  logoutEvent = new EventEmitter();
 
-  constructor(private http: Http, private cookieService: CookieService) {
+  constructor(private http: Http, private cookieService: CookieService, private headersService: HeadersService) {
     if (cookieService.check('tokenCookie')) {
       this.token = jwt_decode(cookieService.get('tokenCookie'));
     }
@@ -29,6 +31,10 @@ export class UsersService {
     this.gotUserTokenEvent.emit(UserInfo);
   }
 
+  raiseLogoutEvent() {
+    this.logoutEvent.emit();
+  }
+
   isUserLoggedIn() {
     if (this.cookieService.check('tokenCookie')) {
       return true;
@@ -42,25 +48,20 @@ export class UsersService {
 
   getCurrentUserName() {
     if (this.cookieService.check('tokenCookie')) {
-      return jwt_decode(this.cookieService.get('tokenCookie')).user;
+      return this.token.user;
     }
     return null;
   }
 
   getCurrentUserRole() {
     if (this.cookieService.check('tokenCookie')) {
-      return jwt_decode(this.cookieService.get('tokenCookie')).user_role;
+      return this.token.user_role;
     }
     return null;
   }
 
   getAllUsers() {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    })
-    return this.http.get(environment.API_USERS_URL + '/All', { headers: myHeaders });
+    return this.http.get(environment.API_USERS_URL + '/All', { headers: this.headersService.Headers });
   }
 
   getCurrentUserData() {
@@ -80,21 +81,11 @@ export class UsersService {
   }
 
   deleteUser(userName: string) {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    })
-    return this.http.delete(environment.API_USERS_URL + '/' + userName, { headers: myHeaders });
+    return this.http.delete(environment.API_USERS_URL + '/' + userName, { headers: this.headersService.Headers });
   }
 
   updateUser(data) {
-    let token = this.cookieService.get('tokenCookie');
-    const myHeaders = new Headers({
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + token
-    })
-    return this.http.put(environment.API_USERS_URL, data, { headers: myHeaders, withCredentials: true });
+    return this.http.put(environment.API_USERS_URL, data, { headers: this.headersService.Headers, withCredentials: true });
   }
 
 }
