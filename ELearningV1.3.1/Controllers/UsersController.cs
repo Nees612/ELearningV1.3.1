@@ -25,12 +25,12 @@ namespace ELearningV1._3._1.Controllers
     {
         private readonly ApiContext _context;
         private UserManager<User> _userManager;
-        private IConfiguration _config;
-        public UsersController(ApiContext apiContext, UserManager<User> userManager, IConfiguration configuration)
+        private CookieManager _cookieManager;
+        public UsersController(ApiContext apiContext, UserManager<User> userManager, CookieManager cookieOptionsManager)
         {
             _context = apiContext;
             _userManager = userManager;
-            _config = configuration;
+            _cookieManager = cookieOptionsManager;
         }
 
         [HttpGet]
@@ -75,8 +75,8 @@ namespace ELearningV1._3._1.Controllers
             {
                 var UserT = await _context.UsersT.ToArrayAsync();
                 var User = UserT.First(u => u.UserName.Equals(UserInfo.NewUserName));
-                var tokenString = GenerateJSONWebToken(User);
-                var cookieOption = CookieOptionsManager.CreateCookieOption(1400);
+                var tokenString = _cookieManager.GenerateJSONWebToken(User);
+                var cookieOption = _cookieManager.CreateCookieOption(1400);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
@@ -122,8 +122,8 @@ namespace ELearningV1._3._1.Controllers
             var result = await _userManager.CheckPasswordAsync(User, login.Password);
             if (result)
             {
-                var tokenString = GenerateJSONWebToken(User);
-                var cookieOption = CookieOptionsManager.CreateCookieOption(1400);
+                var tokenString = _cookieManager.GenerateJSONWebToken(User);
+                var cookieOption = _cookieManager.CreateCookieOption(1400);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
@@ -143,30 +143,6 @@ namespace ELearningV1._3._1.Controllers
                 return Ok();
             }
             return NotFound();
-        }
-
-
-        private string GenerateJSONWebToken(User userInfo)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[] {
-                new Claim("user", userInfo.UserName),
-                new Claim("user_role", userInfo.Role),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var JWToken = new JwtSecurityToken(
-             issuer: "http://localhost:4200/",
-             audience: "http://localhost:4200/",
-             claims: claims,
-             notBefore: new DateTimeOffset(DateTime.Now).DateTime,
-             expires: new DateTimeOffset(DateTime.Now.AddDays(1)).DateTime,
-             signingCredentials: credentials
-         );
-            var token = new JwtSecurityTokenHandler().WriteToken(JWToken);
-            return token;
         }
 
         private async Task<IDictionary<string, string>> ChangeUserInfo(UpdateableUserinfo UserInfo)

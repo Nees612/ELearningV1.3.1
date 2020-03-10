@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using ELearningV1._3._1.Managers;
 
 namespace ELearningV1._3._1
 {
@@ -40,6 +41,7 @@ namespace ELearningV1._3._1
             });
 
             services.AddScoped<ApiContext>();
+            services.AddScoped<CookieManager>();
 
             services.AddIdentity<User, IdentityRole>(opt =>
             {
