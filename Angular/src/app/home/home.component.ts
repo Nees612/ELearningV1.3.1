@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 
@@ -31,7 +31,6 @@ export class HomeComponent implements OnInit {
       this.modulesService.getAllModules().subscribe(response => {
         this.modules = response.json();
       }, _error => {
-        alert('Your login has expeired please login again !');
         location.reload();
       });
     } else {
