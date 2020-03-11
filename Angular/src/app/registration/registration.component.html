@@ -10,6 +10,6 @@
       {{ error }}
     </div>
     <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-    <button type="button" class="btn btn-danger" (click)="onCancel()">Cancel</button>
+    <a [routerLink]='["/home"]'><button class="btn btn-danger">Cancel</button></a>
   </div>
 </div>

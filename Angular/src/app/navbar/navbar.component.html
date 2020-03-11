@@ -4,7 +4,7 @@
   <a *ngIf="isAuthorized" [routerLink]='["/assigments"]'><button class="btn nav-item navButton">Assigments</button></a>
   <a *ngIf="isAuthorized" [routerLink]='["/all_customers"]'><button class="btn nav-item navButton">See All Customers</button></a>
   <div class="nav-container" *ngIf="!isAuthorized">
-    <input type="button" class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration" (click)='onRegistrationClick()' value="Registration" />
+    <a [routerLink]='["/registration"]'><button class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration">Registration</button></a>
     <a [routerLink]='["/login"]'><button class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration">Login</button></a>
   </div>
   <div class="nav-container" *ngIf="isAuthorized">
@@ -13,7 +13,6 @@
         <img width="30px" height="30px" src="assets/img/avatar.png" />
       </button>
     </a>
-
     <label id="role">[{{ userRole }}]</label>
     <label id="name"><strong>{{ userName }}</strong></label>
     <button class="btn nav-item navButton" type="button" (click)="onLogout()">

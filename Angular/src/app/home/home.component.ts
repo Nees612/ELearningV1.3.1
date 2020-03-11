@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { AssigmentsService } from '../services/assigments.service';
 
 
 @Component({
@@ -21,7 +22,7 @@ export class HomeComponent implements OnInit {
 
   modules: any[];
 
-  constructor(private modulesService: ModulesService, private usersService: UsersService, private router: Router) { }
+  constructor(private modulesService: ModulesService, private usersService: UsersService, private assigmentsService: AssigmentsService) { }
 
   ngOnInit() {
     this.usersService.logoutEvent.subscribe(() => {
@@ -48,8 +49,11 @@ export class HomeComponent implements OnInit {
     this.isSelectedModule = false;
   }
 
-  onPrepareForExam() {
-    this.router.navigate(['/assigments']);
+  onSolveRandomAssigment(moduleName: string) {
+    this.assigmentsService.getRandomAssigmentByModule(moduleName).subscribe(response => {
+      let url = response.json().randomAssigmentUrl;
+      window.open(url, "_blank");
+    })
   }
 
 }

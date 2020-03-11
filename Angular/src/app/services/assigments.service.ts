@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { UsersService } from './users.service';
 import { HeadersService } from './headers.service';
 
 @Injectable({
@@ -9,11 +8,14 @@ import { HeadersService } from './headers.service';
 })
 export class AssigmentsService {
 
-  constructor(private http: Http, private usersService: UsersService, private headersService: HeadersService) { }
+  constructor(private http: Http, private headersService: HeadersService) { }
 
   getAllAssigments() {
-    if (this.usersService.isUserLoggedIn()) {
-      return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: this.headersService.Headers })
-    }
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: this.headersService.Headers })
+
+  }
+
+  getRandomAssigmentByModule(moduleName: string) {
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/Random/' + moduleName, { headers: this.headersService.Headers })
   }
 }

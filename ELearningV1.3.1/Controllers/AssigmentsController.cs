@@ -58,6 +58,21 @@ namespace ELearningV1._3._1.Controllers
             //return Ok();
         }
 
+        [HttpGet("Random/{moduleName}")]
+        public async Task<IActionResult> GetRandomAssigment(string moduleName)
+        {
+            Random rnd = new Random();
+
+            var AssigmentT = await _context.Assigments.Include("Module").ToArrayAsync();
+
+            var moduleAssigments = AssigmentT.Where(a => a.Module.Title.Equals(moduleName)).Select(a => new Assigment
+            {
+                Url = a.Url
+            }).ToArray();
+            var randomUrl = moduleAssigments[rnd.Next(0, moduleAssigments.Length)].Url;
+            return Ok(new { randomAssigmentUrl = randomUrl });
+        }
+
 
         private async Task Seed()
         {

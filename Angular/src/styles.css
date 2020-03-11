@@ -101,6 +101,7 @@ body {
 
 .custombtn {
   width: 150px;
+  height: auto;
   margin: 1% 1% 0% 1%;
   margin-left: auto;
 }
@@ -173,4 +174,3 @@ div {
     opacity: 1;
   }
 }
-
