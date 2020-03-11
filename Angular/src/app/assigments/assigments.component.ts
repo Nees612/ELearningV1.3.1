@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AssigmentsService } from '../services/assigments.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-assigments',
@@ -8,14 +9,23 @@ import { AssigmentsService } from '../services/assigments.service';
 })
 export class AssigmentsComponent implements OnInit {
 
-  assigments: any[];
+  isCollapsed: boolean;
 
-  constructor(private assigmentsService: AssigmentsService) { }
+  prgBasicAssigments: any[];
+  webAssigments: any[];
+  oopAssigments: any[];
+
+  constructor(private assigmentsService: AssigmentsService, private usersService: UsersService) { }
 
   ngOnInit() {
-    this.assigmentsService.getAllAssigments().subscribe(response => {
-      this.assigments = response.json().assigments;
-    });
+    if (this.usersService.isUserLoggedIn) {
+      this.assigmentsService.getAllAssigments().subscribe(response => {
+        let jsonReponse = response.json();
+        this.prgBasicAssigments = jsonReponse.prgBasicAssigments;
+        this.webAssigments = jsonReponse.webAssigments;
+        this.oopAssigments = jsonReponse.oopAssigments;
+      });
+    }
   }
 
 }

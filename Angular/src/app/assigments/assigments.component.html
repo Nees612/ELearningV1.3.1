@@ -1,7 +1,31 @@
-<h3>Assigments:</h3>
+<h3>Programing Basics:</h3>
 <div class="card">
   <div class="row">
-    <div class="card column" style="width: 18rem;" *ngFor="let assigment of assigments">
+    <div class="card column" style="width: 18rem;" *ngFor="let assigment of  prgBasicAssigments">
+      <div class="card-body">
+        <h5 class="card-title">{{ assigment.title }}</h5>
+        <p class="card-text">{{ assigment.description }}</p>
+        <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
+      </div>
+    </div>
+  </div>
+</div>
+<h3>Web technologies:</h3>
+<div class="card">
+  <div class="row">
+    <div class="card column" style="width: 18rem;" *ngFor="let assigment of webAssigments">
+      <div class="card-body">
+        <h5 class="card-title">{{ assigment.title }}</h5>
+        <p class="card-text">{{ assigment.description }}</p>
+        <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
+      </div>
+    </div>
+  </div>
+</div>
+<h3>OOP:</h3>
+<div class="card">
+  <div class="row">
+    <div class="card column" style="width: 18rem;" *ngFor="let assigment of oopAssigments">
       <div class="card-body">
         <h5 class="card-title">{{ assigment.title }}</h5>
         <p class="card-text">{{ assigment.description }}</p>

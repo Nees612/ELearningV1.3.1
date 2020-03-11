@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
 
   modules: any[];
 
-  constructor(private modulesService: ModulesService, private usersService: UsersService) { }
+  constructor(private modulesService: ModulesService, private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.usersService.logoutEvent.subscribe(() => {
@@ -45,6 +46,10 @@ export class HomeComponent implements OnInit {
 
   onModuleCancel() {
     this.isSelectedModule = false;
+  }
+
+  onPrepareForExam() {
+    this.router.navigate(['/assigments']);
   }
 
 }

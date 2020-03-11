@@ -32,7 +32,7 @@ body {
 }
 
 .body-content {
-  margin: 5% 0% 5% 0%;
+  margin: 5% 1% 5% 1%;
 }
 
 #name {
@@ -100,8 +100,8 @@ body {
 }
 
 .custombtn {
-  width: 120px;
-  margin: 0% 1% 0% 1%;
+  width: 150px;
+  margin: 1% 1% 0% 1%;
   margin-left: auto;
 }
 
@@ -173,3 +173,4 @@ div {
     opacity: 1;
   }
 }
+
