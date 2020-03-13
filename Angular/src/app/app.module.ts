@@ -18,6 +18,7 @@ import { AssigmentsService } from './services/assigments.service';
 import { RouterModule } from '@angular/router';
 import { UsersService } from './services/users.service';
 import { HeadersService } from './services/headers.service';
+import { OtherUsersProfileComponent } from './other-users-profile/other-users-profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { HeadersService } from './services/headers.service';
     LoginComponent,
     ModuleComponent,
     OtherUsersComponent,
+    OtherUsersProfileComponent,
     AssigmentsComponent,
     MyProfileComponent
   ],
@@ -37,13 +39,15 @@ import { HeadersService } from './services/headers.service';
     HttpModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: AppComponent, pathMatch: 'full' },
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'assigments', component: AssigmentsComponent },
-      { path: 'all_customers', component: OtherUsersComponent },
+      { path: 'all_profiles', component: OtherUsersComponent },
       { path: 'login', component: LoginComponent },
       { path: 'registration', component: RegistrationComponent },
-      { path: 'my_profile', component: MyProfileComponent }
+      { path: 'my_profile', component: MyProfileComponent },
+      { path: 'profile', component: OtherUsersProfileComponent },
+      { path: 'profile/:userName', component: OtherUsersProfileComponent }
     ])
   ],
   providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService],

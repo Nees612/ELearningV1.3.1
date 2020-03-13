@@ -16,6 +16,7 @@ using ELearningV1._3._1.Context;
 using ELearningV1._3._1.Models;
 using ELearningV1._3._1.ViewModels;
 using ELearningV1._3._1.Managers;
+using ELearningV1._3._1.Enums;
 
 namespace ELearningV1._3._1.Controllers
 {
@@ -44,7 +45,23 @@ namespace ELearningV1._3._1.Controllers
         public async Task<IActionResult> AllUsers()
         {
             var UserT = await _context.UsersT.ToArrayAsync();
-            return Ok(new { users = UserT });
+            var Admins = UserT.Where(u => u.Role.Equals(Role.Admin.ToString())).Select(u =>
+            new User
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber,
+                Role = u.Role
+            });
+
+            var Students = UserT.Where(u => u.Role.Equals(Role.Student.ToString())).Select(u => new User
+            {
+                UserName = u.UserName,
+                Email = u.Email,
+                PhoneNumber = u.PhoneNumber,
+                Role = u.Role
+            });
+            return Ok(new { admins = Admins, students = Students });
         }
 
         [HttpGet("{userName}")]
@@ -92,7 +109,7 @@ namespace ELearningV1._3._1.Controllers
             var Errors = new Dictionary<string, string>();
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(User, "Student");
+                await _userManager.AddToRoleAsync(User, Role.Student.ToString());
                 return Ok();
             }
             else

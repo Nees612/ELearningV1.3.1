@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-other-users',
@@ -8,12 +10,13 @@ import { UsersService } from '../services/users.service';
 })
 export class OtherUsersComponent implements OnInit {
 
-  allUsers: any[];
+  admins: any[];
+  students: any[];
+
   isAdmin: boolean;
 
-  selectedUser: any;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.isAdmin = this.usersService.isAdmin();
@@ -27,18 +30,15 @@ export class OtherUsersComponent implements OnInit {
   }
 
   onSeeProfile(userName) {
-    this.usersService.getUserData(userName).subscribe(response => {
-      this.selectedUser = response.json().user;
-    });
+    this.router.navigate(['/profile', { userName: userName }]);
   }
 
   private getAllusers() {
     this.usersService.getAllUsers().subscribe(response => {
-      this.allUsers = response.json().users;
+      let jsonResponse = response.json();
+      this.admins = jsonResponse.admins;
+      this.students = jsonResponse.students;
     });
   }
 
-  onCancel() {
-    this.selectedUser = null;
-  }
 }
