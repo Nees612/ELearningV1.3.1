@@ -4,7 +4,6 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { QuestionsComponent } from './questions/questions.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
@@ -24,7 +23,6 @@ import { OtherUsersProfileComponent } from './other-users-profile/other-users-pr
   declarations: [
     AppComponent,
     HomeComponent,
-    QuestionsComponent,
     NavbarComponent,
     RegistrationComponent,
     LoginComponent,

@@ -6,7 +6,11 @@ export const environment = {
   production: false,
   API_USERS_URL: 'http://localhost:5000/Users',
   API_MODULES_URL: 'http://localhost:5000/Modules',
-  API_ASSIGMENTS_URL: 'http://localhost:5000/Assigments'
+  API_ASSIGMENTS_URL: 'http://localhost:5000/Assigments',
+  PROGRAMMING_BASICS: 'Programing Basics',
+  WEB_TECHNOLOGIES: 'Web technologies',
+  OOP: 'OOP',
+  ADVANCED: 'Advanced'
 
 };
 

@@ -33,7 +33,7 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   private getContent() {
     this.modulesService.getModuleContentByModuleId(this.moduleId).subscribe(_response => {
-      this.moduleContents = _response.json();
+      this.moduleContents = _response.json().moduleContents;
       this.partNumber = this.moduleContents[0].contentId;
       this.selectedContent = this.moduleContents[0];
       this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedContent.tutorialUrl);

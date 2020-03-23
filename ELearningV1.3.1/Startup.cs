@@ -6,12 +6,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ELearningV1._3._1.Context;
+using ELearningV1._3._1.Contexts;
 using ELearningV1._3._1.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Web.Mvc;
 using ELearningV1._3._1.Managers;
+using ELearningV1._3._1.Units;
+using ELearningV1._3._1.Interfaces;
 
 namespace ELearningV1._3._1
 {
@@ -33,7 +35,7 @@ namespace ELearningV1._3._1
                 opt.AddDebug();
             });
 
-            services.AddScoped<ApiContext>();
+            services.AddScoped<UnitOfWork>();
             services.AddScoped<CookieManager>();
 
             services.AddIdentity<User, IdentityRole>(opt =>

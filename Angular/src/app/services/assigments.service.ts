@@ -15,6 +15,10 @@ export class AssigmentsService {
 
   }
 
+  getAssigmentsByModuleName(moduleName: string) {
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/' + moduleName, { headers: this.headersService.Headers })
+  }
+
   getRandomAssigmentByModule(moduleName: string) {
     return this.http.get(environment.API_ASSIGMENTS_URL + '/Random/' + moduleName, { headers: this.headersService.Headers })
   }

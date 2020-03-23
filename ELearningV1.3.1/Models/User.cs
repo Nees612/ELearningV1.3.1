@@ -7,6 +7,7 @@ namespace ELearningV1._3._1.Models
     public class User : IdentityUser
     {
         public string Role { get; set; }
+
         [NotMapped]
         [Required]
         [DataType(DataType.Password)]

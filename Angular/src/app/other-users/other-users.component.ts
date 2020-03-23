@@ -20,12 +20,13 @@ export class OtherUsersComponent implements OnInit {
 
   ngOnInit() {
     this.isAdmin = this.usersService.isAdmin();
-    this.getAllusers();
+    this.getAdmins();
+    this.getAllUsers();
   }
 
   onDelete(userName) {
     this.usersService.deleteUser(userName).subscribe(response => {
-      this.getAllusers();
+      this.getAllUsers();
     });
   }
 
@@ -33,12 +34,21 @@ export class OtherUsersComponent implements OnInit {
     this.router.navigate(['/profile', { userName: userName }]);
   }
 
-  private getAllusers() {
-    this.usersService.getAllUsers().subscribe(response => {
-      let jsonResponse = response.json();
-      this.admins = jsonResponse.admins;
-      this.students = jsonResponse.students;
+  private getAllUsers() {
+    this.getAdmins();
+    this.getStudents();
+  }
+
+  private getAdmins() {
+    this.usersService.getUsersByRole('Admin').subscribe(response => {
+      this.admins = response.json().users;
     });
+  }
+
+  private getStudents() {
+    this.usersService.getUsersByRole('Student').subscribe(response => {
+      this.students = response.json().users;
+    })
   }
 
 }

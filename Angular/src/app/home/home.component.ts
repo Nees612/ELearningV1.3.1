@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
-import { Router } from '@angular/router';
 import { AssigmentsService } from '../services/assigments.service';
 
 
@@ -31,9 +30,9 @@ export class HomeComponent implements OnInit {
     if (this.usersService.isUserLoggedIn()) {
       this.isUserLoggedIn = true;
       this.modulesService.getAllModules().subscribe(response => {
-        this.modules = response.json();
+        this.modules = response.json().modules;
       }, _error => {
-        location.reload();
+        alert('Your login has expeired !');
       });
     } else {
       this.header = "You need to login or create an account !"

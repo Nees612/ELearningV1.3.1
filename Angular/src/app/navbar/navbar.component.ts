@@ -23,7 +23,13 @@ export class NavbarComponent implements OnInit {
       this.userName = userInfo.userName;
       this.userRole = userInfo.userRole;
     });
-    this.isAuthorized = !(this.usersService.getCurrentUserName() === null && this.usersService.getCurrentUserRole() === null);
+    this.usersService.logoutEvent.subscribe(() => {
+      this.isAuthorized = false;
+      this.userName = null;
+      this.userRole = null;
+      this.router.navigate(['/home']);
+    })
+    this.isAuthorized = this.usersService.isUserLoggedIn();
     if (this.isAuthorized) {
       this.userName = this.usersService.getCurrentUserName();
       this.userRole = this.usersService.getCurrentUserRole();
@@ -32,8 +38,6 @@ export class NavbarComponent implements OnInit {
 
   onLogout() {
     this.cookieService.delete('tokenCookie');
-    this.isAuthorized = false;
     this.usersService.raiseLogoutEvent();
-    this.router.navigate(['/home'])
   }
 }

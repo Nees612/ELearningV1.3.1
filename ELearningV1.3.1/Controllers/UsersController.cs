@@ -4,19 +4,16 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.Configuration;
-using System.Security.Claims;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ELearningV1._3._1.Context;
+using ELearningV1._3._1.Contexts;
 using ELearningV1._3._1.Models;
 using ELearningV1._3._1.ViewModels;
 using ELearningV1._3._1.Managers;
 using ELearningV1._3._1.Enums;
+using ELearningV1._3._1.Interfaces;
+using ELearningV1._3._1.Units;
 
 namespace ELearningV1._3._1.Controllers
 {
@@ -24,12 +21,12 @@ namespace ELearningV1._3._1.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ApiContext _context;
+        private readonly IUnitOfWork _repository;
         private UserManager<User> _userManager;
         private CookieManager _cookieManager;
-        public UsersController(ApiContext apiContext, UserManager<User> userManager, CookieManager cookieOptionsManager)
+        public UsersController(UnitOfWork repository, UserManager<User> userManager, CookieManager cookieOptionsManager)
         {
-            _context = apiContext;
+            _repository = repository;
             _userManager = userManager;
             _cookieManager = cookieOptionsManager;
         }
@@ -44,41 +41,32 @@ namespace ELearningV1._3._1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> AllUsers()
         {
-            var UserT = await _context.UsersT.ToArrayAsync();
-            var Admins = UserT.Where(u => u.Role.Equals(Role.Admin.ToString())).Select(u =>
-            new User
-            {
-                UserName = u.UserName,
-                Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
-                Role = u.Role
-            });
+            var Users = await _repository.Users.GetAll();
 
-            var Students = UserT.Where(u => u.Role.Equals(Role.Student.ToString())).Select(u => new User
-            {
-                UserName = u.UserName,
-                Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
-                Role = u.Role
-            });
-            return Ok(new { admins = Admins, students = Students });
+            return Ok(new { users = Users });
+        }
+
+        [HttpGet("Users_by_role/{role}")]
+        public async Task<IActionResult> GetUsersByRole(string role)
+        {
+            var Users = await _repository.Users.GetUsersByRole(role);
+
+            return Ok(new { users = Users });
         }
 
         [HttpGet("{userName}")]
-        public async Task<IActionResult> GetUser(string userName)
+        public IActionResult GetUser(string userName)
         {
-            var UserT = await _context.UsersT.ToArrayAsync();
-            var User = UserT.First(u => u.UserName.Equals(userName));
+            var User = _repository.Users.GetUserByUserName(userName);
             User.PasswordHash = null;
 
             return Ok(new { user = User });
         }
 
         [HttpGet("Role/{userName}")]
-        public async Task<IActionResult> GetRole(string userName)
+        public IActionResult GetRole(string userName)
         {
-            var UserT = await _context.UsersT.ToArrayAsync();
-            var userRole = UserT.First(u => u.UserName.Equals(userName)).Role;
+            var userRole = _repository.Users.GetUserRoleByUserName(userName);
 
             return Ok(new { role = userRole });
         }
@@ -90,8 +78,7 @@ namespace ELearningV1._3._1.Controllers
             var Errors = await ChangeUserInfo(UserInfo);
             if (Errors == null)
             {
-                var UserT = await _context.UsersT.ToArrayAsync();
-                var User = UserT.First(u => u.UserName.Equals(UserInfo.NewUserName));
+                var User = _repository.Users.GetUserByUserName(UserInfo.NewUserName);
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
                 var cookieOption = _cookieManager.CreateCookieOption(1400);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
@@ -125,25 +112,16 @@ namespace ELearningV1._3._1.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody]UserLogin login)
         {
-            var UserT = await _context.UsersT.ToListAsync();
-            var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
-            User User;
-            try
-            {
-                User = UserT.First(u => u.UserName.Equals(login.UserName));
-            }
-            catch (InvalidOperationException)
-            {
-                return NotFound(new { errors = Errors });
-            }
-            var result = await _userManager.CheckPasswordAsync(User, login.Password);
-            if (result)
+            var User = _repository.Users.GetUserByUserName(login.UserName);
+
+            if (await _userManager.CheckPasswordAsync(User, login.Password))
             {
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
                 var cookieOption = _cookieManager.CreateCookieOption(1400);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
+            var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
             return NotFound(new { errors = Errors });
         }
 
@@ -151,12 +129,11 @@ namespace ELearningV1._3._1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser(string userName)
         {
-            var UserT = await _context.UsersT.ToArrayAsync();
-            var user = UserT.First(u => u.UserName.Equals(userName));
-            if (user != null)
+            var User = _repository.Users.GetUserByUserName(userName);
+            if (User != null)
             {
-                _context.UsersT.Remove(user);
-                await _context.SaveChangesAsync();
+                _repository.Users.Remove(User);
+                await _repository.Complete();
                 return Ok();
             }
             return NotFound();
@@ -166,8 +143,7 @@ namespace ELearningV1._3._1.Controllers
         {
             IDictionary<string, string> errors = new Dictionary<string, string>();
 
-            var UserT = await _context.UsersT.ToArrayAsync();
-            var User = UserT.First(u => u.UserName.Equals(UserInfo.OldUserName));
+            var User = _repository.Users.GetUserByUserName(UserInfo.OldUserName);
 
             if (UserInfo.NewUserName != UserInfo.OldUserName)
             {
@@ -202,8 +178,8 @@ namespace ELearningV1._3._1.Controllers
 
             if (errors.Count < 1)
             {
-                _context.UsersT.Update(User);
-                await _context.SaveChangesAsync();
+                _repository.Users.Update(User);
+                await _repository.Complete();
                 return null;
             }
             return errors;

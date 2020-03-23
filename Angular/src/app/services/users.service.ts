@@ -24,11 +24,11 @@ export class UsersService {
 
   raiseTokenEvent(): void {
     this.token = jwt_decode(this.cookieService.get('tokenCookie'));
-    let UserInfo = {
+    let userInfo = {
       userName: this.token.user,
       userRole: this.token.user_role
     }
-    this.gotUserTokenEvent.emit(UserInfo);
+    this.gotUserTokenEvent.emit(userInfo);
   }
 
   raiseLogoutEvent() {
@@ -58,6 +58,10 @@ export class UsersService {
       return this.token.user_role;
     }
     return null;
+  }
+
+  getUsersByRole(role: string) {
+    return this.http.get(environment.API_USERS_URL + '/Users_by_role/' + role, { headers: this.headersService.Headers });
   }
 
   getAllUsers() {

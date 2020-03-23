@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssigmentsService } from '../services/assigments.service';
 import { UsersService } from '../services/users.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-assigments',
@@ -19,12 +20,15 @@ export class AssigmentsComponent implements OnInit {
 
   ngOnInit() {
     if (this.usersService.isUserLoggedIn) {
-      this.assigmentsService.getAllAssigments().subscribe(response => {
-        let jsonReponse = response.json();
-        this.prgBasicAssigments = jsonReponse.prgBasicAssigments;
-        this.webAssigments = jsonReponse.webAssigments;
-        this.oopAssigments = jsonReponse.oopAssigments;
-      });
+      this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
+        this.prgBasicAssigments = response.json().assigments;
+      })
+      this.assigmentsService.getAssigmentsByModuleName(environment.WEB_TECHNOLOGIES).subscribe(response => {
+        this.webAssigments = response.json().assigments;
+      })
+      this.assigmentsService.getAssigmentsByModuleName(environment.OOP).subscribe(response => {
+        this.oopAssigments = response.json().assigments;
+      })
     }
   }
 
