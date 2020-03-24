@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       Username: this.username,
       Password: this.password
     }
-    this.usersService.loginUser(data).subscribe(response => {
+    this.usersService.loginUser(data).subscribe(() => {
       alert("Login was successfull.");
       this.usersService.raiseTokenEvent()
       this.router.navigate(['home']);

@@ -11,15 +11,18 @@ export class AssigmentsService {
   constructor(private http: Http, private headersService: HeadersService) { }
 
   getAllAssigments() {
-    return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: this.headersService.Headers })
-
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/All', { headers: this.headersService.getHeaders() })
   }
 
   getAssigmentsByModuleName(moduleName: string) {
-    return this.http.get(environment.API_ASSIGMENTS_URL + '/' + moduleName, { headers: this.headersService.Headers })
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/' + moduleName, { headers: this.headersService.getHeaders() })
   }
 
   getRandomAssigmentByModule(moduleName: string) {
-    return this.http.get(environment.API_ASSIGMENTS_URL + '/Random/' + moduleName, { headers: this.headersService.Headers })
+    return this.http.get(environment.API_ASSIGMENTS_URL + '/Random/' + moduleName, { headers: this.headersService.getHeaders() })
+  }
+
+  addAssigment(newAssigment) {
+    return this.http.post(environment.API_ASSIGMENTS_URL, newAssigment, { headers: this.headersService.getHeaders() })
   }
 }

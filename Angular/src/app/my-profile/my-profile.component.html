@@ -1,29 +1,32 @@
-<h3>My Profile</h3>
-<div class="card my-profile">
-  <div class="card-body">
-    <div>
-      <img width="250px" height="250px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+<div class="my-profile">
+  <div class="myp-container">
+    <div class="cell">
+      <h3>My Profile</h3>
     </div>
-    <div style="text-align: center;" *ngIf="isEditActive">
-      <!--<input style="width: 120px;" type="button" class="btn btn-primary" value="Upload Photo" (click)="onChangepicture()" />-->
+    <div class="cell-4">
+      <div>
+        <img width="250px" height="250px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+      </div>
     </div>
-    <div>
+    <div class="cell-1">
       <div *ngIf="!isEditActive">
-        <p><strong>Username:</strong> {{ oldUserName }}</p>
-        <p><strong>Phone number:</strong> {{ oldPhoneNumber }}</p>
-        <p><strong>Email:</strong> {{ oldEmail }}</p>
-        <p><strong>Role:</strong> {{ userRole }}</p>
+        <p><strong>Username:    </strong>{{ userName }}</p>
+        <p><strong>Phone number:   </strong>{{ phoneNumber }}</p>
+        <p><strong>Email:   </strong>{{ email }}</p>
+        <p><strong>Role:    </strong>{{ role }}</p>
         <input style="width: 120px;" type="button" class="btn btn-primary" value="Edit" (click)="onEditClick()" />
       </div>
+    </div>
+    <div class="cell-1">
       <div *ngIf="isEditActive">
         <p><strong>Username: </strong></p>
-        <input class="form-control" type="text" [(ngModel)]="user.userName" />
+        <input class="form-control" type="text" [(ngModel)]="newUserName" />
         <p><strong>Phone number: </strong></p>
-        <input class="form-control" type="text" [(ngModel)]="user.phoneNumber" />
+        <input class="form-control" type="text" [(ngModel)]="newPhoneNumber" />
         <p><strong>Email:</strong></p>
-        <input class="form-control" type="text" [(ngModel)]="user.email" />
-        <p><strong>Role:</strong> {{ userRole }}</p>
-        <div class="alert alert-danger" *ngFor="let error of errors">{{ error }}</div>
+        <input class="form-control" type="text" [(ngModel)]="newEmail" />
+        <hr />
+        <p><strong>Role:</strong> {{ role }}</p>
         <hr />
         <div style="text-align: center;">
           <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onCancel()" />
@@ -31,6 +34,12 @@
         </div>
       </div>
     </div>
+    <div class="cell-2">
+      <div class="card-align-errors">
+        <div class="alert alert-danger" *ngFor="let error of errors">{{ error }}</div>
+      </div>
+    </div>
   </div>
 </div>
+
 

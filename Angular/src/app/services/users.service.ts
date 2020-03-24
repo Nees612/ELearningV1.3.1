@@ -31,6 +31,10 @@ export class UsersService {
     this.gotUserTokenEvent.emit(userInfo);
   }
 
+  getUserId() {
+    return this.token.id;
+  }
+
   raiseLogoutEvent() {
     this.logoutEvent.emit();
   }
@@ -61,19 +65,19 @@ export class UsersService {
   }
 
   getUsersByRole(role: string) {
-    return this.http.get(environment.API_USERS_URL + '/Users_by_role/' + role, { headers: this.headersService.Headers });
+    return this.http.get(environment.API_USERS_URL + '/Users_by_role/' + role, { headers: this.headersService.getHeaders() });
   }
 
   getAllUsers() {
-    return this.http.get(environment.API_USERS_URL + '/All', { headers: this.headersService.Headers });
+    return this.http.get(environment.API_USERS_URL + '/All', { headers: this.headersService.getHeaders() });
   }
 
   getCurrentUserData() {
-    return this.http.get(environment.API_USERS_URL + '/' + this.token.user);
+    return this.http.get(environment.API_USERS_URL + '/' + this.token.id);
   }
 
-  getUserData(userName: string) {
-    return this.http.get(environment.API_USERS_URL + '/' + userName);
+  getUserData(id: string) {
+    return this.http.get(environment.API_USERS_URL + '/' + id);
   }
 
   createUser(data) {
@@ -84,12 +88,12 @@ export class UsersService {
     return this.http.post(environment.API_USERS_URL + '/Login', data, { withCredentials: true });
   }
 
-  deleteUser(userName: string) {
-    return this.http.delete(environment.API_USERS_URL + '/' + userName, { headers: this.headersService.Headers });
+  deleteUser(id: string) {
+    return this.http.delete(environment.API_USERS_URL + '/' + id, { headers: this.headersService.getHeaders() });
   }
 
   updateUser(data) {
-    return this.http.put(environment.API_USERS_URL, data, { headers: this.headersService.Headers, withCredentials: true });
+    return this.http.put(environment.API_USERS_URL + '/' + this.getUserId(), data, { headers: this.headersService.getHeaders(), withCredentials: true });
   }
 
 }

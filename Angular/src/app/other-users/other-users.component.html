@@ -1,25 +1,30 @@
 <div>
-  <h3>Other Students</h3>
-  <hr />
-  <div class="students-container">
-    <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let admin of admins">
-      <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(user.userName)" />
-      <div class="card-body">
-        <h4 class="card-title">{{ admin.userName }}</h4>
-        <p class="card-text">{{ admin.email }}</p>
-        <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(admin.userName)">
+  <div *ngIf="isUserLoggedIn">
+    <h3>Other Students</h3>
+    <hr />
+    <div class="students-container">
+      <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let admin of admins">
+        <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(user.id)" />
+        <div class="card-body">
+          <h4 class="card-title">{{ admin.userName }}</h4>
+          <p class="card-text">{{ admin.email }}</p>
+          <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(admin.id)">
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="students-container">
+      <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let student of students">
+        <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(student.id)" />
+        <div class="card-body">
+          <h4 class="card-title">{{ student.userName }}</h4>
+          <p class="card-text">{{ student.email }}</p>
+          <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(student.id)">
+        </div>
       </div>
     </div>
   </div>
-  <hr />
-  <div class="students-container">
-    <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let student of students">
-      <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(student.userName)" />
-      <div class="card-body">
-        <h4 class="card-title">{{ student.userName }}</h4>
-        <p class="card-text">{{ student.email }}</p>
-        <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(student.userName)">
-      </div>
-    </div>
+  <div *ngIf="!isUserLoggedIn">
+    <h3>Login or registrate for further details.</h3>
   </div>
 </div>

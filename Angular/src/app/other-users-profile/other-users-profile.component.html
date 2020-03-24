@@ -1,14 +1,21 @@
-<div class="card my-profile">
-  <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
-  <div class="card-body">
-    <div>
-      <img width="150px" height="150px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+<div>
+  <div *ngIf="isUserLoggedIn">
+    <div class="card my-profile">
+      <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
+      <div class="card-body">
+        <div>
+          <img width="150px" height="150px" src="assets/img/avatar.png" alt="" class="img-circle img-responsive">
+        </div>
+        <div>
+          <p><strong>Username:</strong> {{ selectedUser.userName }}</p>
+          <p><strong>Phone number:</strong> {{ selectedUser.phoneNumber }}</p>
+          <p><strong>Email:</strong> {{ selectedUser.email }}</p>
+          <p><strong>Role:</strong> {{ selectedUser.role }}</p>
+        </div>
+      </div>
     </div>
-    <div>
-      <p><strong>Username:</strong> {{ selectedUser.userName }}</p>
-      <p><strong>Phone number:</strong> {{ selectedUser.phoneNumber }}</p>
-      <p><strong>Email:</strong> {{ selectedUser.email }}</p>
-      <p><strong>Role:</strong> {{ selectedUser.role }}</p>
-    </div>
+  </div>
+  <div *ngIf="!isUserLoggedIn">
+    <h3>Login or registrate for further details.</h3>
   </div>
 </div>

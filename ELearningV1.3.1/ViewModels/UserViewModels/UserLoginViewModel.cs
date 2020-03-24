@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ELearningV1._3._1.ViewModels
 {
-    public class UserLogin
+    public class UserLoginViewModel
     {
         [Required]
         public string UserName { get; set; }

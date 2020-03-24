@@ -1,0 +1,11 @@
+.break-lines {
+  white-space: pre-line;
+}
+
+.row {
+  justify-content: center;
+  white-space: nowrap;
+  width: 100%; /*Optional*/
+  margin-right: 0;
+  margin-left: 0;
+}

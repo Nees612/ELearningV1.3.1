@@ -33,7 +33,7 @@ namespace ELearningV1._3._1.Repositories
             return _dbSet.Where(expression);
         }
 
-        public T Get(int id)
+        public T Get(long id)
         {
             return _dbSet.Find(id);
         }

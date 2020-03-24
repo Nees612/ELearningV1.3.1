@@ -10,7 +10,8 @@ import { environment } from '../../environments/environment';
 })
 export class AssigmentsComponent implements OnInit {
 
-  isCollapsed: boolean;
+  isUserLoggedIn: boolean = false;
+  isAdmin: boolean = false;
 
   prgBasicAssigments: any[];
   webAssigments: any[];
@@ -19,7 +20,9 @@ export class AssigmentsComponent implements OnInit {
   constructor(private assigmentsService: AssigmentsService, private usersService: UsersService) { }
 
   ngOnInit() {
-    if (this.usersService.isUserLoggedIn) {
+    if (this.usersService.isUserLoggedIn()) {
+      this.isUserLoggedIn = true;
+      this.isAdmin = this.usersService.isAdmin();
       this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
         this.prgBasicAssigments = response.json().assigments;
       })

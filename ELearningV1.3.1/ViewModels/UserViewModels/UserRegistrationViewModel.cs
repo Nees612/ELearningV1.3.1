@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ELearningV1._3._1.ViewModels
 {
-    public class UserRegistration
+    public class UserRegistrationViewModel
     {
         [Required]
         public string UserName { get; set; }

@@ -7,7 +7,7 @@ namespace ELearningV1._3._1.Interfaces
 {
     public interface IRepository<T> where T : class
     {
-        T Get(int id);
+        T Get(long id);
         Task<IEnumerable<T>> GetAll();
         IEnumerable<T> Find(Expression<Func<T, bool>> expression);
         T SingleOrDefault(Expression<Func<T, bool>> expression);

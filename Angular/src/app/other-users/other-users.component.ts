@@ -13,25 +13,29 @@ export class OtherUsersComponent implements OnInit {
   admins: any[];
   students: any[];
 
-  isAdmin: boolean;
+  isAdmin: boolean = false;
+  isUserLoggedIn: boolean = false;
 
 
   constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
-    this.isAdmin = this.usersService.isAdmin();
-    this.getAdmins();
-    this.getAllUsers();
+    if (this.usersService.isUserLoggedIn()) {
+      this.isUserLoggedIn = true;
+      this.isAdmin = this.usersService.isAdmin();
+      this.getAdmins();
+      this.getAllUsers();
+    }
   }
 
-  onDelete(userName) {
-    this.usersService.deleteUser(userName).subscribe(response => {
+  onDelete(id) {
+    this.usersService.deleteUser(id).subscribe(() => {
       this.getAllUsers();
     });
   }
 
-  onSeeProfile(userName) {
-    this.router.navigate(['/profile', { userName: userName }]);
+  onSeeProfile(id) {
+    this.router.navigate(['/profile', { Id: id }]);
   }
 
   private getAllUsers() {

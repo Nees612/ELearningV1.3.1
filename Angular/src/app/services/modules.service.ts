@@ -14,13 +14,13 @@ export class ModulesService {
 
   getAllModules() {
     if (this.usersService.isUserLoggedIn()) {
-      return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.Headers });
+      return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.getHeaders() });
     }
   }
 
   getModuleContentByModuleId(moduleId: number) {
     if (this.usersService.isUserLoggedIn()) {
-      return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.Headers })
+      return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.getHeaders() })
     }
   }
 }

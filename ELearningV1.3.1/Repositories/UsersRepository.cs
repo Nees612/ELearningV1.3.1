@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace ELearningV1._3._1.Repositories
 {
@@ -16,7 +17,26 @@ namespace ELearningV1._3._1.Repositories
 
         public User GetUserByUserName(string userName)
         {
-            return _dbSet.First(u => u.UserName.Equals(userName));
+            try
+            {
+                return _dbSet.First(u => u.UserName.Equals(userName));
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
+        public User GetUserById(string Id)
+        {
+            try
+            {
+                return _dbSet.First(u => u.Id.Equals(Id));
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public string GetUserRoleByUserName(string userName)
@@ -27,7 +47,7 @@ namespace ELearningV1._3._1.Repositories
                 return User.Role;
 
             }
-            catch (System.InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 return null;
             }
@@ -37,6 +57,7 @@ namespace ELearningV1._3._1.Repositories
         {
             return await _dbSet.Where(u => u.Role.Equals(role)).Select(u => new User
             {
+                Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber,

@@ -36,6 +36,7 @@ namespace ELearningV1._3._1.Managers
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
+                new Claim("id", userInfo.Id ),
                 new Claim("user", userInfo.UserName),
                 new Claim("user_role", userInfo.Role),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())

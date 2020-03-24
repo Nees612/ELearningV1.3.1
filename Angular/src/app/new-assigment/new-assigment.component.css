@@ -1,0 +1,18 @@
+input {
+  width: 280px;
+  height: 35px;
+}
+
+#cancel-btn {
+  float: right;
+}
+
+div {
+  margin: 5px;
+}
+
+#errors {
+  position: fixed;
+  right: 10%;
+  top: 25%;
+}

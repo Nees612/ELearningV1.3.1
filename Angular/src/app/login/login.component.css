@@ -1,0 +1,46 @@
+#errors {
+  display: grid;
+  grid-gap: 5px;
+  grid-template-columns: repeat(auto-fit, 18rem);
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-row {
+  display: table;
+  width: 100%; /*Optional*/
+  border-spacing: 10px; /*Optional*/
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.log-container {
+  height: 90vh;
+  display: grid;
+  grid-template-columns: 8fr 5fr;
+  grid-template-rows: 1fr 4fr;
+}
+
+.cell {
+  text-align: center;
+  grid-row: 1;
+  grid-column: 1/4;
+}
+
+.cell-2 {
+  text-align: center;
+}
+
+.cell-1 {
+  float: right;
+  grid-row: 2/4;
+  grid-column: 1/3;
+}
+
+.card-align-errors {
+  margin: 0 25% 0 0;
+}
+
+input {
+  width: 280px;
+}

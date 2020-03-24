@@ -10,24 +10,31 @@ export class MyProfileComponent implements OnInit {
 
   isEditActive: boolean = false;
 
-  oldUserName: string;
-  oldEmail: string;
-  oldPhoneNumber: string;
-  userRole: string;
-
   errors: string[] = [];
 
-  user: any;
+  userName: string;
+  email: string;
+  phoneNumber: string;
+  role: string;
+
+  newUserName: string;
+  newEmail: string;
+  newPhoneNumber: string;
+  newRole: string;
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
+    this.setUserData();
+  }
+
+  private setUserData() {
     this.usersService.getCurrentUserData().subscribe(response => {
-      this.user = response.json().user;
-      this.oldUserName = this.user.userName;
-      this.oldEmail = this.user.email;
-      this.oldPhoneNumber = this.user.phoneNumber;
-      this.userRole = this.user.role;
+      let user = response.json().user;
+      this.newUserName = this.userName = user.userName;
+      this.newEmail = this.email = user.email;
+      this.newPhoneNumber = this.phoneNumber = user.phoneNumber;
+      this.role = user.role;
     });
   }
 
@@ -38,19 +45,14 @@ export class MyProfileComponent implements OnInit {
   onSaveClick() {
     this.errors = [];
     let data = {
-      OldUserName: this.oldUserName,
-      OldEmail: this.oldEmail,
-      OldPhoneNumber: this.oldPhoneNumber,
-      NewUsername: this.user.userName,
-      NewEmail: this.user.email,
-      NewPhoneNumber: this.user.phoneNumber
+      UserName: this.newUserName,
+      Email: this.newEmail,
+      PhoneNumber: this.newPhoneNumber,
     }
-    this.usersService.updateUser(data).subscribe(response => {
-      this.oldUserName = this.user.userName;
-      this.oldEmail = this.user.email;
-      this.oldPhoneNumber = this.user.phoneNumber;
+    this.usersService.updateUser(data).subscribe(() => {
+      this.usersService.raiseTokenEvent();
+      this.setUserData();
       this.isEditActive = false;
-      this.usersService.raiseTokenEvent()
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {
@@ -61,9 +63,10 @@ export class MyProfileComponent implements OnInit {
   }
 
   onCancel() {
-    this.user.userName = this.oldUserName;
-    this.user.email = this.oldEmail;
-    this.user.phoneNumber = this.oldPhoneNumber;
+    this.newUserName = this.userName;
+    this.newEmail = this.email;
+    this.newPhoneNumber = this.phoneNumber;
+    this.errors = [];
     this.isEditActive = false;
   }
 

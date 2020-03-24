@@ -1,0 +1,22 @@
+<div class="card align-items-center">
+  <h2>New Assigment</h2>
+  <div class="card-body m">
+    <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="title" placeholder="Title" /><br />
+    <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="description" placeholder="Description" /><br />
+    <label><strong>Url:</strong></label><input class="form-control" [(ngModel)]="url" placeholder="Url" /><br />
+    <label><strong>Module:</strong></label><br />
+    <select [(ngModel)]="selectedModuleId" class="browser-default custom-select">
+      <option *ngFor="let module of modules" value="{{ module.id }}">{{module.title}}</option>
+    </select><br />
+    <div>
+      <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+      <a [routerLink]='["/assigments"]'><button class="btn btn-danger" id="cancel-btn">Cancel</button></a>
+    </div>
+  </div>
+  <div id="errors">
+    <div *ngFor="let error of errors" class="alert alert-danger">
+      {{ error }}
+    </div>
+  </div>
+</div>
+

@@ -18,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { UsersService } from './services/users.service';
 import { HeadersService } from './services/headers.service';
 import { OtherUsersProfileComponent } from './other-users-profile/other-users-profile.component';
+import { NewAssigmentComponent } from './new-assigment/new-assigment.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { OtherUsersProfileComponent } from './other-users-profile/other-users-pr
     OtherUsersComponent,
     OtherUsersProfileComponent,
     AssigmentsComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    NewAssigmentComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { OtherUsersProfileComponent } from './other-users-profile/other-users-pr
       { path: 'registration', component: RegistrationComponent },
       { path: 'my_profile', component: MyProfileComponent },
       { path: 'profile', component: OtherUsersProfileComponent },
-      { path: 'profile/:userName', component: OtherUsersProfileComponent }
+      { path: 'profile/:Id', component: OtherUsersProfileComponent },
+      { path: 'new_assigment', component: NewAssigmentComponent }
     ])
   ],
   providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService],

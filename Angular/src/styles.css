@@ -82,7 +82,7 @@ body {
   align-items: center;
 }
 
-.row {
+.row-module {
   display: table;
   width: 100%; /*Optional*/
   border-spacing: 10px; /*Optional*/

@@ -1,7 +1,7 @@
-<h3>{{ header }}</h3>
 <div>
   <div *ngIf="isUserLoggedIn">
-    <div class="row">
+    <h3>Welcome {{ userName }} , feel free to choose a module !</h3>
+    <div class="row-module">
       <div class="card column" style="width: 18rem;" *ngFor="let module of modules">
         <div class="card-body">
           <h5 class="card-title">{{ module.title }}</h5>

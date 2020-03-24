@@ -1,15 +1,25 @@
-<div class="card align-items-center">
-  <h2>Register</h2>
-  <div class="card-body m">
-    <label><strong>Username:</strong></label><input class="form-control" [(ngModel)]="username" placeholder="Username" /><br />
-    <label><strong>Email:</strong></label><input class="form-control" type="email" [(ngModel)]="email" placeholder="example@gmail.com" /><br />
-    <label><strong>Phone number:</strong></label><input class="form-control" type="text" [(ngModel)]="phoneNumber" placeholder="Phone number" /><br />
-    <label><strong>Password:</strong></label><input class="form-control" type="password" [(ngModel)]="password" placeholder="Password" /><br />
-    <label><strong>Password again:</strong></label><input class="form-control" type="password" [(ngModel)]="passwordAgain" placeholder="Password Again" /><br />
-    <div *ngFor="let error of errors" class="alert alert-danger">
-      {{ error }}
+<div class="reg-container">
+  <div class="cell">
+    <h2>Register</h2>
+  </div>
+  <div>
+    <div class="cell-1">
+      <div class="card-body">
+        <label><strong>Username:</strong></label><input class="form-control" [(ngModel)]="username" placeholder="Username" /><br />
+        <label><strong>Email:</strong></label><input class="form-control" type="email" [(ngModel)]="email" placeholder="example@gmail.com" /><br />
+        <label><strong>Phone number:</strong></label><input class="form-control" type="text" [(ngModel)]="phoneNumber" placeholder="Phone number" /><br />
+        <label><strong>Password:</strong></label><input class="form-control" type="password" [(ngModel)]="password" placeholder="Password" /><br />
+        <label><strong>Password again:</strong></label><input class="form-control" type="password" [(ngModel)]="passwordAgain" placeholder="Password Again" /><br />
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+        <a [routerLink]='["/home"]'><button class="btn btn-danger">Cancel</button></a>
+      </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-    <a [routerLink]='["/home"]'><button class="btn btn-danger">Cancel</button></a>
+  </div>
+  <div class="cell-2">
+    <div class="card-body card-align-errors">
+      <div *ngFor="let error of errors" class="alert alert-danger">
+        {{ error }}
+      </div>
+    </div>
   </div>
 </div>

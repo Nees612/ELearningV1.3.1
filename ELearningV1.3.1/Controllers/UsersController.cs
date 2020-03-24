@@ -1,13 +1,10 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ELearningV1._3._1.Contexts;
 using ELearningV1._3._1.Models;
 using ELearningV1._3._1.ViewModels;
 using ELearningV1._3._1.Managers;
@@ -54,31 +51,31 @@ namespace ELearningV1._3._1.Controllers
             return Ok(new { users = Users });
         }
 
-        [HttpGet("{userName}")]
-        public IActionResult GetUser(string userName)
+        [HttpGet("{Id}")]
+        public IActionResult GetUser(string Id)
         {
-            var User = _repository.Users.GetUserByUserName(userName);
+            var User = _repository.Users.GetUserById(Id);
             User.PasswordHash = null;
 
             return Ok(new { user = User });
         }
 
-        [HttpGet("Role/{userName}")]
-        public IActionResult GetRole(string userName)
+        [HttpGet("Role/{Id}")]
+        public IActionResult GetRole(string Id)
         {
-            var userRole = _repository.Users.GetUserRoleByUserName(userName);
+            var userRole = _repository.Users.GetUserById(Id).Role;
 
             return Ok(new { role = userRole });
         }
 
-        [HttpPut]
+        [HttpPut("{Id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> UpdateUserInfo([FromBody] UpdateableUserinfo UserInfo)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateViewModel UserInfo, string Id)
         {
-            var Errors = await ChangeUserInfo(UserInfo);
+            var Errors = await UpdateUserInfo(UserInfo, Id);
             if (Errors == null)
             {
-                var User = _repository.Users.GetUserByUserName(UserInfo.NewUserName);
+                var User = _repository.Users.GetUserByUserName(UserInfo.UserName);
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
                 var cookieOption = _cookieManager.CreateCookieOption(1400);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
@@ -89,9 +86,9 @@ namespace ELearningV1._3._1.Controllers
 
 
         [HttpPost("Registration")]
-        public async Task<IActionResult> Registration([FromBody] UserRegistration newUserInfo)
+        public async Task<IActionResult> Registration([FromBody] UserRegistrationViewModel newUserInfo)
         {
-            var User = new User { UserName = newUserInfo.UserName, Email = newUserInfo.Email, PhoneNumber = newUserInfo.PhoneNumber, Role = "Student" };
+            var User = new User { UserName = newUserInfo.UserName, Email = newUserInfo.Email, PhoneNumber = newUserInfo.PhoneNumber, Role = Role.Student.ToString() };
             var result = await _userManager.CreateAsync(User, newUserInfo.Password);
             var Errors = new Dictionary<string, string>();
             if (result.Succeeded)
@@ -110,7 +107,7 @@ namespace ELearningV1._3._1.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> Login([FromBody]UserLogin login)
+        public async Task<IActionResult> Login([FromBody]UserLoginViewModel login)
         {
             var User = _repository.Users.GetUserByUserName(login.UserName);
 
@@ -125,11 +122,11 @@ namespace ELearningV1._3._1.Controllers
             return NotFound(new { errors = Errors });
         }
 
-        [HttpDelete("{userName}")]
+        [HttpDelete("{Id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> DeleteUser(string userName)
+        public async Task<IActionResult> DeleteUser(string Id)
         {
-            var User = _repository.Users.GetUserByUserName(userName);
+            var User = _repository.Users.GetUserById(Id);
             if (User != null)
             {
                 _repository.Users.Remove(User);
@@ -139,18 +136,18 @@ namespace ELearningV1._3._1.Controllers
             return NotFound();
         }
 
-        private async Task<IDictionary<string, string>> ChangeUserInfo(UpdateableUserinfo UserInfo)
+        private async Task<IDictionary<string, string>> UpdateUserInfo(UserUpdateViewModel UserInfo, string Id)
         {
             IDictionary<string, string> errors = new Dictionary<string, string>();
 
-            var User = _repository.Users.GetUserByUserName(UserInfo.OldUserName);
+            var User = _repository.Users.GetUserById(Id);
 
-            if (UserInfo.NewUserName != UserInfo.OldUserName)
+            if (UserInfo.UserName != User.UserName)
             {
-                if (await _userManager.FindByNameAsync(UserInfo.NewUserName) == null)
+                if (await _userManager.FindByNameAsync(UserInfo.UserName) == null)
                 {
-                    User.UserName = (UserInfo.NewUserName == User.UserName ? User.UserName : UserInfo.NewUserName);
-                    User.NormalizedUserName = (UserInfo.NewUserName.ToUpper() == User.NormalizedUserName ? User.NormalizedUserName : UserInfo.NewUserName.ToUpper());
+                    User.UserName = (UserInfo.UserName == User.UserName ? User.UserName : UserInfo.UserName);
+                    User.NormalizedUserName = (UserInfo.UserName.ToUpper() == User.NormalizedUserName ? User.NormalizedUserName : UserInfo.UserName.ToUpper());
                 }
                 else
                 {
@@ -158,12 +155,12 @@ namespace ELearningV1._3._1.Controllers
                 }
             }
 
-            if (UserInfo.NewEmail != UserInfo.OldEmail)
+            if (UserInfo.Email != User.Email)
             {
-                if (await _userManager.FindByEmailAsync(UserInfo.NewEmail) == null)
+                if (await _userManager.FindByEmailAsync(UserInfo.Email) == null)
                 {
-                    User.Email = (UserInfo.NewEmail == User.UserName ? User.UserName : UserInfo.NewEmail);
-                    User.NormalizedEmail = (UserInfo.NewEmail.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.NewEmail.ToUpper());
+                    User.Email = (UserInfo.Email == User.UserName ? User.UserName : UserInfo.Email);
+                    User.NormalizedEmail = (UserInfo.Email.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.Email.ToUpper());
                 }
                 else
                 {
@@ -171,9 +168,9 @@ namespace ELearningV1._3._1.Controllers
                 }
             }
 
-            if (UserInfo.NewPhoneNumber != UserInfo.OldPhoneNumber)
+            if (UserInfo.PhoneNumber != User.PhoneNumber)
             {
-                User.PhoneNumber = (UserInfo.NewPhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.NewPhoneNumber);
+                User.PhoneNumber = (UserInfo.PhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.PhoneNumber);
             }
 
             if (errors.Count < 1)

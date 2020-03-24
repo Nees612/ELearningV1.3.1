@@ -10,12 +10,10 @@ import { AssigmentsService } from '../services/assigments.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  header: string = "Welcome! Feel free to choose a module.";
-
   currentModuleId: number;
 
   isUserLoggedIn: boolean = false;
+  userName: string;
 
   isSelectedModule: boolean = false;
 
@@ -29,14 +27,15 @@ export class HomeComponent implements OnInit {
     })
     if (this.usersService.isUserLoggedIn()) {
       this.isUserLoggedIn = true;
-      this.modulesService.getAllModules().subscribe(response => {
-        this.modules = response.json().modules;
-      }, _error => {
-        alert('Your login has expeired !');
-      });
-    } else {
-      this.header = "You need to login or create an account !"
+      this.userName = this.usersService.getCurrentUserName();
+      this.getModules();
     }
+  }
+
+  private getModules() {
+    this.modulesService.getAllModules().subscribe(response => {
+      this.modules = response.json().modules;
+    });
   }
 
   onModuleClick(id: number) {

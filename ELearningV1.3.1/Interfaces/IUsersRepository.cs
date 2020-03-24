@@ -11,5 +11,6 @@ namespace ELearningV1._3._1.Interfaces
         Task<IEnumerable<User>> GetUsersByRole(string Role);
         User GetUserByUserName(string userName);
         string GetUserRoleByUserName(string userName);
+        User GetUserById(string Id);
     }
 }

@@ -9,15 +9,19 @@ import { UsersService } from '../services/users.service';
 })
 export class OtherUsersProfileComponent implements OnInit {
 
+  isUserLoggedIn: boolean = false;
   selectedUser: any;
 
   constructor(private router: Router, private route: ActivatedRoute, private usersService: UsersService) { }
 
   ngOnInit() {
-    let userName = this.route.snapshot.params['userName'];
-    this.usersService.getUserData(userName).subscribe(response => {
-      this.selectedUser = response.json().user;
-    });
+    if (this.usersService.isUserLoggedIn()) {
+      this.isUserLoggedIn = true;
+      let id = this.route.snapshot.params['Id'];
+      this.usersService.getUserData(id).subscribe(response => {
+        this.selectedUser = response.json().user;
+      });
+    }
   }
 
   onCancel() {

@@ -7,10 +7,14 @@ import { Headers } from '@angular/http';
 })
 export class HeadersService {
 
-  Headers = new Headers({
-    'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + this.cookieService.get('tokenCookie')
-  });
+  constructor(private cookieService: CookieService) {
 
-  constructor(private cookieService: CookieService) { }
+  }
+
+  getHeaders() {
+    return new Headers({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.cookieService.get('tokenCookie')
+    });
+  }
 }
