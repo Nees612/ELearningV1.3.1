@@ -15,8 +15,11 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   moduleContents: any[];
   partNumber: number;
-  selectedContent: any;
   safeUrl: SafeResourceUrl;
+
+  videoId: string;
+  showVideo: boolean = false;
+
   hasPrevious: boolean;
   hasNext: boolean;
 
@@ -35,8 +38,8 @@ export class ModuleComponent implements OnInit, OnChanges {
     this.modulesService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
       this.moduleContents = response.json().moduleContents;
       this.partNumber = this.moduleContents[0].contentId;
-      this.selectedContent = this.moduleContents[0];
-      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedContent.tutorialUrl);
+      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.moduleContents[0].tutorialUrl);
+      this.videoId = this.moduleContents[0].tutorialUrl.split('/').slice(-1)[0];
       this.hasNext = true;
     }, _error => {
       alert('Your login has expeired please login again.');
@@ -46,7 +49,6 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   NextContent() {
     this.partNumber += 1;
-    this.selectedContent = this.moduleContents[this.partNumber];
     this.Change();
     this.hasPrevious = true;
     if (this.partNumber < this.moduleContents.length - 1) {
@@ -58,7 +60,6 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   PreviousContent() {
     this.partNumber -= 1;
-    this.selectedContent = this.moduleContents[this.partNumber];
     this.Change();
     this.hasNext = true;
     if (this.partNumber > 0) {
@@ -69,8 +70,9 @@ export class ModuleComponent implements OnInit, OnChanges {
   }
 
   Change() {
-    if (this.selectedContent.tutorialUrl !== null) {
-      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.selectedContent.tutorialUrl);
+    if (this.moduleContents[this.partNumber].tutorialUrl !== null) {
+      this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.moduleContents[this.partNumber].tutorialUrl);
+      this.videoId = this.moduleContents[this.partNumber].tutorialUrl.split('/').slice(-1)[0];
     } else {
       this.safeUrl = null;
     }
@@ -78,5 +80,13 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   onCancel() {
     this.cancel.emit();
+  }
+
+  onVideoClick() {
+    this.showVideo = true;
+  }
+
+  onVideoClosed() {
+    this.showVideo = false;
   }
 }

@@ -12,7 +12,9 @@
       </div>
     </div>
     <hr />
-    <app-module *ngIf="isSelectedModule" [moduleId]="currentModuleId" (cancel)="onModuleCancel()"></app-module>
+  </div>
+  <div *ngIf="isSelectedModule">
+    <app-module [moduleId]="currentModuleId" (cancel)="onModuleCancel()"></app-module>
   </div>
   <div class="placeholder" *ngIf="!isUserLoggedIn">
     <hr />

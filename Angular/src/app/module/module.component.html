@@ -1,18 +1,34 @@
-<div class="module-content" *ngIf="selectedContent">
+<div *ngIf="!showVideo" class="module-content">
   <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
   <div>
     <input type="button" [disabled]="!hasNext" class="btn btn-primary custombtn" style="float: right;" value="Next" (click)="NextContent()" />
     <input type="button" [disabled]="!hasPrevious" class="btn btn-primary custombtn" style="float: right" value="Back" (click)="PreviousContent()" />
   </div>
-  <h2>{{ selectedContent.title }}</h2>
-  <h5>{{ selectedContent.description }}</h5><br />
+  <h2>{{ moduleContents[partNumber].title }}</h2>
+  <h5>{{ moduleContents[partNumber].description }}</h5><br />
   <div>
-    <p>{{ selectedContent.lesson }}</p>
-    <div *ngIf="selectedContent.assigmentUrl">
-      <label>Check ot your assigment on this link:</label><a href="{{selectedContent.assigmentUrl}}">
-        <strong>{{ selectedContent.assigmentUrl }}</strong>
+    <p>{{ moduleContents[partNumber].lesson }}</p>
+    <div *ngIf="moduleContents[partNumber].assigmentUrl">
+      <label>Checkout your assigment on this link:</label><a href="{{moduleContents[partNumber].assigmentUrl}}">
+        <strong>{{ moduleContents[partNumber].assigmentUrl }}</strong>
       </a><br />
     </div>
-    <iframe *ngIf="safeUrl" width="500" height="300" [src]="safeUrl"></iframe>
+    <div (click)="onVideoClick()">
+      <img src="https://img.youtube.com/vi/{{ videoId }}/0.jpg" />
+    </div>
+  </div>
+</div>
+<div *ngIf="showVideo">
+  <div class="cstm-modal" tabindex="-1" role="dialog">
+    <div class="cstm-modal-dialog" role="document">
+      <div class="cstm-modal-content">
+        <div class="modal-header">
+          <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onVideoClosed()" />
+        </div>
+        <div class="modal-body">
+          <iframe *ngIf="safeUrl" width="950" height="500" [src]="safeUrl"></iframe>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -11,7 +11,7 @@ import { UsersService } from '../services/users.service';
 export class NewAssigmentComponent implements OnInit {
 
   modules: any[];
-  selectedModuleId: number;
+  selectedModuleId: number = 1;
 
   title: string;
   description: string;
