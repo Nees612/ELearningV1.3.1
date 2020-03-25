@@ -47,7 +47,11 @@ export class UsersService {
   }
 
   isAdmin() {
-    return this.token.user_role === "Admin";
+    if (this.cookieService.check('tokenCookie')) {
+      return this.token.user_role === "Admin";
+    } else {
+      return null;
+    }
   }
 
   getCurrentUserName() {

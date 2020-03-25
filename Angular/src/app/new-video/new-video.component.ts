@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VideosService } from '../services/videos.service';
 import { ModulesService } from '../services/modules.service';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-new-video',
@@ -19,12 +20,17 @@ export class NewVideoComponent implements OnInit {
 
   errors: any[] = [];
 
-  constructor(private videosService: VideosService, private modulesService: ModulesService) { }
+  isuserLoggedIn: boolean = false;
+
+  constructor(private videosService: VideosService, private modulesService: ModulesService, private usersService: UsersService) { }
 
   ngOnInit() {
-    this.modulesService.getAllModuleContents().subscribe(response => {
-      this.moduleContents = response.json().contents;
-    })
+    if (this.usersService.isUserLoggedIn() && this.usersService.isAdmin()) {
+      this.isuserLoggedIn = true;
+      this.modulesService.getAllModuleContents().subscribe(response => {
+        this.moduleContents = response.json().contents;
+      })
+    }
   }
 
   onSubmit() {
