@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System;
+using ELearningV1._3._1.ViewModels;
 
 namespace ELearningV1._3._1.Repositories
 {
@@ -15,11 +16,11 @@ namespace ELearningV1._3._1.Repositories
         {
         }
 
-        public User GetUserByUserName(string userName)
+        public async Task<User> GetUserByUserName(string userName)
         {
             try
             {
-                return _dbSet.First(u => u.UserName.Equals(userName));
+                return await _dbSet.FirstAsync(u => u.UserName.Equals(userName));
             }
             catch (InvalidOperationException)
             {
@@ -27,11 +28,11 @@ namespace ELearningV1._3._1.Repositories
             }
         }
 
-        public User GetUserById(string Id)
+        public async Task<User> GetUserById(string Id)
         {
             try
             {
-                return _dbSet.First(u => u.Id.Equals(Id));
+                return await _dbSet.FirstAsync(u => u.Id.Equals(Id));
             }
             catch (InvalidOperationException)
             {
@@ -39,13 +40,11 @@ namespace ELearningV1._3._1.Repositories
             }
         }
 
-        public string GetUserRoleByUserName(string userName)
+        public async Task<string> GetUserRoleByUserName(string userName)
         {
             try
             {
-                var User = _dbSet.First(u => u.UserName.Equals(userName));
-                return User.Role;
-
+                return (await _dbSet.FirstAsync(u => u.UserName.Equals(userName))).Role;
             }
             catch (InvalidOperationException)
             {
@@ -63,6 +62,63 @@ namespace ELearningV1._3._1.Repositories
                 PhoneNumber = u.PhoneNumber,
                 Role = u.Role
             }).ToListAsync();
+        }
+
+        public async Task<User> GetUserByEmail(string Email)
+        {
+            try
+            {
+                return await _dbSet.FirstAsync(u => u.Email.Equals(Email));
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, string Id)
+        {
+            IDictionary<string, string> errors = new Dictionary<string, string>();
+
+            var User = await GetUserById(Id);
+
+            if (UserInfo.UserName != User.UserName)
+            {
+                if (await GetUserByUserName(UserInfo.UserName) == null)
+                {
+                    User.UserName = (UserInfo.UserName == User.UserName ? User.UserName : UserInfo.UserName);
+                    User.NormalizedUserName = (UserInfo.UserName.ToUpper() == User.NormalizedUserName ? User.NormalizedUserName : UserInfo.UserName.ToUpper());
+                }
+                else
+                {
+                    errors.Add("UserName", "Username is already in use.");
+                }
+            }
+
+            if (UserInfo.Email != User.Email)
+            {
+                if (await GetUserByEmail(UserInfo.Email) == null)
+                {
+                    User.Email = (UserInfo.Email == User.UserName ? User.UserName : UserInfo.Email);
+                    User.NormalizedEmail = (UserInfo.Email.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.Email.ToUpper());
+                }
+                else
+                {
+                    errors.Add("Email", "Email is already in use.");
+                }
+            }
+
+            if (UserInfo.PhoneNumber != User.PhoneNumber)
+            {
+                User.PhoneNumber = (UserInfo.PhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.PhoneNumber);
+            }
+
+            if (errors.Count < 1)
+            {
+                _dbSet.Update(User);
+                return null;
+            }
+            return errors;
         }
     }
 }

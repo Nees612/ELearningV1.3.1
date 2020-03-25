@@ -1,4 +1,5 @@
 ﻿using ELearningV1._3._1.Models;
+using ELearningV1._3._1.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace ELearningV1._3._1.Interfaces
     public interface IUsersRepository : IRepository<User>
     {
         Task<IEnumerable<User>> GetUsersByRole(string Role);
-        User GetUserByUserName(string userName);
-        string GetUserRoleByUserName(string userName);
-        User GetUserById(string Id);
+        Task<User> GetUserByUserName(string UserName);
+        Task<string> GetUserRoleByUserName(string UserName);
+        Task<User> GetUserById(string Id);
+        Task<User> GetUserByEmail(string Email);
+        Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, string Id);
     }
 }
