@@ -12,7 +12,6 @@ namespace ELearningV1._3._1.Interfaces
         Task<IEnumerable<User>> GetUsersByRole(string Role);
         Task<User> GetUserByUserName(string UserName);
         Task<string> GetUserRoleByUserName(string UserName);
-        Task<User> GetUserById(string Id);
         Task<User> GetUserByEmail(string Email);
         Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, string Id);
     }

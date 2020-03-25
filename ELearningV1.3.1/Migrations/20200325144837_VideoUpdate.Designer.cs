@@ -4,14 +4,16 @@ using ELearningV1._3._1.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ELearningV1._3._1.Migrations
 {
     [DbContext(typeof(ApiContext))]
-    partial class ApiContextModelSnapshot : ModelSnapshot
+    [Migration("20200325144837_VideoUpdate")]
+    partial class VideoUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,6 +91,9 @@ namespace ELearningV1._3._1.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TutorialUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ModuleId");
@@ -106,21 +111,13 @@ namespace ELearningV1._3._1.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("ModuleContentId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("YoutubeId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ModuleContentId");
 
                     b.ToTable("Videos");
                 });
@@ -349,13 +346,6 @@ namespace ELearningV1._3._1.Migrations
                     b.HasOne("ELearningV1._3._1.Models.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId");
-                });
-
-            modelBuilder.Entity("ELearningV1._3._1.Models.Video", b =>
-                {
-                    b.HasOne("ELearningV1._3._1.Models.ModuleContent", "ModuleContent")
-                        .WithMany()
-                        .HasForeignKey("ModuleContentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

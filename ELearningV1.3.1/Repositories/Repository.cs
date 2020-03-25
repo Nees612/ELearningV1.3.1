@@ -18,14 +18,14 @@ namespace ELearningV1._3._1.Repositories
             _context = context;
             _dbSet = _context.Set<T>();
         }
-        public void Add(T entity)
+        public async void Add(T entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
         }
 
-        public void AddRange(IEnumerable<T> entities)
+        public async void AddRange(IEnumerable<T> entities)
         {
-            _dbSet.AddRange(entities);
+            await _dbSet.AddRangeAsync(entities);
         }
 
         public IEnumerable<T> Find(Expression<Func<T, bool>> expression)
@@ -33,14 +33,33 @@ namespace ELearningV1._3._1.Repositories
             return _dbSet.Where(expression);
         }
 
-        public T Get(long id)
+        public async Task<T> Get(Expression<Func<T, bool>> expression)
         {
-            return _dbSet.Find(id);
+            try
+            {
+                return await _dbSet.FirstAsync(expression);
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
             return await _dbSet.ToListAsync();
+        }
+
+        public async Task<T> GetById(long id)
+        {
+            try
+            {
+                return await _dbSet.FindAsync(id);
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public void Remove(T entity)
@@ -53,9 +72,9 @@ namespace ELearningV1._3._1.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public T SingleOrDefault(Expression<Func<T, bool>> expression)
+        public async Task<T> SingleOrDefault(Expression<Func<T, bool>> expression)
         {
-            return _dbSet.SingleOrDefault(expression);
+            return await _dbSet.SingleOrDefaultAsync(expression);
         }
 
         public void Update(T entity)

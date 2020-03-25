@@ -15,11 +15,14 @@ namespace ELearningV1._3._1.Units
             Assigments = new AssigmentsRepository(_context);
             Modules = new ModulesRepository(_context);
             ModuleContents = new ModuleContentsRepository(_context);
+            Videos = new VideosRepository(_context);
         }
         public IUsersRepository Users { get; private set; }
         public IAssigmentsRepository Assigments { get; private set; }
         public IModulesRepository Modules { get; private set; }
         public IModuleContentsRepository ModuleContents { get; private set; }
+
+        public IVideosRepository Videos { get; private set; }
 
         public async Task<int> Complete()
         {

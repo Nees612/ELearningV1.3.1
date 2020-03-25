@@ -18,7 +18,7 @@ namespace ELearningV1._3._1.Managers
         {
             _config = configuration;
         }
-        public CookieOptions CreateCookieOption(int? expireTime)
+        public CookieOptions CreateCookieOption(int? expireTime = 1400)
         {
             CookieOptions option = new CookieOptions();
             //option.Domain = "http://localhost:5000/";

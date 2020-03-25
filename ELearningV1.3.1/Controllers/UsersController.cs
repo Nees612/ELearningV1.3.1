@@ -21,7 +21,7 @@ namespace ELearningV1._3._1.Controllers
         private readonly IUnitOfWork _repository;
         private UserManager<User> _userManager;
         private CookieManager _cookieManager;
-        public UsersController(UnitOfWork repository, UserManager<User> userManager, CookieManager cookieOptionsManager)
+        public UsersController(IUnitOfWork repository, UserManager<User> userManager, CookieManager cookieOptionsManager)
         {
             _repository = repository;
             _userManager = userManager;
@@ -54,7 +54,7 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetUser(string Id)
         {
-            var User = await _repository.Users.GetUserById(Id);
+            var User = await _repository.Users.Get(u => u.Id.Equals(Id));
             User.PasswordHash = null;
 
             return Ok(new { user = User });
@@ -63,7 +63,7 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("Role/{Id}")]
         public async Task<IActionResult> GetRole(string Id)
         {
-            var userRole = (await _repository.Users.GetUserById(Id)).Role;
+            var userRole = (await _repository.Users.Get(u => u.Id.Equals(Id))).Role;
 
             return Ok(new { role = userRole });
         }
@@ -127,7 +127,7 @@ namespace ELearningV1._3._1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser(string Id)
         {
-            var User = await _repository.Users.GetUserById(Id);
+            var User = await _repository.Users.Get(u => u.Id.Equals(Id));
             if (User != null)
             {
                 _repository.Users.Remove(User);

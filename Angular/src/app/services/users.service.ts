@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http } from '@angular/http';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";

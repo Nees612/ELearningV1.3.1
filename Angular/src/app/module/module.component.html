@@ -13,22 +13,7 @@
         <strong>{{ moduleContents[partNumber].assigmentUrl }}</strong>
       </a><br />
     </div>
-    <div (click)="onVideoClick()">
-      <img src="https://img.youtube.com/vi/{{ videoId }}/0.jpg" />
-    </div>
   </div>
 </div>
-<div *ngIf="showVideo">
-  <div class="cstm-modal" tabindex="-1" role="dialog">
-    <div class="cstm-modal-dialog" role="document">
-      <div class="cstm-modal-content">
-        <div class="modal-header">
-          <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onVideoClosed()" />
-        </div>
-        <div class="modal-body">
-          <iframe *ngIf="safeUrl" width="950" height="500" [src]="safeUrl"></iframe>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<app-video [contentId]="moduleContents[partNumber].id" (playingVideo)="onVideoPlay()" (videoClosed)="onVideoClosed()"></app-video>
+

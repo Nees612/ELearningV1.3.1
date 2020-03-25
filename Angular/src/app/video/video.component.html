@@ -1,0 +1,30 @@
+<div *ngIf="!showVideo">
+  <hr />
+  <h3>Videos</h3>
+  <div *ngIf="hasVideo" class="video-row">
+    <div (click)="playVideo(video)" style="height: 18rem;" *ngFor="let video of videos">
+      <div class="card-body">
+        <h5>{{ video.title }}</h5>
+        <img width="250px" height="150px" [src]="setBackGround(video)" />
+        <h6>{{ video.description }}</h6>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!hasVideo">
+    <h5>No videos for this part... yet !</h5>
+  </div>
+</div>
+<div *ngIf="showVideo">
+  <div class="cstm-modal" tabindex="-1" role="dialog">
+    <div class="cstm-modal-dialog" role="document">
+      <div class="cstm-modal-content">
+        <div class="cstm-modal-header">
+          <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onVideoClosed()" />
+        </div>
+        <div class="modal-body">
+          <iframe *ngIf="safeUrl" width="950" height="500" [src]="safeUrl"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -35,7 +35,8 @@ namespace ELearningV1._3._1
                 opt.AddDebug();
             });
 
-            services.AddScoped<UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IVideoManager, VideoManager>();
             services.AddScoped<CookieManager>();
 
             services.AddIdentity<User, IdentityRole>(opt =>

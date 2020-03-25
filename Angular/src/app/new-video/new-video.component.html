@@ -1,0 +1,29 @@
+<div class="vid-container">
+  <div class="cell">
+    <h2>Add New Video</h2>
+  </div>
+  <div>
+    <div class="cell-1">
+      <div class="card-body">
+        <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="title" placeholder="Title" /><br />
+        <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="description" placeholder="Description" /><br />
+        <label><strong>Url:</strong></label><input class="form-control" [(ngModel)]="url" placeholder="Url" /><br />
+        <label><strong>ModuleContent:</strong></label><br />
+        <select [(ngModel)]="selectedContentId" class="browser-default custom-select">
+          <option *ngFor="let content of moduleContents" value="{{ content.id }}">{{content.title}}</option>
+        </select><br />
+        <div>
+          <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+          <a [routerLink]='["/home"]'><button class="btn btn-danger" id="cancel-btn">Cancel</button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="cell-2">
+    <div class="card-body card-align-errors">
+      <div *ngFor="let error of errors" class="alert alert-danger">
+        {{ error }}
+      </div>
+    </div>
+  </div>
+</div>

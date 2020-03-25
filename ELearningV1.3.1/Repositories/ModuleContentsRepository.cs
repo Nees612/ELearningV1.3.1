@@ -22,8 +22,7 @@ namespace ELearningV1._3._1.Repositories
                 Title = m.Title,
                 Description = m.Description,
                 Lesson = m.Lesson,
-                AssigmentUrl = m.AssigmentUrl,
-                TutorialUrl = m.TutorialUrl
+                AssigmentUrl = m.AssigmentUrl
             }).ToListAsync();
         }
     }

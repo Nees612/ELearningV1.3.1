@@ -8,6 +8,7 @@ namespace ELearningV1._3._1.Interfaces
         IAssigmentsRepository Assigments { get; }
         IModulesRepository Modules { get; }
         IModuleContentsRepository ModuleContents { get; }
+        IVideosRepository Videos { get; }
 
         Task<int> Complete();
     }

@@ -13,3 +13,8 @@
 button {
   float: right;
 }
+
+a {
+  font-weight: bold;
+  font-size: large;
+}

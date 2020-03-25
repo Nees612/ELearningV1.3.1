@@ -19,6 +19,8 @@ import { UsersService } from './services/users.service';
 import { HeadersService } from './services/headers.service';
 import { OtherUsersProfileComponent } from './other-users-profile/other-users-profile.component';
 import { NewAssigmentComponent } from './new-assigment/new-assigment.component';
+import { VideoComponent } from './video/video.component';
+import { NewVideoComponent } from './new-video/new-video.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { NewAssigmentComponent } from './new-assigment/new-assigment.component';
     OtherUsersProfileComponent,
     AssigmentsComponent,
     MyProfileComponent,
-    NewAssigmentComponent
+    NewAssigmentComponent,
+    VideoComponent,
+    NewVideoComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,8 @@ import { NewAssigmentComponent } from './new-assigment/new-assigment.component';
       { path: 'my_profile', component: MyProfileComponent },
       { path: 'profile', component: OtherUsersProfileComponent },
       { path: 'profile/:Id', component: OtherUsersProfileComponent },
-      { path: 'new_assigment', component: NewAssigmentComponent }
+      { path: 'new_assigment', component: NewAssigmentComponent },
+      { path: 'add_video', component: NewVideoComponent }
     ])
   ],
   providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService],

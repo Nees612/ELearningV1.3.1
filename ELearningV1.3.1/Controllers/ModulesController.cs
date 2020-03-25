@@ -14,7 +14,7 @@ namespace ELearningV1._3._1.Controllers
     {
         private readonly IUnitOfWork _repository;
 
-        public ModulesController(UnitOfWork repository)
+        public ModulesController(IUnitOfWork repository)
         {
             _repository = repository;
         }
@@ -34,7 +34,14 @@ namespace ELearningV1._3._1.Controllers
 
             return Ok(new { moduleContents = ModuleContents });
         }
-        
+        [HttpGet("AllModuleContents")]
+        public async Task<IActionResult> GetAllModuleContents()
+        {
+            var ModuleContents = await _repository.ModuleContents.GetAll();
+
+            return Ok(new { contents = ModuleContents });
+        }
+
 
     }
 }

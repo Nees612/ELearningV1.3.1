@@ -28,18 +28,6 @@ namespace ELearningV1._3._1.Repositories
             }
         }
 
-        public async Task<User> GetUserById(string Id)
-        {
-            try
-            {
-                return await _dbSet.FirstAsync(u => u.Id.Equals(Id));
-            }
-            catch (InvalidOperationException)
-            {
-                return null;
-            }
-        }
-
         public async Task<string> GetUserRoleByUserName(string userName)
         {
             try
@@ -80,7 +68,7 @@ namespace ELearningV1._3._1.Repositories
         {
             IDictionary<string, string> errors = new Dictionary<string, string>();
 
-            var User = await GetUserById(Id);
+            var User = await Get(u => u.Id.Equals(Id));
 
             if (UserInfo.UserName != User.UserName)
             {

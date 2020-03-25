@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
-import { UsersService } from './users.service';
 import { HeadersService } from './headers.service';
 import { debug } from 'util';
 
@@ -10,18 +9,18 @@ import { debug } from 'util';
 })
 export class ModulesService {
 
-  constructor(private http: Http, private usersService: UsersService, private headersService: HeadersService) { }
+  constructor(private http: Http, private headersService: HeadersService) { }
 
   getAllModules() {
-    if (this.usersService.isUserLoggedIn()) {
-      return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.getHeaders() });
-    }
+    return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.getHeaders() });
   }
 
   getModuleContentByModuleId(moduleId: number) {
-    if (this.usersService.isUserLoggedIn()) {
-      return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.getHeaders() })
-    }
+    return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.getHeaders() })
+  }
+
+  getAllModuleContents() {
+    return this.http.get(environment.API_MODULES_URL + '/AllModuleContents', { headers: this.headersService.getHeaders() });
   }
 }
 

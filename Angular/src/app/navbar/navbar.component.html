@@ -3,6 +3,7 @@
   <a [routerLink]='["/home"]'><button class="btn nav-item navButton">Home</button></a>
   <a *ngIf="isAuthorized" [routerLink]='["/assigments"]'><button class="btn nav-item navButton">Assigments</button></a>
   <a *ngIf="isAuthorized" [routerLink]='["/all_profiles"]'><button class="btn nav-item navButton">See All Customers</button></a>
+  <a *ngIf="isAuthorized && isAdmin" [routerLink]='["/add_video"]'><button class="btn nav-item navButton">Add Tutorial Videos</button></a>
   <div class="nav-container" *ngIf="!isAuthorized">
     <a [routerLink]='["/registration"]'><button class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration">Registration</button></a>
     <a [routerLink]='["/login"]'><button class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration">Login</button></a>

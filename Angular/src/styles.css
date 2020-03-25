@@ -83,7 +83,7 @@ body {
 }
 
 .row-module {
-  display: table;
+  display: inline-table;
   width: 100%; /*Optional*/
   border-spacing: 10px; /*Optional*/
   margin-right: 0;

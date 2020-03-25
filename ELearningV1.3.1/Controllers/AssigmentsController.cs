@@ -22,7 +22,7 @@ namespace ELearningV1._3._1.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public AssigmentsController(UnitOfWork unitOfWork)
+        public AssigmentsController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -59,12 +59,12 @@ namespace ELearningV1._3._1.Controllers
         [HttpPost]
         public async Task<IActionResult> AddAssigment([FromBody] AssigmentViewModel assigment)
         {
-            var Module = _unitOfWork.Modules.Get(assigment.ModuleId);
+            var Module = await _unitOfWork.Modules.Get(m => m.Id.Equals(assigment.ModuleId));
             var Assigment = new Assigment { Title = assigment.Title, Description = assigment.Description, Url = assigment.Url, Module = Module };
 
             _unitOfWork.Assigments.Add(Assigment);
             await _unitOfWork.Complete();
-            
+
             return Ok();
         }
 

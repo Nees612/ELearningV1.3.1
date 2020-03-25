@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit {
   userName: string;
   userRole: string;
 
+  isAdmin: boolean = false;
+
   isAuthorized: boolean = false;
 
   constructor(private cookieService: CookieService, private usersService: UsersService, private router: Router) { }
@@ -20,6 +22,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.usersService.gotUserTokenEvent.subscribe(userInfo => {
       this.isAuthorized = true;
+      this.isAdmin = this.usersService.isAdmin();
       this.userName = userInfo.userName;
       this.userRole = userInfo.userRole;
     });
@@ -27,10 +30,12 @@ export class NavbarComponent implements OnInit {
       this.isAuthorized = false;
       this.userName = null;
       this.userRole = null;
+      this.isAdmin = null;
       this.router.navigate(['/home']);
     })
     this.isAuthorized = this.usersService.isUserLoggedIn();
     if (this.isAuthorized) {
+      this.isAdmin = this.usersService.isAdmin();
       this.userName = this.usersService.getCurrentUserName();
       this.userRole = this.usersService.getCurrentUserRole();
     }

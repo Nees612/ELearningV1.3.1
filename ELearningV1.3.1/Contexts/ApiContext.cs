@@ -18,5 +18,7 @@ namespace ELearningV1._3._1.Contexts
 
         public DbSet<ModuleContent> ModuleContents { get; set; }
 
+        public DbSet<Video> Videos { get; set; }
+
     }
 }
