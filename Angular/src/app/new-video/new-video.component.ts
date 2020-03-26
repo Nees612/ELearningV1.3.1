@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { VideosService } from '../services/videos.service';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-video',
@@ -20,13 +21,13 @@ export class NewVideoComponent implements OnInit {
 
   errors: any[] = [];
 
-  isuserLoggedIn: boolean = false;
+  isUserLoggedIn: boolean = false;
 
-  constructor(private videosService: VideosService, private modulesService: ModulesService, private usersService: UsersService) { }
+  constructor(private videosService: VideosService, private modulesService: ModulesService, private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     if (this.usersService.isUserLoggedIn() && this.usersService.isAdmin()) {
-      this.isuserLoggedIn = true;
+      this.isUserLoggedIn = true;
       this.modulesService.getAllModuleContents().subscribe(response => {
         this.moduleContents = response.json().contents;
       })
@@ -43,6 +44,7 @@ export class NewVideoComponent implements OnInit {
     }
     this.videosService.addVideo(video).subscribe(() => {
       alert('New video succesfully added.');
+      this.router.navigate(['/home']);
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {
