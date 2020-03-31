@@ -4,7 +4,6 @@
     <hr />
     <div class="students-container">
       <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let admin of admins">
-        <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(user.id)" />
         <div class="card-body">
           <h4 class="card-title">{{ admin.userName }}</h4>
           <p class="card-text">{{ admin.email }}</p>
