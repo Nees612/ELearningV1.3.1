@@ -1,6 +1,6 @@
 <div>
   <div *ngIf="isUserLoggedIn">
-    <h3>Other Students</h3>
+    <h3>Admins:</h3>
     <hr />
     <div class="students-container">
       <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let admin of admins">
@@ -12,6 +12,7 @@
         </div>
       </div>
     </div>
+    <h3>Students:</h3>
     <hr />
     <div class="students-container">
       <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let student of students">

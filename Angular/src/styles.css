@@ -3,6 +3,10 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 
 body {
+  background-image: url("/assets/img/background1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
 }
 
 #list-group {
@@ -83,15 +87,18 @@ body {
 }
 
 .row-module {
-  display: inline-table;
-  width: 100%; /*Optional*/
-  border-spacing: 10px; /*Optional*/
-  margin-right: 0;
-  margin-left: 0;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, 18rem);
+  justify-content: center;
+  align-items: center;
 }
 
 .column {
   display: table-cell;
+  width: 18rem;
+  height: 15rem;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .placeholder {

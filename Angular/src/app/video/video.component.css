@@ -4,14 +4,17 @@
   border-spacing: 10px; /*Optional*/
   margin-right: 0;
   margin-left: 0;
+  border-radius: 5px;
   overflow-x: scroll;
   overflow-y: hidden;
-  /*height: -webkit-fill-available;*/
 }
 
 .video {
-  height: 150px;
-  width: 250px;
+  border-spacing: 10px;
+  background: rgba(0,0,0,0.7);
+  padding: 10px;
+  width: 20rem;
+  margin: 5px;
 }
 
 .cstm-modal {
