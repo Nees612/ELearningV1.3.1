@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";
 import { HeadersService } from './headers.service';
+import { debug } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,19 @@ export class UsersService {
 
   private token: any;
 
+  isTokenValid: boolean;
+
   gotUserTokenEvent: EventEmitter<{ userName: string, userRole: string }>;
   logoutEvent = new EventEmitter();
 
   constructor(private http: Http, private cookieService: CookieService, private headersService: HeadersService) {
     if (cookieService.check('tokenCookie')) {
       this.token = jwt_decode(cookieService.get('tokenCookie'));
+      http.get(environment.API_USERS_URL, { headers: headersService.getHeaders() }).subscribe(() => {
+        this.isTokenValid = true;
+      }, () => {
+        this.isTokenValid = false;
+      });
     }
     this.gotUserTokenEvent = new EventEmitter<{ userName: string, userRole: string }>();
   }
@@ -32,18 +40,27 @@ export class UsersService {
   }
 
   getUserId() {
-    return this.token.id;
+    if (this.cookieService.check('tokenCookie')) {
+      return this.token.id;
+    } else {
+      return null;
+    }
   }
 
   raiseLogoutEvent() {
     this.logoutEvent.emit();
   }
 
-  isUserLoggedIn() {
-    if (this.cookieService.check('tokenCookie')) {
+  isUserTokenValid() {
+    return this.isTokenValid;
+  }
+
+  isUserLoggedIn(): boolean {
+    if (this.cookieService.check('tokenCookie') && this.isUserTokenValid()) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   isAdmin() {

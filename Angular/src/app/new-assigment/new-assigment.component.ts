@@ -28,6 +28,7 @@ export class NewAssigmentComponent implements OnInit {
       this.isUserLoggedIn = true;
       this.modulesService.getAllModules().subscribe(response => {
         this.modules = response.json().modules;
+        this.modules.pop();
       });
     }
   }

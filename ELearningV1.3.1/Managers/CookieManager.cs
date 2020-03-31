@@ -21,7 +21,6 @@ namespace ELearningV1._3._1.Managers
         public CookieOptions CreateCookieOption(int? expireTime = 1400)
         {
             CookieOptions option = new CookieOptions();
-            //option.Domain = "http://localhost:5000/";
             if (expireTime.HasValue)
                 option.Expires = DateTime.Now.AddMinutes(expireTime.Value);
             else

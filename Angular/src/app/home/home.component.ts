@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { AssigmentsService } from '../services/assigments.service';
+import { Router } from '@angular/router';
+import { debug } from 'util';
 
 
 @Component({
@@ -19,20 +21,25 @@ export class HomeComponent implements OnInit {
 
   modules: any[];
 
-  constructor(private modulesService: ModulesService, private usersService: UsersService, private assigmentsService: AssigmentsService) { }
+  constructor(private modulesService: ModulesService, private usersService: UsersService, private assigmentsService: AssigmentsService, private router: Router) { }
 
   ngOnInit() {
     this.usersService.logoutEvent.subscribe(() => {
       this.isUserLoggedIn = false;
-    })
+    });
+    console.log(this.usersService.isUserLoggedIn())
+    //danger
     if (this.usersService.isUserLoggedIn()) {
       this.isUserLoggedIn = true;
       this.userName = this.usersService.getCurrentUserName();
       this.getModules();
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 
   private getModules() {
+    debugger
     this.modulesService.getAllModules().subscribe(response => {
       this.modules = response.json().modules;
     });

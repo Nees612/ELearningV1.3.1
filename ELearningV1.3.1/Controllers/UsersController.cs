@@ -29,6 +29,7 @@ namespace ELearningV1._3._1.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult Index()
         {
             return Ok();
@@ -78,7 +79,7 @@ namespace ELearningV1._3._1.Controllers
                 await _repository.Complete();
                 var User = await _repository.Users.GetUserByUserName(UserInfo.UserName);
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
-                var cookieOption = _cookieManager.CreateCookieOption(1400);
+                var cookieOption = _cookieManager.CreateCookieOption(3);
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }

@@ -21,7 +21,6 @@ namespace ELearningV1._3._1.Units
         public IAssigmentsRepository Assigments { get; private set; }
         public IModulesRepository Modules { get; private set; }
         public IModuleContentsRepository ModuleContents { get; private set; }
-
         public IVideosRepository Videos { get; private set; }
 
         public async Task<int> Complete()
