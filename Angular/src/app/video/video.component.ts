@@ -58,4 +58,11 @@ export class VideoComponent implements OnInit, OnChanges {
     this.showVideo = false;
   }
 
+  onDelete(id) {
+    this.videosService.deleteVideo(id).subscribe(() => {
+      this.getContents();
+    });
+    console.log(id);
+  }
+
 }
