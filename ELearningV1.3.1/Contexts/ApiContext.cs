@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using ELearningV1._3._1.Models;
+﻿using ELearningV1._3._1.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ELearningV1._3._1.Contexts
 {
-    public class ApiContext : IdentityDbContext
+    public class ApiContext : DbContext
     {
         public ApiContext(DbContextOptions<ApiContext> options) : base(options)
         {

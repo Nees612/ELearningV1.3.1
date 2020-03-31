@@ -79,7 +79,7 @@ namespace ELearningV1._3._1.Controllers
                 await _repository.Complete();
                 var User = await _repository.Users.GetUserByUserName(UserInfo.UserName);
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
-                var cookieOption = _cookieManager.CreateCookieOption(3);
+                var cookieOption = _cookieManager.CreateCookieOption();
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }

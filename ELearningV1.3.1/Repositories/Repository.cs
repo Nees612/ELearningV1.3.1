@@ -1,5 +1,4 @@
 ﻿using ELearningV1._3._1.Interfaces;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,9 +10,9 @@ namespace ELearningV1._3._1.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly IdentityDbContext _context;
+        protected readonly DbContext _context;
         protected readonly DbSet<T> _dbSet;
-        public Repository(IdentityDbContext context)
+        public Repository(DbContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

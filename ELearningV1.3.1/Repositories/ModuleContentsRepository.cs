@@ -3,14 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using ELearningV1._3._1.Interfaces;
 using ELearningV1._3._1.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ELearningV1._3._1.Repositories
 {
     public class ModuleContentsRepository : Repository<ModuleContent>, IModuleContentsRepository
     {
-        public ModuleContentsRepository(IdentityDbContext context) : base(context)
+        public ModuleContentsRepository(DbContext context) : base(context)
         {
         }
         public async Task<IEnumerable<ModuleContent>> GetModuleContentsByModuleId(int moduleId)

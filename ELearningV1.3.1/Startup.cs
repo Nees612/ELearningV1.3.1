@@ -42,8 +42,8 @@ namespace ELearningV1._3._1
             services.AddIdentity<User, IdentityRole>(opt =>
             {
                 opt.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<ApiContext>();
+
+            }).AddEntityFrameworkStores<ApiContext>();
 
             services.AddDbContextPool<ApiContext>(
                 opt => opt.UseSqlServer(Configuration.GetConnectionString("ElearningDbConnection")));
