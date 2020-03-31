@@ -13,7 +13,7 @@ export class NewAssigmentComponent implements OnInit {
   modules: any[];
   selectedModuleId: number = 1;
 
-  isUserLoggedIn: boolean = false;
+  isAdminLoggedIn: boolean = false;
 
   title: string;
   description: string;
@@ -24,14 +24,20 @@ export class NewAssigmentComponent implements OnInit {
   constructor(private modulesService: ModulesService, private assigmentsService: AssigmentsService, private usersService: UsersService) { }
 
   ngOnInit() {
-    if (this.usersService.isAdmin() && this.usersService.isUserLoggedIn()) {
-      this.isUserLoggedIn = true;
-      this.modulesService.getAllModules().subscribe(response => {
-        this.modules = response.json().modules;
-        this.modules.pop();
-      });
-    }
+    this.usersService.isUserLoggedIn().subscribe(() => {
+      if (this.usersService.isAdmin) {
+        this.isAdminLoggedIn = true;
+        this.modulesService.getAllModules().subscribe(response => {
+          this.modules = response.json().modules;
+          this.modules.pop();
+        });
+      }
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+      this.isAdminLoggedIn = false;
+    });
   }
+
 
   onSubmit() {
     this.errors = [];

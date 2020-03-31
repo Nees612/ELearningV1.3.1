@@ -25,7 +25,12 @@ export class MyProfileComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
-    this.setUserData();
+    this.usersService.isUserLoggedIn().subscribe(() => {
+      this.setUserData();
+
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+    })
   }
 
   private setUserData() {

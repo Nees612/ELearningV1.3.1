@@ -4,7 +4,6 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";
 import { HeadersService } from './headers.service';
-import { debug } from 'util';
 
 @Injectable({
   providedIn: 'root'
@@ -51,16 +50,8 @@ export class UsersService {
     this.logoutEvent.emit();
   }
 
-  isUserTokenValid() {
-    return this.isTokenValid;
-  }
-
-  isUserLoggedIn(): boolean {
-    if (this.cookieService.check('tokenCookie') && this.isUserTokenValid()) {
-      return true;
-    } else {
-      return false;
-    }
+  isUserLoggedIn() {
+    return this.http.get(environment.API_USERS_URL, { headers: this.headersService.getHeaders() });
   }
 
   isAdmin() {

@@ -21,17 +21,22 @@ export class NewVideoComponent implements OnInit {
 
   errors: any[] = [];
 
-  isUserLoggedIn: boolean = false;
+  isAdminLoggedIn: boolean = false;
 
   constructor(private videosService: VideosService, private modulesService: ModulesService, private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
-    if (this.usersService.isUserLoggedIn() && this.usersService.isAdmin()) {
-      this.isUserLoggedIn = true;
-      this.modulesService.getAllModuleContents().subscribe(response => {
-        this.moduleContents = response.json().contents;
-      })
-    }
+    this.usersService.isUserLoggedIn().subscribe(() => {
+      if (this.usersService.isAdmin()) {
+        this.isAdminLoggedIn = true;
+        this.modulesService.getAllModuleContents().subscribe(response => {
+          this.moduleContents = response.json().contents;
+        });
+      }
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+      this.isAdminLoggedIn = false;
+    });
   }
 
   onSubmit() {

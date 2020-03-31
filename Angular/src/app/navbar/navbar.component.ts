@@ -33,12 +33,14 @@ export class NavbarComponent implements OnInit {
       this.isAdmin = null;
       this.router.navigate(['/home']);
     })
-    this.isAuthorized = this.usersService.isUserLoggedIn();
-    if (this.isAuthorized) {
+    this.usersService.isUserLoggedIn().subscribe(() => {
+      this.isAuthorized = true;
       this.isAdmin = this.usersService.isAdmin();
       this.userName = this.usersService.getCurrentUserName();
       this.userRole = this.usersService.getCurrentUserRole();
-    }
+    }, () => {
+      this.isAuthorized = false;
+    });
   }
 
   onLogout() {

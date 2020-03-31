@@ -1,4 +1,4 @@
-<div *ngIf="isUserLoggedIn">
+<div *ngIf="isAdminLoggedIn">
   <div class="vid-container">
     <div class="cell">
       <h2>Add New Video</h2>
@@ -29,6 +29,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="!isUserLoggedIn">
+<div *ngIf="!isAdminLoggedIn">
   <h3>Login or registrate for further details.</h3>
 </div>

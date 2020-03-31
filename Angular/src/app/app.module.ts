@@ -21,6 +21,7 @@ import { OtherUsersProfileComponent } from './other-users-profile/other-users-pr
 import { NewAssigmentComponent } from './new-assigment/new-assigment.component';
 import { VideoComponent } from './video/video.component';
 import { NewVideoComponent } from './new-video/new-video.component';
+import { VideosService } from './services/videos.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,7 @@ import { NewVideoComponent } from './new-video/new-video.component';
       { path: 'add_video', component: NewVideoComponent }
     ])
   ],
-  providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService],
+  providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService, VideosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

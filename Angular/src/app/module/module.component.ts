@@ -1,6 +1,7 @@
 import { EventEmitter, Component, OnInit, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ModulesService } from '../services/modules.service';
+import { UsersService } from '../services/users.service';
 
 
 @Component({
@@ -23,11 +24,22 @@ export class ModuleComponent implements OnInit {
   hasPrevious: boolean;
   hasNext: boolean;
 
+  isUserLoggedIn: boolean;
 
-  constructor(private modulesService: ModulesService) { }
+
+  constructor(private modulesService: ModulesService, private usersService: UsersService) { }
 
   ngOnInit() {
-    this.getContent();
+    this.usersService.logoutEvent.subscribe(() => {
+      this.isUserLoggedIn = false;
+    })
+    this.usersService.isUserLoggedIn().subscribe(() => {
+      this.isUserLoggedIn = true;
+      this.getContent();
+    }, () => {
+      this.usersService.raiseLogoutEvent()
+      this.isUserLoggedIn = false;
+    });
   }
 
 

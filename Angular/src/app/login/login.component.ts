@@ -30,9 +30,8 @@ export class LoginComponent implements OnInit {
       Password: this.password
     }
     this.usersService.loginUser(data).subscribe(() => {
-      alert("Login was successfull.");
-      this.usersService.raiseTokenEvent()
-      this.router.navigate(['home']);
+      this.usersService.raiseTokenEvent();
+      this.router.navigate(['/home']);
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {

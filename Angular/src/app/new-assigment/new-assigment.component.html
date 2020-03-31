@@ -1,4 +1,4 @@
-<div *ngIf="isUserLoggedIn">
+<div *ngIf="isAdminLoggedIn">
   <div class="card align-items-center">
     <h2>New Assigment</h2>
     <div class="card-body">
@@ -21,7 +21,7 @@
     </div>
   </div>
 </div>
-<div *ngIf="!isUserLoggedIn">
+<div *ngIf="!isAdminLoggedIn">
   <h3>Login or registrate for further details.</h3>
 </div>
 

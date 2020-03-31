@@ -20,7 +20,7 @@ export class AssigmentsComponent implements OnInit {
   constructor(private assigmentsService: AssigmentsService, private usersService: UsersService) { }
 
   ngOnInit() {
-    if (this.usersService.isUserLoggedIn()) {
+    this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       this.isAdmin = this.usersService.isAdmin();
       this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
@@ -32,7 +32,10 @@ export class AssigmentsComponent implements OnInit {
       this.assigmentsService.getAssigmentsByModuleName(environment.OOP).subscribe(response => {
         this.oopAssigments = response.json().assigments;
       })
-    }
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+      this.isUserLoggedIn = false;
+    })
   }
 
 }

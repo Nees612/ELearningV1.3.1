@@ -20,12 +20,16 @@ export class OtherUsersComponent implements OnInit {
   constructor(private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
-    if (this.usersService.isUserLoggedIn()) {
+    this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       this.isAdmin = this.usersService.isAdmin();
       this.getAdmins();
       this.getAllUsers();
-    }
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+      this.isUserLoggedIn = false;
+      this.isAdmin = false;
+    });
   }
 
   onDelete(id) {

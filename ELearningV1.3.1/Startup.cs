@@ -37,7 +37,7 @@ namespace ELearningV1._3._1
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IVideoManager, VideoManager>();
-            services.AddScoped<CookieManager>();
+            services.AddScoped<ICookieManager, CookieManager>();
 
             services.AddIdentity<User, IdentityRole>(opt =>
             {

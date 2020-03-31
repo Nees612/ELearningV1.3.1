@@ -15,14 +15,18 @@ export class OtherUsersProfileComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private usersService: UsersService) { }
 
   ngOnInit() {
-    if (this.usersService.isUserLoggedIn()) {
+    this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       let id = this.route.snapshot.params['Id'];
       this.usersService.getUserData(id).subscribe(response => {
         this.selectedUser = response.json().user;
       });
-    }
+    }, () => {
+      this.usersService.raiseLogoutEvent();
+      this.isUserLoggedIn = false;
+    });
   }
+
 
   onCancel() {
     this.router.navigate(['/all_profiles']);

@@ -20,8 +20,8 @@ namespace ELearningV1._3._1.Controllers
     {
         private readonly IUnitOfWork _repository;
         private UserManager<User> _userManager;
-        private CookieManager _cookieManager;
-        public UsersController(IUnitOfWork repository, UserManager<User> userManager, CookieManager cookieOptionsManager)
+        private ICookieManager _cookieManager;
+        public UsersController(IUnitOfWork repository, UserManager<User> userManager, ICookieManager cookieOptionsManager)
         {
             _repository = repository;
             _userManager = userManager;
@@ -79,7 +79,7 @@ namespace ELearningV1._3._1.Controllers
                 await _repository.Complete();
                 var User = await _repository.Users.GetUserByUserName(UserInfo.UserName);
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
-                var cookieOption = _cookieManager.CreateCookieOption(3);
+                var cookieOption = _cookieManager.CreateCookieOption();
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
@@ -116,7 +116,7 @@ namespace ELearningV1._3._1.Controllers
             if (await _userManager.CheckPasswordAsync(User, login.Password))
             {
                 var tokenString = _cookieManager.GenerateJSONWebToken(User);
-                var cookieOption = _cookieManager.CreateCookieOption(1400);
+                var cookieOption = _cookieManager.CreateCookieOption();
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
