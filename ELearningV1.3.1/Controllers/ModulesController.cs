@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ELearningV1._3._1.Interfaces;
-using ELearningV1._3._1.Units;
 
 namespace ELearningV1._3._1.Controllers
 {

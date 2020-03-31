@@ -1,15 +1,10 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ELearningV1._3._1.Contexts;
 using ELearningV1._3._1.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using ELearningV1._3._1.Repositories;
-using ELearningV1._3._1.Units;
 using ELearningV1._3._1.Interfaces;
 using ELearningV1._3._1.ViewModels;
 

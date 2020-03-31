@@ -10,7 +10,6 @@ using ELearningV1._3._1.ViewModels;
 using ELearningV1._3._1.Managers;
 using ELearningV1._3._1.Enums;
 using ELearningV1._3._1.Interfaces;
-using ELearningV1._3._1.Units;
 
 namespace ELearningV1._3._1.Controllers
 {
