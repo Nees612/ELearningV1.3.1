@@ -21,4 +21,8 @@ export class VideosService {
   addVideo(video) {
     return this.http.post(environment.API_VIDEOS_URL, video, { headers: this.headersService.getHeaders() });
   }
+
+  deleteVideo(id) {
+    return this.http.delete(environment.API_VIDEOS_URL + '/' + id, { headers: this.headersService.getHeaders() })
+  }
 }

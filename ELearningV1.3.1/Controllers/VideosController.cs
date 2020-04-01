@@ -51,7 +51,7 @@ namespace ELearningV1._3._1.Controllers
         {
             var ModuleContent = await _repository.ModuleContents.GetById(video.ModuleContentId);
             string embedLink = _videoManager.ConvertUrl(video.Url);
-            string YoutubeId = _videoManager.GetYoutubeId(video.Url);
+            string YoutubeId = _videoManager.GetYoutubeId(embedLink);
             var Video = new Video { Title = video.Title, Description = video.Description, Url = embedLink, YoutubeId = YoutubeId, ModuleContent = ModuleContent };
 
             _repository.Videos.Add(Video);

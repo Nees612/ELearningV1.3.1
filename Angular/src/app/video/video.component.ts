@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 import { VideosService } from '../services/videos.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventEmitter } from '@angular/core';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-video',
@@ -20,10 +21,12 @@ export class VideoComponent implements OnInit, OnChanges {
   videos: any[];
 
   hasVideo: boolean;
+  isAdmin: boolean;
 
-  constructor(private videosService: VideosService, private sanitizer: DomSanitizer) { }
+  constructor(private videosService: VideosService, private sanitizer: DomSanitizer, private usersService: UsersService) { }
 
   ngOnInit() {
+    this.isAdmin = this.usersService.isAdmin();
     this.getContents()
   }
 
@@ -56,6 +59,13 @@ export class VideoComponent implements OnInit, OnChanges {
   onVideoClosed() {
     this.videoClosed.emit();
     this.showVideo = false;
+  }
+
+  onDelete(id) {
+    this.videosService.deleteVideo(id).subscribe(() => {
+      this.getContents();
+    });
+    console.log(id);
   }
 
 }
