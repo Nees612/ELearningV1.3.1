@@ -26,7 +26,7 @@
           <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onVideoClosed()" />
         </div>
         <div class="modal-body">
-          <iframe *ngIf="safeUrl" width="950" height="500" [src]="safeUrl"></iframe>
+          <iframe *ngIf="safeUrl" class="video-player" [src]="safeUrl"></iframe>
         </div>
       </div>
     </div>

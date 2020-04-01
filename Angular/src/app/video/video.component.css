@@ -54,3 +54,8 @@
   background-clip: padding-box;
   outline: 0;
 }
+
+.video-player {
+  height: 500px;
+  width: 950px;
+}
