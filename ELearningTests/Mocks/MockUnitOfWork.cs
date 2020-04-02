@@ -7,6 +7,6 @@ namespace ELearningTests.Mocks
 {
     class MockUnitOfWork
     {
-        private 
+     
     }
 }

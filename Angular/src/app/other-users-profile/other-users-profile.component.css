@@ -1,0 +1,11 @@
+.other-profile {
+  flex-direction: column;
+  width: 100%;
+  display: -webkit-box;
+  display: flex;
+  float: left;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}

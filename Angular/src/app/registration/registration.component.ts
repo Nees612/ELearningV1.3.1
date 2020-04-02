@@ -34,7 +34,7 @@ export class RegistrationComponent implements OnInit {
         PhoneNumber: this.phoneNumber === '' ? null : this.phoneNumber,
         Password: this.password === '' ? null : this.password
       }
-      this.usersService.createUser(data).subscribe(response => {
+      this.usersService.createUser(data).subscribe(() => {
         alert("Your account succesfully created !");
         this.router.navigate(['login']);
       }, error => {

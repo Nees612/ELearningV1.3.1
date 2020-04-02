@@ -11,6 +11,7 @@ using ELearningV1._3._1.Managers;
 using ELearningV1._3._1.Enums;
 using ELearningV1._3._1.Interfaces;
 using ELearningV1._3._1.Units;
+using System;
 
 namespace ELearningV1._3._1.Controllers
 {
@@ -41,24 +42,34 @@ namespace ELearningV1._3._1.Controllers
         {
             var Users = await _repository.Users.GetAll();
 
-            return Ok(new { users = Users });
+            return Ok(Users);
         }
 
         [HttpGet("Users_by_role/{role}")]
         public async Task<IActionResult> GetUsersByRole(string role)
         {
-            var Users = await _repository.Users.GetUsersByRole(role);
+            if (Enum.IsDefined(typeof(Role), role))
+            {
+                var Users = await _repository.Users.GetUsersByRole(role);
 
-            return Ok(new { users = Users });
+                return Ok(Users);
+            }
+            return NotFound(role);
         }
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetUser(string Id)
         {
             var User = await _repository.Users.Get(u => u.Id.Equals(Id));
-            User.PasswordHash = null;
+              
+            if (User == null)
+            {
+                return NotFound(Id);
+            }
 
-            return Ok(new { user = User });
+            User.PasswordHash = null;
+            return Ok(User);
+
         }
 
         [HttpGet("Role/{Id}")]
@@ -66,7 +77,7 @@ namespace ELearningV1._3._1.Controllers
         {
             var userRole = (await _repository.Users.Get(u => u.Id.Equals(Id))).Role;
 
-            return Ok(new { role = userRole });
+            return Ok(userRole);
         }
 
         [HttpPut("{Id}")]
@@ -83,7 +94,7 @@ namespace ELearningV1._3._1.Controllers
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
-            return BadRequest(new { errors = Errors });
+            return BadRequest(Errors);
         }
 
 
@@ -105,7 +116,7 @@ namespace ELearningV1._3._1.Controllers
                     Errors.Add(error.Code, error.Description);
                 }
             }
-            return BadRequest(new { errors = Errors });
+            return BadRequest(Errors);
         }
 
         [HttpPost("Login")]
@@ -121,7 +132,7 @@ namespace ELearningV1._3._1.Controllers
                 return Ok();
             }
             var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
-            return NotFound(new { errors = Errors });
+            return NotFound(Errors);
         }
 
         [HttpDelete("{Id}")]

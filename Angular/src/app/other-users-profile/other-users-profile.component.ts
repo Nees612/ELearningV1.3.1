@@ -19,7 +19,7 @@ export class OtherUsersProfileComponent implements OnInit {
       this.isUserLoggedIn = true;
       let id = this.route.snapshot.params['Id'];
       this.usersService.getUserData(id).subscribe(response => {
-        this.selectedUser = response.json().user;
+        this.selectedUser = response.json();
       });
     }, () => {
       this.usersService.raiseLogoutEvent();

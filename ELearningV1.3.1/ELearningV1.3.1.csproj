@@ -5,6 +5,10 @@
     <RootNamespace>ELearningV1._3._1</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="3.1.1" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="3.1.1" />

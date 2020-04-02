@@ -35,7 +35,7 @@ export class MyProfileComponent implements OnInit {
 
   private setUserData() {
     this.usersService.getCurrentUserData().subscribe(response => {
-      let user = response.json().user;
+      let user = response.json();
       this.newUserName = this.userName = user.userName;
       this.newEmail = this.email = user.email;
       this.newPhoneNumber = this.phoneNumber = user.phoneNumber;

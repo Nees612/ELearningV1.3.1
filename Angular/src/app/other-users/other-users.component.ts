@@ -49,13 +49,13 @@ export class OtherUsersComponent implements OnInit {
 
   private getAdmins() {
     this.usersService.getUsersByRole('Admin').subscribe(response => {
-      this.admins = response.json().users;
+      this.admins = response.json();
     });
   }
 
   private getStudents() {
     this.usersService.getUsersByRole('Student').subscribe(response => {
-      this.students = response.json().users;
+      this.students = response.json();
     })
   }
 
