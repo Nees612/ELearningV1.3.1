@@ -13,6 +13,6 @@ namespace ELearningV1._3._1.Interfaces
         Task<User> GetUserByUserName(string UserName);
         Task<string> GetUserRoleByUserName(string UserName);
         Task<User> GetUserByEmail(string Email);
-        Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, string Id);
+        Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, User User);
     }
 }

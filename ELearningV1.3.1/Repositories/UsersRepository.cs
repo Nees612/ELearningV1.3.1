@@ -64,48 +64,59 @@ namespace ELearningV1._3._1.Repositories
             }
         }
 
-        public async Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, string Id)
+        public async Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, User User)
         {
             IDictionary<string, string> errors = new Dictionary<string, string>();
 
-            var User = await Get(u => u.Id.Equals(Id));
-
-            if (UserInfo.UserName != User.UserName)
+            if (UserInfo == null)
             {
-                if (await GetUserByUserName(UserInfo.UserName) == null)
-                {
-                    User.UserName = (UserInfo.UserName == User.UserName ? User.UserName : UserInfo.UserName);
-                    User.NormalizedUserName = (UserInfo.UserName.ToUpper() == User.NormalizedUserName ? User.NormalizedUserName : UserInfo.UserName.ToUpper());
-                }
-                else
-                {
-                    errors.Add("UserName", "Username is already in use.");
-                }
+                errors.Add("UserInfo", "UserInfo cannot be null.");
+                return errors;
             }
 
-            if (UserInfo.Email != User.Email)
+            if (User != null)
             {
-                if (await GetUserByEmail(UserInfo.Email) == null)
-                {
-                    User.Email = (UserInfo.Email == User.UserName ? User.UserName : UserInfo.Email);
-                    User.NormalizedEmail = (UserInfo.Email.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.Email.ToUpper());
-                }
-                else
-                {
-                    errors.Add("Email", "Email is already in use.");
-                }
-            }
 
-            if (UserInfo.PhoneNumber != User.PhoneNumber)
-            {
-                User.PhoneNumber = (UserInfo.PhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.PhoneNumber);
-            }
 
-            if (errors.Count < 1)
-            {
-                _dbSet.Update(User);
-                return null;
+                if (UserInfo.UserName != User.UserName)
+                {
+                    if (await GetUserByUserName(UserInfo.UserName) == null)
+                    {
+                        User.UserName = (UserInfo.UserName == User.UserName ? User.UserName : UserInfo.UserName);
+                        User.NormalizedUserName = (UserInfo.UserName.ToUpper() == User.NormalizedUserName ? User.NormalizedUserName : UserInfo.UserName.ToUpper());
+                    }
+                    else
+                    {
+                        errors.Add("UserName", "Username is already in use.");
+                    }
+                }
+
+                if (UserInfo.Email != User.Email)
+                {
+                    if (await GetUserByEmail(UserInfo.Email) == null)
+                    {
+                        User.Email = (UserInfo.Email == User.UserName ? User.UserName : UserInfo.Email);
+                        User.NormalizedEmail = (UserInfo.Email.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.Email.ToUpper());
+                    }
+                    else
+                    {
+                        errors.Add("Email", "Email is already in use.");
+                    }
+                }
+
+                if (UserInfo.PhoneNumber != User.PhoneNumber)
+                {
+                    User.PhoneNumber = (UserInfo.PhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.PhoneNumber);
+                }
+
+                if (errors.Count < 1)
+                {
+                    _dbSet.Update(User);
+                    return null;
+                }
+                return errors;
             }
+            errors.Add("UserId", "Invalid User id.");
             return errors;
         }
     }

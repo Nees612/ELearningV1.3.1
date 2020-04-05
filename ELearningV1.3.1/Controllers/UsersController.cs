@@ -22,6 +22,7 @@ namespace ELearningV1._3._1.Controllers
         private readonly IUnitOfWork _repository;
         private UserManager<User> _userManager;
         private ICookieManager _cookieManager;
+
         public UsersController(IUnitOfWork repository, UserManager<User> userManager, ICookieManager cookieOptionsManager)
         {
             _repository = repository;
@@ -61,39 +62,58 @@ namespace ELearningV1._3._1.Controllers
         public async Task<IActionResult> GetUser(string Id)
         {
             var User = await _repository.Users.Get(u => u.Id.Equals(Id));
-              
-            if (User == null)
+
+            if (User != null)
             {
-                return NotFound(Id);
+                User.PasswordHash = null;
+                return Ok(User);
             }
 
-            User.PasswordHash = null;
-            return Ok(User);
+            return NotFound(Id);
 
         }
 
         [HttpGet("Role/{Id}")]
         public async Task<IActionResult> GetRole(string Id)
         {
-            var userRole = (await _repository.Users.Get(u => u.Id.Equals(Id))).Role;
+            var User = await _repository.Users.Get(u => u.Id.Equals(Id));
 
-            return Ok(userRole);
+            if (User != null)
+            {
+                return Ok(User.Role);
+            }
+
+            return NotFound(Id);
         }
 
         [HttpPut("{Id}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateViewModel UserInfo, string Id)
         {
-            var Errors = await _repository.Users.UpdateUser(UserInfo, Id);
+            if (UserInfo == null)
+            {
+                return BadRequest("User info cannot be null.");
+            }
+
+            var User = await _repository.Users.Get(u => u.Id.Equals(Id));
+
+            if (User == null)
+            {
+                return NotFound(Id);
+            }
+
+            var Errors = await _repository.Users.UpdateUser(UserInfo, User);
+
             if (Errors == null)
             {
                 await _repository.Complete();
-                var User = await _repository.Users.GetUserByUserName(UserInfo.UserName);
-                var tokenString = _cookieManager.GenerateJSONWebToken(User);
+                var updatedUser = await _repository.Users.GetUserByUserName(UserInfo.UserName);
+                var tokenString = _cookieManager.GenerateJSONWebToken(updatedUser);
                 var cookieOption = _cookieManager.CreateCookieOption();
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
+
             return BadRequest(Errors);
         }
 
@@ -101,6 +121,11 @@ namespace ELearningV1._3._1.Controllers
         [HttpPost("Registration")]
         public async Task<IActionResult> Registration([FromBody] UserRegistrationViewModel newUser)
         {
+            if (newUser == null)
+            {
+                return BadRequest("User info cannot be null.");
+            }
+
             var User = new User { UserName = newUser.UserName, Email = newUser.Email, PhoneNumber = newUser.PhoneNumber, Role = Role.Student.ToString() };
             var result = await _userManager.CreateAsync(User, newUser.Password);
             var Errors = new Dictionary<string, string>();
@@ -122,6 +147,13 @@ namespace ELearningV1._3._1.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody]UserLoginViewModel login)
         {
+            var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
+
+            if (login == null)
+            {
+                return BadRequest("Login info cannot be null.");
+            }
+
             var User = await _repository.Users.GetUserByUserName(login.UserName);
 
             if (await _userManager.CheckPasswordAsync(User, login.Password))
@@ -131,7 +163,6 @@ namespace ELearningV1._3._1.Controllers
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
-            var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
             return NotFound(Errors);
         }
 
@@ -139,6 +170,11 @@ namespace ELearningV1._3._1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> DeleteUser(string Id)
         {
+            if (Id == null)
+            {
+                return BadRequest("Id cannot be null.");
+            }
+
             var User = await _repository.Users.Get(u => u.Id.Equals(Id));
             if (User != null)
             {
@@ -146,7 +182,7 @@ namespace ELearningV1._3._1.Controllers
                 await _repository.Complete();
                 return Ok();
             }
-            return NotFound();
+            return NotFound(Id);
         }
 
     }
