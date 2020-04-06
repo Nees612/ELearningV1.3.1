@@ -64,14 +64,14 @@ namespace ELearningV1._3._1.Repositories
             }
         }
 
-        public async Task<IDictionary<string, string>> UpdateUser(UserUpdateViewModel UserInfo, User User)
+        public async Task<ErrorContext> UpdateUser(UserUpdateViewModel UserInfo, User User)
         {
-            IDictionary<string, string> errors = new Dictionary<string, string>();
+            var ErrorContext = new ErrorContext();
 
             if (UserInfo == null)
             {
-                errors.Add("UserInfo", "UserInfo cannot be null.");
-                return errors;
+                ErrorContext.Errors.Add("UserInfo cannot be null.");
+                return ErrorContext;
             }
 
             if (User != null)
@@ -87,7 +87,7 @@ namespace ELearningV1._3._1.Repositories
                     }
                     else
                     {
-                        errors.Add("UserName", "Username is already in use.");
+                        ErrorContext.Errors.Add("Username is already in use.");
                     }
                 }
 
@@ -100,7 +100,7 @@ namespace ELearningV1._3._1.Repositories
                     }
                     else
                     {
-                        errors.Add("Email", "Email is already in use.");
+                        ErrorContext.Errors.Add("Email is already in use.");
                     }
                 }
 
@@ -109,15 +109,15 @@ namespace ELearningV1._3._1.Repositories
                     User.PhoneNumber = (UserInfo.PhoneNumber == User.PhoneNumber ? User.PhoneNumber : UserInfo.PhoneNumber);
                 }
 
-                if (errors.Count < 1)
+                if (ErrorContext.Errors.Count < 1)
                 {
                     _dbSet.Update(User);
                     return null;
                 }
-                return errors;
+                return ErrorContext;
             }
-            errors.Add("UserId", "Invalid User id.");
-            return errors;
+            ErrorContext.Errors.Add("Invalid User id.");
+            return ErrorContext;
         }
     }
 }

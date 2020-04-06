@@ -7,7 +7,7 @@ namespace ELearningV1._3._1.ViewModels
     {
 
         [Required]
-        [MinLength(6, ErrorMessage = "The User name field is inavlid, user name must be longer that 6, can be made of letters and numbers.")]
+        [MinLength(6, ErrorMessage = "The Username field is inavlid, username must be longer that 6, can be made of letters and numbers.")]
         public string UserName { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "The Email field is invalid.")]

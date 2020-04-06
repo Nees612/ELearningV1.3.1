@@ -2,15 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ELearningV1._3._1.Models;
 using ELearningV1._3._1.ViewModels;
-using ELearningV1._3._1.Managers;
 using ELearningV1._3._1.Enums;
 using ELearningV1._3._1.Interfaces;
-using ELearningV1._3._1.Units;
 using System;
 
 namespace ELearningV1._3._1.Controllers
@@ -86,6 +83,11 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("Role/{Id}")]
         public async Task<IActionResult> GetRole(string Id)
         {
+            if (Id == null)
+            {
+                return BadRequest("Id cannot be null.");
+            }
+
             var User = await _repository.Users.Get(u => u.Id.Equals(Id));
 
             if (User != null)
@@ -100,6 +102,7 @@ namespace ELearningV1._3._1.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> UpdateUser([FromBody] UserUpdateViewModel UserInfo, string Id)
         {
+
             if (UserInfo == null)
             {
                 return BadRequest("User info cannot be null.");
@@ -138,7 +141,8 @@ namespace ELearningV1._3._1.Controllers
 
             var User = new User { UserName = newUser.UserName, Email = newUser.Email, PhoneNumber = newUser.PhoneNumber, Role = Role.Student.ToString() };
             var result = await _userManager.CreateAsync(User, newUser.Password);
-            var Errors = new Dictionary<string, string>();
+            var ErrorContext = new ErrorContext();
+
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(User, Role.Student.ToString());
@@ -148,22 +152,22 @@ namespace ELearningV1._3._1.Controllers
             {
                 foreach (var error in result.Errors.ToArray())
                 {
-                    Errors.Add(error.Code, error.Description);
+                    ErrorContext.Errors.Add(error.Description);
                 }
             }
-            return BadRequest(Errors);
+            return BadRequest(ErrorContext);
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody]UserLoginViewModel login)
         {
-            var Errors = new Dictionary<string, string>() { ["errors"] = "Invalid username or password !" };
 
             if (login == null)
             {
                 return BadRequest("Login info cannot be null.");
             }
 
+            var ErrorContext = new ErrorContext();
             var User = await _repository.Users.GetUserByUserName(login.UserName);
 
             if (await _userManager.CheckPasswordAsync(User, login.Password))
@@ -173,7 +177,8 @@ namespace ELearningV1._3._1.Controllers
                 Response.Cookies.Append("tokenCookie", tokenString, cookieOption);
                 return Ok();
             }
-            return NotFound(Errors);
+            ErrorContext.Errors.Add("Invalid Username or Password !");
+            return BadRequest(ErrorContext);
         }
 
         [HttpDelete("{Id}")]
@@ -185,14 +190,22 @@ namespace ELearningV1._3._1.Controllers
                 return BadRequest("Id cannot be null.");
             }
 
-            var User = await _repository.Users.Get(u => u.Id.Equals(Id));
-            if (User != null)
+            var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
+
+            if (userRole.Equals(Role.Admin.ToString()))
             {
-                _repository.Users.Remove(User);
-                await _repository.Complete();
-                return Ok();
+                var User = await _repository.Users.Get(u => u.Id.Equals(Id));
+                if (User != null)
+                {
+                    _repository.Users.Remove(User);
+                    await _repository.Complete();
+                    return Ok();
+                }
+                return NotFound(Id);
             }
-            return NotFound(Id);
+
+            return BadRequest("Only Admins can delete profiles.");
+
         }
 
     }
