@@ -12,7 +12,6 @@ using System.Linq.Expressions;
 using ELearningV1._3._1.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using System.Threading;
 using ELearningV1._3._1.Enums;
 
 namespace ELearningTests

@@ -42,14 +42,22 @@ namespace ELearningV1._3._1.Repositories
 
         public async Task<IEnumerable<User>> GetUsersByRole(string role)
         {
-            return await _dbSet.Where(u => u.Role.Equals(role)).Select(u => new User
+            try
             {
-                Id = u.Id,
-                UserName = u.UserName,
-                Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
-                Role = u.Role
-            }).ToListAsync();
+
+                return await _dbSet.Where(u => u.Role.Equals(role)).Select(u => new User
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Role = u.Role
+                }).ToListAsync();
+            }
+            catch (InvalidOperationException)
+            {
+                return null;
+            }
         }
 
         public async Task<User> GetUserByEmail(string Email)

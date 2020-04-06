@@ -5,7 +5,8 @@
     <hr />
     <div>
       <div class="row">
-        <div class="card assigment" style="width: 18rem; height: 13rem" *ngFor="let assigment of prgBasicAssigments">
+        <div class="card assigment"  *ngFor="let assigment of prgBasicAssigments">
+          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
           <div class="break-lines card-body">
             <h5 class="card-title">{{ assigment.title }}</h5>
             <p class="card-text">{{ assigment.description }}</p>
@@ -18,7 +19,8 @@
     <hr />
     <div>
       <div class="row">
-        <div class="card assigment" style="width: 18rem; height: 13rem" *ngFor="let assigment of webAssigments">
+        <div class="card assigment"  *ngFor="let assigment of webAssigments">
+          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
           <div class="break-lines card-body">
             <h5 class="card-title">{{ assigment.title }}</h5>
             <p class="card-text">{{ assigment.description }}</p>
@@ -31,7 +33,8 @@
     <hr />
     <div>
       <div class="row">
-        <div class="card assigment" style="width: 18rem; height: 13rem" *ngFor="let assigment of oopAssigments">
+        <div class="card assigment"  *ngFor="let assigment of oopAssigments">
+          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
           <div class="break-lines card-body">
             <h5 class="card-title">{{ assigment.title }}</h5>
             <p class="card-text">{{ assigment.description }}</p>

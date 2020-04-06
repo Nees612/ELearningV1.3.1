@@ -25,4 +25,8 @@ export class AssigmentsService {
   addAssigment(newAssigment) {
     return this.http.post(environment.API_ASSIGMENTS_URL, newAssigment, { headers: this.headersService.getHeaders() })
   }
+
+  deleteAssigment(id) {
+    return this.http.delete(environment.API_ASSIGMENTS_URL + '/' + id, { headers: this.headersService.getHeaders() })
+  }
 }

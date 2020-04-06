@@ -23,18 +23,28 @@ export class AssigmentsComponent implements OnInit {
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       this.isAdmin = this.usersService.isAdmin();
-      this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
-        this.prgBasicAssigments = response.json().assigments;
-      })
-      this.assigmentsService.getAssigmentsByModuleName(environment.WEB_TECHNOLOGIES).subscribe(response => {
-        this.webAssigments = response.json().assigments;
-      })
-      this.assigmentsService.getAssigmentsByModuleName(environment.OOP).subscribe(response => {
-        this.oopAssigments = response.json().assigments;
-      })
+      this.getAllAssigmentSorted();
     }, () => {
       this.usersService.raiseLogoutEvent();
       this.isUserLoggedIn = false;
+    })
+  }
+
+  private getAllAssigmentSorted() {
+    this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
+      this.prgBasicAssigments = response.json();
+    })
+    this.assigmentsService.getAssigmentsByModuleName(environment.WEB_TECHNOLOGIES).subscribe(response => {
+      this.webAssigments = response.json();
+    })
+    this.assigmentsService.getAssigmentsByModuleName(environment.OOP).subscribe(response => {
+      this.oopAssigments = response.json();
+    })
+  }
+
+  onDelete(id) {
+    this.assigmentsService.deleteAssigment(id).subscribe(() => {
+      this.getAllAssigmentSorted();
     })
   }
 

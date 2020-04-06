@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 
   onSolveRandomAssigment(moduleName: string) {
     this.assigmentsService.getRandomAssigmentByModule(moduleName).subscribe(response => {
-      let url = response.json().randomAssigmentUrl;
+      let url = response.json().url;
       window.open(url, "_blank");
     })
   }

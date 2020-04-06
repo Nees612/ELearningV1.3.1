@@ -22,4 +22,6 @@ a {
 .assigment {
   background: rgba(0,0,0,0.5);
   margin: 5px;
+  width: 18rem;
+  height: 14rem;
 }
