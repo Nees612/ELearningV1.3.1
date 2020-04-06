@@ -49,6 +49,11 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("Users_by_role/{role}")]
         public async Task<IActionResult> GetUsersByRole(string role)
         {
+            if (role == null)
+            {
+                return BadRequest("Role cannot be null.");
+            }
+
             if (Enum.IsDefined(typeof(Role), role))
             {
                 var Users = await _repository.Users.GetUsersByRole(role);
@@ -61,6 +66,11 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetUser(string Id)
         {
+            if (Id == null)
+            {
+                return BadRequest("Id cannot be null.");
+            }
+
             var User = await _repository.Users.Get(u => u.Id.Equals(Id));
 
             if (User != null)

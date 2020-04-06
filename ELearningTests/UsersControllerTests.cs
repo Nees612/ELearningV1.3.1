@@ -110,6 +110,25 @@ namespace ELearningTests
             Assert.Equal(testRole, returnValue);
 
         }
+        [Fact]
+        public async void GetUsersByRole_CalledWithNull_ReturnsBadRequestWithError()
+        {
+            IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager _cookieManager = Substitute.For<ICookieManager>();
+            IUserStore<User> _usersStore = Substitute.For<IUserStore<User>>();
+
+            string nullRole = null;
+            string error = "Role cannot be null.";
+
+            var usersController = new UsersController(_unitOfWork, new UserManager<User>(_usersStore, null, null, null, null, null, null, null, null), _cookieManager);
+
+            var result = await usersController.GetUsersByRole(nullRole);
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnValue = Assert.IsType<string>(badRequestResult.Value);
+
+            Assert.Equal(error, returnValue);
+
+        }
 
         [Fact]
         public async void GetUser_CalledWithValidId_ReturnsOkWithUser()
@@ -130,6 +149,25 @@ namespace ELearningTests
             var returnValue = Assert.IsType<User>(okObjectResult.Value);
 
             Assert.Equal(Id, returnValue.Id);
+        }
+        [Fact]
+        public async void GetUser_CalledWithNull_ReturnsBadRequestWithError()
+        {
+            IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager _cookieManager = Substitute.For<ICookieManager>();
+            IUserStore<User> _usersStore = Substitute.For<IUserStore<User>>();
+
+            string nullId = null;
+            string error = "Id cannot be null.";
+
+            var usersController = new UsersController(_unitOfWork, new UserManager<User>(_usersStore, null, null, null, null, null, null, null, null), _cookieManager);
+
+            var result = await usersController.GetUser(nullId);
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnValue = Assert.IsType<string>(badRequestObjectResult.Value);
+
+            Assert.Equal(error, returnValue);
+
         }
 
         [Fact]
