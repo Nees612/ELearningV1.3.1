@@ -1,8 +1,7 @@
-import { EventEmitter, Component, OnInit, Input, Output } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ModulesService } from '../services/modules.service';
+import { EventEmitter, Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { ModuleContentsService } from '../services/module-contents.service';
+import { Reference } from '@angular/compiler/src/render3/r3_ast';
 
 
 @Component({
@@ -10,14 +9,13 @@ import { ModuleContentsService } from '../services/module-contents.service';
   templateUrl: './module.component.html',
   styleUrls: ['./module.component.css']
 })
-export class ModuleComponent implements OnInit {
+export class ModuleComponent implements OnInit, OnChanges {
 
   @Input() moduleId: number;
   @Output() cancel = new EventEmitter();
 
-  moduleContents: any[];
+  moduleContents: any[] = [];
   partNumber: number;
-  safeUrl: SafeResourceUrl;
 
   videoId: string;
   showVideo: boolean = false;
@@ -26,7 +24,7 @@ export class ModuleComponent implements OnInit {
   hasNext: boolean;
 
   isUserLoggedIn: boolean;
-
+  isAdminLoggedIn: boolean;
 
   constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
@@ -34,15 +32,23 @@ export class ModuleComponent implements OnInit {
     this.usersService.logoutEvent.subscribe(() => {
       this.isUserLoggedIn = false;
     })
+    this.refresh();
+  }
+
+  ngOnChanges() {
+    this.refresh();
+  }
+
+  private refresh() {
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
+      this.isAdminLoggedIn = this.usersService.isAdmin()
       this.getContent();
     }, () => {
       this.usersService.raiseLogoutEvent()
       this.isUserLoggedIn = false;
     });
   }
-
 
   private getContent() {
     this.moduleContentsService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
@@ -82,6 +88,12 @@ export class ModuleComponent implements OnInit {
 
   onVideoClosed() {
     this.showVideo = false;
+  }
+
+  onDelete(moduleContentId) {
+    this.moduleContentsService.deleteModuleContent(moduleContentId).subscribe(() => {
+      this.onCancel();
+    })
   }
 
 

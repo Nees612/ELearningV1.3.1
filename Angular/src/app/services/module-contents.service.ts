@@ -17,4 +17,12 @@ export class ModuleContentsService {
   getAllModuleContents() {
     return this.http.get(environment.API_MODULECONTENTS_URL + '/AllModuleContents', { headers: this.headersService.getHeaders() });
   }
+
+  addModuleContent(moduleContent) {
+    return this.http.post(environment.API_MODULECONTENTS_URL, moduleContent, { headers: this.headersService.getHeaders() });
+  }
+
+  deleteModuleContent(moduleContentId) {
+    return this.http.delete(environment.API_MODULECONTENTS_URL + '/' + moduleContentId, { headers: this.headersService.getHeaders() })
+  }
 }

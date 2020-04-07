@@ -33,5 +33,18 @@ namespace ELearningV1._3._1.Repositories
                 return null;
             }
         }
+
+        public async Task<long> GetLastModuleContentByModuleId(long ModuleId)
+        {
+            try
+            {
+                return await _dbSet.Where(mc => mc.Module.Id.Equals(ModuleId)).MaxAsync(mc => mc.ContentId);
+            }
+            catch (InvalidOperationException)
+            {
+                return default;
+            }
+        }
+
     }
 }

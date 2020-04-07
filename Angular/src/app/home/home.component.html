@@ -2,11 +2,11 @@
   <div *ngIf="isUserLoggedIn">
     <h3>Welcome {{ userName }} , feel free to choose a module !</h3>
     <div class="row-module">
-      <div class="card column"  *ngFor="let module of modules">
+      <div class="card column" *ngFor="let module of modules">
         <div class="card-body">
           <h5 class="card-title">{{ module.title }}</h5>
           <p class="card-text">{{ module.description }}</p>
-          <input type="button" class="btn btn-primary custombtn" [disabled]="module.title !== 'Programing Basics'" (click)="onModuleClick(module.id)" value="Start module" />
+          <input type="button" class="btn btn-primary custombtn" [disabled]="module.title !== 'Programing Basics' && module.title !== 'Web technologies'" (click)="onModuleClick(module.id)" value="Start module" />
           <input type="button" class="btn btn-success custombtn" *ngIf="module.title !== 'Advanced'" (click)="onSolveRandomAssigment(module.title)" value="Random practice" />
         </div>
       </div>
