@@ -36,7 +36,7 @@ export class VideoComponent implements OnInit, OnChanges {
 
   private getContents() {
     this.videosService.getVideosByModuleContent(this.contentId).subscribe(response => {
-      this.videos = response.json().videos;
+      this.videos = response.json();
       if (this.videos.length > 0) {
         this.hasVideo = true;
       } else {

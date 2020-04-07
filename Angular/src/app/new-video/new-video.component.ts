@@ -3,6 +3,7 @@ import { VideosService } from '../services/videos.service';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { ModuleContentsService } from '../services/module-contents.service';
 
 @Component({
   selector: 'app-new-video',
@@ -23,14 +24,14 @@ export class NewVideoComponent implements OnInit {
 
   isAdminLoggedIn: boolean = false;
 
-  constructor(private videosService: VideosService, private modulesService: ModulesService, private usersService: UsersService, private router: Router) { }
+  constructor(private videosService: VideosService, private moduleContentsService: ModuleContentsService, private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.usersService.isUserLoggedIn().subscribe(() => {
       if (this.usersService.isAdmin()) {
         this.isAdminLoggedIn = true;
-        this.modulesService.getAllModuleContents().subscribe(response => {
-          this.moduleContents = response.json().contents;
+        this.moduleContentsService.getAllModuleContents().subscribe(response => {
+          this.moduleContents = response.json();
         });
       }
     }, () => {

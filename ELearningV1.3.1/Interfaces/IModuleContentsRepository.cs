@@ -6,6 +6,6 @@ namespace ELearningV1._3._1.Interfaces
 {
     public interface IModuleContentsRepository : IRepository<ModuleContent>
     {
-        Task<IEnumerable<ModuleContent>> GetModuleContentsByModuleId(int id);
+        Task<IEnumerable<ModuleContent>> GetModuleContentsByModuleId(long id);
     }
 }

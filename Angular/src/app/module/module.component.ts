@@ -2,6 +2,7 @@ import { EventEmitter, Component, OnInit, Input, Output } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
+import { ModuleContentsService } from '../services/module-contents.service';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ModuleComponent implements OnInit {
   isUserLoggedIn: boolean;
 
 
-  constructor(private modulesService: ModulesService, private usersService: UsersService) { }
+  constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
   ngOnInit() {
     this.usersService.logoutEvent.subscribe(() => {
@@ -44,8 +45,8 @@ export class ModuleComponent implements OnInit {
 
 
   private getContent() {
-    this.modulesService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
-      this.moduleContents = response.json().moduleContents;
+    this.moduleContentsService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
+      this.moduleContents = response.json();
       this.partNumber = 0;
       this.hasNext = true;
     });

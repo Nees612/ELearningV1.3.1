@@ -8,6 +8,7 @@ export const environment = {
   API_MODULES_URL: 'http://localhost:5000/Modules',
   API_ASSIGMENTS_URL: 'http://localhost:5000/Assigments',
   API_VIDEOS_URL: 'http://localhost:5000/Videos',
+  API_MODULECONTENTS_URL: 'http://localhost:5000/ModuleContents',
   PROGRAMMING_BASICS: 'Programing Basics',
   WEB_TECHNOLOGIES: 'Web technologies',
   OOP: 'OOP',

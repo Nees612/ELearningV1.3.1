@@ -15,12 +15,6 @@ export class ModulesService {
     return this.http.get(environment.API_MODULES_URL, { headers: this.headersService.getHeaders() });
   }
 
-  getModuleContentByModuleId(moduleId: number) {
-    return this.http.get(environment.API_MODULES_URL + '/' + moduleId, { headers: this.headersService.getHeaders() })
-  }
 
-  getAllModuleContents() {
-    return this.http.get(environment.API_MODULES_URL + '/AllModuleContents', { headers: this.headersService.getHeaders() });
-  }
 }
 

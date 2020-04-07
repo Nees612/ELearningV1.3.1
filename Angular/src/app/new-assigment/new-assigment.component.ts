@@ -28,7 +28,7 @@ export class NewAssigmentComponent implements OnInit {
       if (this.usersService.isAdmin) {
         this.isAdminLoggedIn = true;
         this.modulesService.getAllModules().subscribe(response => {
-          this.modules = response.json().modules;
+          this.modules = response.json();
           this.modules.pop();
         });
       }

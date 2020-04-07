@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using ELearningV1._3._1.Interfaces;
 using ELearningV1._3._1.ViewModels;
+using ELearningV1._3._1.Enums;
 
 namespace ELearningV1._3._1.Controllers
 {
@@ -15,19 +16,21 @@ namespace ELearningV1._3._1.Controllers
     {
         private readonly IUnitOfWork _repository;
         private readonly IVideoManager _videoManager;
+        private readonly ICookieManager _cookieManager;
 
-        public VideosController(IUnitOfWork repository, IVideoManager videoManager)
+        public VideosController(IUnitOfWork repository, IVideoManager videoManager, ICookieManager cookieManager)
         {
             _repository = repository;
             _videoManager = videoManager;
+            _cookieManager = cookieManager;
         }
 
         [HttpGet("All")]
-        public async Task<IActionResult> GetAllVideo()
+        public async Task<IActionResult> GetAllVideos()
         {
             var Videos = await _repository.Videos.GetAll();
 
-            return Ok(new { videos = Videos });
+            return Ok(Videos);
         }
 
         [HttpGet("{Id}")]
@@ -35,7 +38,12 @@ namespace ELearningV1._3._1.Controllers
         {
             var Video = await _repository.Videos.GetById(Id);
 
-            return Ok(new { video = Video });
+            if (Video == null)
+            {
+                return NotFound(Id);
+            }
+
+            return Ok(Video);
         }
 
         [HttpGet("Video_by_module_content/{ContentId}")]
@@ -43,32 +51,64 @@ namespace ELearningV1._3._1.Controllers
         {
             var Videos = await _repository.Videos.GetVideosByModuleContentId(ContentId);
 
-            return Ok(new { videos = Videos });
+            if (Videos == null)
+            {
+                return NotFound(ContentId);
+            }
+
+            return Ok(Videos);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddVideo([FromBody] VideoViewModel video)
         {
-            var ModuleContent = await _repository.ModuleContents.GetById(video.ModuleContentId);
-            string embedLink = _videoManager.ConvertUrl(video.Url);
-            string YoutubeId = _videoManager.GetYoutubeId(embedLink);
-            var Video = new Video { Title = video.Title, Description = video.Description, Url = embedLink, YoutubeId = YoutubeId, ModuleContent = ModuleContent };
+            if (video == null)
+            {
+                return BadRequest("Video cannot be null.");
+            }
 
-            _repository.Videos.Add(Video);
-            await _repository.Complete();
+            var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
 
-            return Ok();
+            if (userRole.Equals(Role.Admin.ToString()))
+            {
+                var ModuleContent = await _repository.ModuleContents.GetById(video.ModuleContentId);
+
+                if (ModuleContent == null)
+                {
+                    return NotFound(video.ModuleContentId);
+                }
+
+                string embedLink = _videoManager.ConvertUrl(video.Url);
+                string YoutubeId = _videoManager.GetYoutubeId(embedLink);
+                var Video = new Video { Title = video.Title, Description = video.Description, Url = embedLink, YoutubeId = YoutubeId, ModuleContent = ModuleContent };
+
+                _repository.Videos.Add(Video);
+                await _repository.Complete();
+
+                return Ok();
+            }
+            return BadRequest("Only Admins can add videos.");
         }
 
         [HttpDelete("{Id}")]
-        public async Task<IActionResult> DeleVideo(long Id)
+        public async Task<IActionResult> DeleteVideo(long Id)
         {
-            var Video = await _repository.Videos.GetById(Id);
+            var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
 
-            _repository.Videos.Remove(Video);
-            await _repository.Complete();
+            if (userRole.Equals(Role.Admin.ToString()))
+            {
+                var Video = await _repository.Videos.GetById(Id);
+                if (Video != null)
+                {
+                    _repository.Videos.Remove(Video);
+                    await _repository.Complete();
 
-            return Ok();
+                    return Ok();
+                }
+                return NotFound(Id);
+            }
+            return BadRequest("Only Admins can delete videos.");
+
         }
     }
 }

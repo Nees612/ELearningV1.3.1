@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   private getModules() {
     this.modulesService.getAllModules().subscribe(response => {
-      this.modules = response.json().modules;
+      this.modules = response.json();
     });
   }
 
