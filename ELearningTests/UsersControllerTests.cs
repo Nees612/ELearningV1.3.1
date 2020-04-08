@@ -19,8 +19,6 @@ namespace ELearningTests
 
     public class UsersControllerTests
     {
-
-
         [Fact]
         public void Index_Called_ReturnsOk()
         {

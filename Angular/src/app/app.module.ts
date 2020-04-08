@@ -23,6 +23,7 @@ import { VideoComponent } from './video/video.component';
 import { NewVideoComponent } from './new-video/new-video.component';
 import { VideosService } from './services/videos.service';
 import { NewModuleContentComponent } from './new-module-content/new-module-content.component';
+import { ChangeContentOrderComponent } from './change-content-order/change-content-order.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NewModuleContentComponent } from './new-module-content/new-module-conte
     NewAssigmentComponent,
     VideoComponent,
     NewVideoComponent,
-    NewModuleContentComponent
+    NewModuleContentComponent,
+    ChangeContentOrderComponent
   ],
   imports: [
     BrowserModule,

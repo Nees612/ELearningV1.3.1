@@ -3,18 +3,22 @@
     <h3>Welcome {{ userName }} , feel free to choose a module !</h3>
     <div class="row-module">
       <div class="card column" *ngFor="let module of modules">
+        <input type="button" class="btn btn-primary change-order-btn" value="Change content order" (click)="onChangeOrder(module)" />
         <div class="card-body">
           <h5 class="card-title">{{ module.title }}</h5>
           <p class="card-text">{{ module.description }}</p>
-          <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module.id)" value="Start module" />
+          <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module)" value="Start module" />
           <input type="button" class="btn btn-success custombtn" *ngIf="module.title !== 'Advanced'" (click)="onSolveRandomAssigment(module.title)" value="Random practice" />
         </div>
       </div>
     </div>
     <hr />
   </div>
-  <div *ngIf="isSelectedModule">
-    <app-module [moduleId]="currentModuleId" (cancel)="onModuleCancel()"></app-module>
+  <div *ngIf="selectedForChangeOrder">
+    <app-change-content-order [moduleId]="selectedForChangeOrder.id" (cancel)="onClosedChangeOrder()"></app-change-content-order>
+  </div>
+  <div *ngIf="selectedModule">
+    <app-module [moduleId]="selectedModule.id" (cancel)="onModuleCancel()"></app-module>
   </div>
   <div class="placeholder" *ngIf="!isUserLoggedIn">
     <hr />

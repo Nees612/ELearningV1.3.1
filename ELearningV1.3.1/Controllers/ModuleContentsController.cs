@@ -26,7 +26,7 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetModuleContentByModuleId(long Id)
         {
-            var ModuleContents = await _repository.ModuleContents.GetModuleContentsByModuleId(Id);
+            var ModuleContents = (await _repository.ModuleContents.GetModuleContentsByModuleId(Id)).OrderBy(mc => mc.ContentId);
 
             if (ModuleContents == null)
             {
@@ -143,6 +143,25 @@ namespace ELearningV1._3._1.Controllers
             }
 
             return BadRequest("Only Admins can update module content.");
+        }
+
+        [HttpPut("ChangeOrder/{Id}")]
+        public async Task<IActionResult> ChangeModuleContentOrder([FromBody] long contentId, long Id)
+        {
+            var ModuleContent = await _repository.ModuleContents.GetById(Id);
+
+            if (ModuleContent == null)
+            {
+                return NotFound(Id);
+            }
+
+            ModuleContent.ContentId = contentId;
+
+            _repository.ModuleContents.Update(ModuleContent);
+            await _repository.Complete();
+
+            return Ok();
+
         }
     }
 }

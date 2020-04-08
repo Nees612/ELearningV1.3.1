@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   userName: string;
 
-  isSelectedModule: boolean = false;
+  selectedModule: any;
+  selectedForChangeOrder: any;
 
   modules: any[];
 
@@ -42,13 +43,13 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onModuleClick(id: number) {
-    this.currentModuleId = id;
-    this.isSelectedModule = true;
+  onModuleClick(module) {
+    this.selectedForChangeOrder = null;
+    this.selectedModule = module;
   }
 
   onModuleCancel() {
-    this.isSelectedModule = false;
+    this.selectedModule = null;
   }
 
   onSolveRandomAssigment(moduleName: string) {
@@ -58,4 +59,12 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  onChangeOrder(module) {
+    this.selectedModule = null;
+    this.selectedForChangeOrder = module;
+  }
+
+  onClosedChangeOrder() {
+    this.selectedForChangeOrder = null;
+  }
 }

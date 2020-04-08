@@ -11,7 +11,7 @@ export class ModuleContentsService {
   constructor(private http: Http, private headersService: HeadersService) { }
 
   getModuleContentByModuleId(moduleId: number) {
-    return this.http.get(environment.API_MODULECONTENTS_URL + '/' + moduleId, { headers: this.headersService.getHeaders() })
+    return this.http.get(environment.API_MODULECONTENTS_URL + '/' + moduleId, { headers: this.headersService.getHeaders() });
   }
 
   getAllModuleContents() {
@@ -23,10 +23,14 @@ export class ModuleContentsService {
   }
 
   deleteModuleContent(moduleContentId) {
-    return this.http.delete(environment.API_MODULECONTENTS_URL + '/' + moduleContentId, { headers: this.headersService.getHeaders() })
+    return this.http.delete(environment.API_MODULECONTENTS_URL + '/' + moduleContentId, { headers: this.headersService.getHeaders() });
   }
 
   updateModuleContent(moduleContent, id) {
     return this.http.put(environment.API_MODULECONTENTS_URL + '/' + id, moduleContent, { headers: this.headersService.getHeaders() });
+  }
+
+  changeModuleContentContentId(moduleContentId, contentId) {
+    return this.http.put(environment.API_MODULECONTENTS_URL + '/ChangeOrder/' + moduleContentId, contentId, { headers: this.headersService.getHeaders() });
   }
 }

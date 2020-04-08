@@ -97,7 +97,7 @@ body {
 .column {
   display: table-cell;
   width: 18rem;
-  height: 15rem;
+  height: 18rem;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
