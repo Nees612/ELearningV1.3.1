@@ -103,7 +103,7 @@ namespace ELearningV1._3._1.Repositories
                 {
                     if (await GetUserByEmail(UserInfo.Email) == null)
                     {
-                        User.Email = (UserInfo.Email == User.UserName ? User.UserName : UserInfo.Email);
+                        User.Email = (UserInfo.Email == User.Email ? User.Email : UserInfo.Email);
                         User.NormalizedEmail = (UserInfo.Email.ToUpper() == User.NormalizedEmail ? User.NormalizedEmail : UserInfo.Email.ToUpper());
                     }
                     else

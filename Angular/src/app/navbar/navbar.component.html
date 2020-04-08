@@ -4,7 +4,7 @@
   <a *ngIf="isAuthorized" [routerLink]='["/assigments"]'><button class="btn nav-item navButton">Assigments</button></a>
   <a *ngIf="isAuthorized" [routerLink]='["/all_profiles"]'><button class="btn nav-item navButton">See All Profile</button></a>
   <a *ngIf="isAuthorized && isAdmin" [routerLink]='["/new_module_content"]'><button class="btn nav-item navButton">Add New Module Content</button></a>
-  <a *ngIf="isAuthorized && isAdmin" [routerLink]='["/add_video"]'><button class="btn nav-item navButton">Add Tutorial Videos</button></a>
+  <a *ngIf="isAuthorized && isAdmin" [routerLink]='["/add_video"]'><button class="btn nav-item navButton">Add Tutorial Video</button></a>
   <a *ngIf="isAuthorized && isAdmin" [routerLink]='["/new_assigment"]'><button class="btn nav-item navButton">Add New Assigment</button></a>
   <div class="nav-container" *ngIf="!isAuthorized">
     <a [routerLink]='["/registration"]'><button class="btn " [class.btn-primary]='!isActiveRegistration' [class.btn-danger]="isActiveRegistration">Registration</button></a>

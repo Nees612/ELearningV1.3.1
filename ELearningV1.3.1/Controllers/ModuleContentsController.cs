@@ -6,6 +6,7 @@ using ELearningV1._3._1.Interfaces;
 using ELearningV1._3._1.ViewModels;
 using ELearningV1._3._1.Models;
 using ELearningV1._3._1.Enums;
+using System.Linq;
 
 namespace ELearningV1._3._1.Controllers
 {
@@ -37,7 +38,7 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("AllModuleContents")]
         public async Task<IActionResult> GetAllModuleContents()
         {
-            var ModuleContents = await _repository.ModuleContents.GetAll();
+            var ModuleContents = (await _repository.ModuleContents.GetAll()).OrderBy(mc => mc.ContentId);
 
             return Ok(ModuleContents);
         }
@@ -109,6 +110,39 @@ namespace ELearningV1._3._1.Controllers
             }
 
             return BadRequest("Only Admins can delete module contents.");
+        }
+
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateModuleContent([FromBody]ModuleContentUpdateViewModel moduleContent, long Id)
+        {
+            if (moduleContent == null)
+            {
+                return BadRequest("Module content cannot be null.");
+            }
+
+            var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
+
+            if (userRole.Equals(Role.Admin.ToString()))
+            {
+                var ModuleContent = await _repository.ModuleContents.GetById(Id);
+
+                if (ModuleContent == null)
+                {
+                    return NotFound(Id);
+                }
+
+                ModuleContent.Title = moduleContent.Title;
+                ModuleContent.Description = moduleContent.Description;
+                ModuleContent.AssigmentUrl = moduleContent.AssigmentUrl;
+                ModuleContent.Lesson = moduleContent.Lesson;
+
+                _repository.ModuleContents.Update(ModuleContent);
+                await _repository.Complete();
+
+                return Ok();
+            }
+
+            return BadRequest("Only Admins can update module content.");
         }
     }
 }

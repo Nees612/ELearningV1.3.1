@@ -25,4 +25,8 @@ export class ModuleContentsService {
   deleteModuleContent(moduleContentId) {
     return this.http.delete(environment.API_MODULECONTENTS_URL + '/' + moduleContentId, { headers: this.headersService.getHeaders() })
   }
+
+  updateModuleContent(moduleContent, id) {
+    return this.http.put(environment.API_MODULECONTENTS_URL + '/' + id, moduleContent, { headers: this.headersService.getHeaders() });
+  }
 }

@@ -1,22 +1,44 @@
 <div *ngIf="isUserLoggedIn">
-  <div *ngIf="!showVideo && moduleContents" class="module-content">
+  <div *ngIf="!showVideo && moduleContents.length > 0" class="module-content">
     <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
     <div>
       <input type="button" [disabled]="!hasNext" class="btn btn-primary custombtn" style="float: right;" value="Next" (click)="NextContent()" />
       <input type="button" [disabled]="!hasPrevious" class="btn btn-primary custombtn" style="float: right;" value="Back" (click)="PreviousContent()" />
-      <input *ngIf="IsAdminLoggedIn" type="button" class="btn btn-danger" value="Delete" (click)="onDelete(moduleContents[partNumber].id)" />
+      <input *ngIf="isAdminLoggedIn" type="button" class="btn btn-danger" style="margin: 0% 1% 0% 0%;" value="Delete" (click)="onDelete(moduleContents[partNumber].id)" />
+      <input *ngIf="isAdminLoggedIn" type="button" class="btn btn-primary" value="Edit" (click)="onEdit()" />
     </div>
-    <h2>{{ moduleContents[partNumber].title }}</h2>
-    <h5>{{ moduleContents[partNumber].description }}</h5><br />
-    <div>
-      <p>{{ moduleContents[partNumber].lesson }}</p>
-      <div *ngIf="moduleContents[partNumber].assigmentUrl">
-        <label>Checkout your assigment on this link: </label><a href="{{moduleContents[partNumber].assigmentUrl}}">
-          <strong>{{ moduleContents[partNumber].assigmentUrl }}</strong>
-        </a><br />
+    <div *ngIf="!isEditActive">
+      <h2>{{ moduleContents[partNumber].title }}</h2>
+      <h5>{{ moduleContents[partNumber].description }}</h5><br />
+      <div>
+        <p>{{ moduleContents[partNumber].lesson }}</p>
+        <div *ngIf="moduleContents[partNumber].assigmentUrl">
+          <label>Checkout your assigment on this link :</label><a target="_blank" href="{{ moduleContents[partNumber].assigmentUrl }}">
+            <strong>{{ moduleContents[partNumber].assigmentUrl }}</strong>
+          </a><br />
+        </div>
       </div>
     </div>
+    <div *ngIf="isEditActive">
+      <label><strong>Title:</strong></label>
+      <input [(ngModel)]="moduleContents[partNumber].title" type="text" class="form-control" />
+      <label><strong>Description:</strong></label>
+      <input [(ngModel)]="moduleContents[partNumber].description" type="text" class="form-control" />
+      <label><strong>Lesson Text:</strong></label>
+      <div>
+        <textarea style="height: 250px; resize:none;" [(ngModel)]="moduleContents[partNumber].lesson" type="text" class="form-control"></textarea>
+        <div>
+          <label>Checkout your assigment on this link: </label>
+          <input [(ngModel)]="moduleContents[partNumber].assigmentUrl" type="text" class="form-control" />
+        </div>
+      </div>
+      <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onEditCancel()" />
+      <input style="width: 120px;" type="button" class="btn btn-success" value="Save" (click)="onSave(moduleContents[partNumber].id)" />
+    </div>
   </div>
-  <app-video [contentId]="moduleContents[partNumber].id" (playingVideo)="onVideoPlay()" (videoClosed)="onVideoClosed()"></app-video>
+  <app-video *ngIf="moduleContents[partNumber]" [contentId]="moduleContents[partNumber].id" (playingVideo)="onVideoPlay()" (videoClosed)="onVideoClosed()"></app-video>
+  <div style="text-align:center;" *ngIf="!moduleContents.length > 0">
+    <h2>There is no content for this module :(</h2>
+    <a *ngIf="isAdminLoggedIn" [routerLink]='["/new_module_content"]'><button class="btn btn-success">Add New Module Content</button></a>
+  </div>
 </div>
-

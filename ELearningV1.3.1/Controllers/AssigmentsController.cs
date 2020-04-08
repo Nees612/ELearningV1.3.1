@@ -84,8 +84,6 @@ namespace ELearningV1._3._1.Controllers
 
             }
             return NotFound(assigment.ModuleId);
-
-
         }
 
         [HttpDelete("{Id}")]

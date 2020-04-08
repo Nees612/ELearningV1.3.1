@@ -15,7 +15,7 @@ export class ModuleComponent implements OnInit, OnChanges {
   @Output() cancel = new EventEmitter();
 
   moduleContents: any[] = [];
-  partNumber: number;
+  partNumber: number = 0;
 
   videoId: string;
   showVideo: boolean = false;
@@ -25,6 +25,8 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   isUserLoggedIn: boolean;
   isAdminLoggedIn: boolean;
+
+  isEditActive: boolean = false;
 
   constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
@@ -53,7 +55,6 @@ export class ModuleComponent implements OnInit, OnChanges {
   private getContent() {
     this.moduleContentsService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
       this.moduleContents = response.json();
-      this.partNumber = 0;
       this.hasNext = true;
     });
   }
@@ -93,6 +94,28 @@ export class ModuleComponent implements OnInit, OnChanges {
   onDelete(moduleContentId) {
     this.moduleContentsService.deleteModuleContent(moduleContentId).subscribe(() => {
       this.onCancel();
+    })
+  }
+
+  onEditCancel() {
+    this.isEditActive = false;
+    this.getContent();
+  }
+
+  onEdit() {
+    this.isEditActive = true;
+  }
+
+  onSave(id) {
+    let moduleContent = {
+      Title: this.moduleContents[this.partNumber].title,
+      Description: this.moduleContents[this.partNumber].description,
+      AssigmentUrl: this.moduleContents[this.partNumber].assigmentUrl,
+      Lesson: this.moduleContents[this.partNumber].lesson
+    }
+    this.moduleContentsService.updateModuleContent(moduleContent, id).subscribe(() => {
+      this.getContent();
+      this.isEditActive = false;
     })
   }
 
