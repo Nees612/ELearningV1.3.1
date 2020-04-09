@@ -26,19 +26,28 @@ namespace ELearningV1._3._1.Controllers
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetModuleContentByModuleId(long Id)
         {
-            var ModuleContents = (await _repository.ModuleContents.GetModuleContentsByModuleId(Id)).OrderBy(mc => mc.ContentId);
+            var ModuleContents = (await _repository.ModuleContents.GetModuleContentsByModuleId(Id));
 
             if (ModuleContents == null)
             {
                 return NotFound(Id);
             }
 
+            ModuleContents = ModuleContents.OrderBy(mc => mc.ContentId).ToList();
+
             return Ok(ModuleContents);
         }
         [HttpGet("AllModuleContents")]
         public async Task<IActionResult> GetAllModuleContents()
         {
-            var ModuleContents = (await _repository.ModuleContents.GetAll()).OrderBy(mc => mc.ContentId);
+            var ModuleContents = (await _repository.ModuleContents.GetAll());
+
+            if (ModuleContents == null)
+            {
+                NotFound("Module contents");
+            }
+
+            ModuleContents = ModuleContents.OrderBy(mc => mc.ContentId).ToList();
 
             return Ok(ModuleContents);
         }
@@ -149,6 +158,7 @@ namespace ELearningV1._3._1.Controllers
         public async Task<IActionResult> ChangeModuleContentOrder([FromBody] long contentId, long Id)
         {
             var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
+
             if (userRole.Equals(Role.Admin.ToString()))
             {
                 var ModuleContent = await _repository.ModuleContents.GetById(Id);
@@ -166,7 +176,6 @@ namespace ELearningV1._3._1.Controllers
                 return Ok();
             }
             return BadRequest("Only Admins can change content order");
-
         }
     }
 }

@@ -238,6 +238,123 @@ namespace ELearningTests
 
             Assert.Equal(error, returnValue);
         }
+
+        [Fact]
+        public async void UpdateModuleContent_CalledWithValidModuleContentAndId_RetrunsOk()
+        {
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
+            var context = Substitute.For<HttpContext>();
+
+            long testId = 1;
+            var testModuleContentView = new ModuleContentUpdateViewModel();
+            var testModuleContent = new ModuleContent();
+
+            unitOfWork.ModuleContents.GetById(testId).Returns(testModuleContent);
+            cookieManager.GetRoleFromToken(Arg.Any<string>()).Returns(Role.Admin.ToString());
+
+            var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
+            moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
+
+            var result = await moduleContentsController.UpdateModuleContent(testModuleContentView, testId);
+            var okResult = Assert.IsType<OkResult>(result);
+
+            Assert.Equal(200, okResult.StatusCode);
+        }
+
+        [Fact]
+        public async void UpdateModuleContent_CalledWithNullModuleContentView_ReturnsBadRequestWithError()
+        {
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
+            var context = Substitute.For<HttpContext>();
+
+            long testId = 1;
+            ModuleContentUpdateViewModel nullModuleContentView = null;
+            var testModuleContent = new ModuleContent();
+            string error = "Module content cannot be null.";
+
+            unitOfWork.ModuleContents.GetById(testId).Returns(testModuleContent);
+            cookieManager.GetRoleFromToken(Arg.Any<string>()).Returns(Role.Admin.ToString());
+
+            var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
+            moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
+
+            var result = await moduleContentsController.UpdateModuleContent(nullModuleContentView, testId);
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnValue = Assert.IsType<string>(badRequestObjectResult.Value);
+
+            Assert.Equal(error, returnValue);
+        }
+
+        [Fact]
+        public async void UpdateModuleContent_CalledWithInvalidId_ReturnsNotFoundWithId()
+        {
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
+            var context = Substitute.For<HttpContext>();
+
+            long notValidId = 1;
+            var testModuleContentView = new ModuleContentUpdateViewModel();
+            ModuleContent nullModuleContent = null;
+            string error = "Module content cannot be null.";
+
+            unitOfWork.ModuleContents.GetById(notValidId).Returns(nullModuleContent);
+            cookieManager.GetRoleFromToken(Arg.Any<string>()).Returns(Role.Admin.ToString());
+
+            var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
+            moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
+
+            var result = await moduleContentsController.UpdateModuleContent(testModuleContentView, notValidId);
+            var notFoundObjectResult = Assert.IsType<NotFoundObjectResult>(result);
+            var returnValue = Assert.IsType<long>(notFoundObjectResult.Value);
+
+            Assert.Equal(notValidId, returnValue);
+        }
+
+        [Fact]
+        public async void UpdateModuleContent_CalledAndRoleIsNotAdmin_ReturnsBadRequestWithError()
+        {
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
+            var context = Substitute.For<HttpContext>();
+
+            long testId = 1;
+            var testModuleContentView = new ModuleContentUpdateViewModel();
+            ModuleContent nullModuleContent = null;
+            string error = "Only Admins can update module content.";
+
+            unitOfWork.ModuleContents.GetById(testId).Returns(nullModuleContent);
+            cookieManager.GetRoleFromToken(Arg.Any<string>()).Returns(Role.Student.ToString());
+
+            var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
+            moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
+
+            var result = await moduleContentsController.UpdateModuleContent(testModuleContentView, testId);
+            var badRequestObjectResult = Assert.IsType<BadRequestObjectResult>(result);
+            var returnValue = Assert.IsType<string>(badRequestObjectResult.Value);
+
+            Assert.Equal(error, returnValue);
+        }
+
+        [Fact]
+        public async void ChangeModuleContentOrder_CalledWithValidIds_ReturnsOk()
+        {
+            IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
+            var context = Substitute.For<HttpContext>();
+
+            long testId = 1;
+            long testcontentId = 1;
+            ModuleContent nullModuleContent = null;
+            string error = "Only Admins can update module content.";
+
+            unitOfWork.ModuleContents.GetById(testId).Returns(nullModuleContent);
+            cookieManager.GetRoleFromToken(Arg.Any<string>()).Returns(Role.Student.ToString());
+
+            var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
+            moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
+        }
     }
 }
 
