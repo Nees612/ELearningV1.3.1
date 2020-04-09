@@ -148,19 +148,24 @@ namespace ELearningV1._3._1.Controllers
         [HttpPut("ChangeOrder/{Id}")]
         public async Task<IActionResult> ChangeModuleContentOrder([FromBody] long contentId, long Id)
         {
-            var ModuleContent = await _repository.ModuleContents.GetById(Id);
-
-            if (ModuleContent == null)
+            var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
+            if (userRole.Equals(Role.Admin.ToString()))
             {
-                return NotFound(Id);
+                var ModuleContent = await _repository.ModuleContents.GetById(Id);
+
+                if (ModuleContent == null)
+                {
+                    return NotFound(Id);
+                }
+
+                ModuleContent.ContentId = contentId;
+
+                _repository.ModuleContents.Update(ModuleContent);
+                await _repository.Complete();
+
+                return Ok();
             }
-
-            ModuleContent.ContentId = contentId;
-
-            _repository.ModuleContents.Update(ModuleContent);
-            await _repository.Complete();
-
-            return Ok();
+            return BadRequest("Only Admins can change content order");
 
         }
     }
