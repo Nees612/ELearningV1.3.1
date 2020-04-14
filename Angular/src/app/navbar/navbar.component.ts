@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -44,7 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout() {
-    this.cookieService.delete('tokenCookie');
+    this.cookieService.delete(environment.COOKIE_ID);
     this.usersService.raiseLogoutEvent();
   }
 }

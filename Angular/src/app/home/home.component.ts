@@ -3,6 +3,7 @@ import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { AssigmentsService } from '../services/assigments.service';
 import { Router } from '@angular/router';
+import { IModule } from '../Interfaces/IModule';
 
 
 @Component({
@@ -16,10 +17,10 @@ export class HomeComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   userName: string;
 
-  selectedModule: any;
-  selectedForChangeOrder: any;
+  selectedModule: IModule;
+  selectedForChangeOrder: IModule;
 
-  modules: any[];
+  modules: IModule[];
 
   constructor(private modulesService: ModulesService, private usersService: UsersService, private assigmentsService: AssigmentsService, private router: Router) { }
 
@@ -43,7 +44,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onModuleClick(module) {
+  onModuleClick(module: IModule) {
     this.selectedForChangeOrder = null;
     this.selectedModule = module;
   }
@@ -59,7 +60,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  onChangeOrder(module) {
+  onChangeOrder(module: IModule) {
     this.selectedModule = null;
     this.selectedForChangeOrder = module;
   }

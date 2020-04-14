@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssigmentsService } from '../services/assigments.service';
 import { UsersService } from '../services/users.service';
 import { environment } from '../../environments/environment';
+import { IAssigment } from '../Interfaces/IAssigment';
 
 @Component({
   selector: 'app-assigments',
@@ -13,9 +14,9 @@ export class AssigmentsComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   isAdmin: boolean = false;
 
-  prgBasicAssigments: any[];
-  webAssigments: any[];
-  oopAssigments: any[];
+  prgBasicAssigments: IAssigment[];
+  webAssigments: IAssigment[];
+  oopAssigments: IAssigment[];
 
   constructor(private assigmentsService: AssigmentsService, private usersService: UsersService) { }
 
@@ -23,14 +24,14 @@ export class AssigmentsComponent implements OnInit {
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       this.isAdmin = this.usersService.isAdmin();
-      this.getAllAssigmentSorted();
+      this.getAllAssigmentSortedByModule();
     }, () => {
       this.usersService.raiseLogoutEvent();
       this.isUserLoggedIn = false;
     })
   }
 
-  private getAllAssigmentSorted() {
+  private getAllAssigmentSortedByModule() {
     this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
       this.prgBasicAssigments = response.json();
     })
@@ -44,7 +45,7 @@ export class AssigmentsComponent implements OnInit {
 
   onDelete(id) {
     this.assigmentsService.deleteAssigment(id).subscribe(() => {
-      this.getAllAssigmentSorted();
+      this.getAllAssigmentSortedByModule();
     })
   }
 

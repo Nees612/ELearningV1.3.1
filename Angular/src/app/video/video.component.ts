@@ -3,6 +3,7 @@ import { VideosService } from '../services/videos.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventEmitter } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { IVideo } from '../Interfaces/IVideo';
 
 @Component({
   selector: 'app-video',
@@ -18,7 +19,7 @@ export class VideoComponent implements OnInit, OnChanges {
 
   showVideo: boolean = false;
   safeUrl: SafeResourceUrl;
-  videos: any[];
+  videos: IVideo[];
 
   hasVideo: boolean;
   isAdmin: boolean;
@@ -45,14 +46,14 @@ export class VideoComponent implements OnInit, OnChanges {
     });
   }
 
-  setBackGround(video) {
-    let url = this.sanitizer.bypassSecurityTrustResourceUrl('https://img.youtube.com/vi/' + video.youtubeId + '/0.jpg');
+  setBackGround(youtubeId) {
+    let url = this.sanitizer.bypassSecurityTrustResourceUrl('https://img.youtube.com/vi/' + youtubeId + '/0.jpg');
     return url;
   }
 
-  playVideo(video) {
+  playVideo(url) {
     this.playingVideo.emit();
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(video.url);
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     this.showVideo = true;
   }
 

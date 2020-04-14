@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    this.errors = []; 
+    this.errors = [];
     let data = {
       Username: this.username,
       Password: this.password
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.usersService.raiseTokenEvent();
       this.router.navigate(['/home']);
     }, error => {
-        console.log(error.json());
+      console.log(error.json());
       let errors = error.json().errors;
       for (let key in errors) {
         let value = errors[key];

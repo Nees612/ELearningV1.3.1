@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
+import { IUser } from '../Interfaces/IUser';
+import { IUpdatedUser } from '../Interfaces/IUpdatedUser';
 
 @Component({
   selector: 'app-my-profile',
@@ -10,36 +12,33 @@ export class MyProfileComponent implements OnInit {
 
   isEditActive: boolean = false;
 
+  user: IUser;
+  updatedUser: IUpdatedUser;
+
   errors: string[] = [];
-
-  userName: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-
-  newUserName: string;
-  newEmail: string;
-  newPhoneNumber: string;
-  newRole: string;
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.setUserData();
-
     }, () => {
       this.usersService.raiseLogoutEvent();
     })
   }
 
+  private setUpdatedUserData() {
+    this.updatedUser = {
+      UserName: this.user.userName,
+      Email: this.user.email,
+      PhoneNumber: this.user.phoneNumber
+    }
+  }
+
   private setUserData() {
     this.usersService.getCurrentUserData().subscribe(response => {
-      let user = response.json();
-      this.newUserName = this.userName = user.userName;
-      this.newEmail = this.email = user.email;
-      this.newPhoneNumber = this.phoneNumber = user.phoneNumber;
-      this.role = user.role;
+      this.user = response.json();
+      this.setUpdatedUserData();
     });
   }
 
@@ -49,12 +48,7 @@ export class MyProfileComponent implements OnInit {
 
   onSaveClick() {
     this.errors = [];
-    let data = {
-      UserName: this.newUserName,
-      Email: this.newEmail,
-      PhoneNumber: this.newPhoneNumber,
-    }
-    this.usersService.updateUser(data).subscribe(() => {
+    this.usersService.updateUser(this.updatedUser).subscribe(() => {
       this.usersService.raiseTokenEvent();
       this.setUserData();
       this.isEditActive = false;
@@ -68,9 +62,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   onCancel() {
-    this.newUserName = this.userName;
-    this.newEmail = this.email;
-    this.newPhoneNumber = this.phoneNumber;
+    this.setUpdatedUserData();
     this.errors = [];
     this.isEditActive = false;
   }

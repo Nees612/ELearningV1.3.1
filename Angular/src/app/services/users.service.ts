@@ -4,6 +4,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";
 import { HeadersService } from './headers.service';
+import { Role } from '../Roles/Role';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,15 @@ export class UsersService {
 
   private token: any;
 
+
   isTokenValid: boolean;
 
   gotUserTokenEvent: EventEmitter<{ userName: string, userRole: string }>;
   logoutEvent = new EventEmitter();
 
   constructor(private http: Http, private cookieService: CookieService, private headersService: HeadersService) {
-    if (cookieService.check('tokenCookie')) {
-      this.token = jwt_decode(cookieService.get('tokenCookie'));
+    if (cookieService.check(environment.COOKIE_ID)) {
+      this.token = jwt_decode(cookieService.get(environment.COOKIE_ID));
       http.get(environment.API_USERS_URL, { headers: headersService.getHeaders() }).subscribe(() => {
         this.isTokenValid = true;
       }, () => {
@@ -30,7 +32,7 @@ export class UsersService {
   }
 
   raiseTokenEvent(): void {
-    this.token = jwt_decode(this.cookieService.get('tokenCookie'));
+    this.token = jwt_decode(this.cookieService.get(environment.COOKIE_ID));
     let userInfo = {
       userName: this.token.user,
       userRole: this.token.user_role
@@ -39,7 +41,7 @@ export class UsersService {
   }
 
   getUserId() {
-    if (this.cookieService.check('tokenCookie')) {
+    if (this.cookieService.check(environment.COOKIE_ID)) {
       return this.token.id;
     } else {
       return null;
@@ -55,22 +57,22 @@ export class UsersService {
   }
 
   isAdmin() {
-    if (this.cookieService.check('tokenCookie')) {
-      return this.token.user_role === "Admin";
+    if (this.cookieService.check(environment.COOKIE_ID)) {
+      return this.token.user_role === Role.Admin;
     } else {
       return null;
     }
   }
 
   getCurrentUserName() {
-    if (this.cookieService.check('tokenCookie')) {
+    if (this.cookieService.check(environment.COOKIE_ID)) {
       return this.token.user;
     }
     return null;
   }
 
   getCurrentUserRole() {
-    if (this.cookieService.check('tokenCookie')) {
+    if (this.cookieService.check(environment.COOKIE_ID)) {
       return this.token.user_role;
     }
     return null;

@@ -4,9 +4,9 @@
   <div *ngIf="hasVideo" class="video-row">
     <div class="video" *ngFor="let video of videos">
       <input *ngIf="isAdmin" type="button" class="btn btn-danger Xbtn" value="X" (click)="onDelete(video.id)" />
-      <div (click)="playVideo(video)" class="card-body">
+      <div (click)="playVideo(video.url)" class="card-body">
         <h5>{{ video.title }}</h5>
-        <img width="250px" height="150px" [src]="setBackGround(video)" />
+        <img width="250px" height="150px" [src]="setBackGround(video.youtubeId)" />
         <h6>{{ video.description }}</h6>
       </div>
     </div>

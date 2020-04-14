@@ -1,7 +1,7 @@
 import { EventEmitter, Component, OnInit, Input, Output, OnChanges } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { ModuleContentsService } from '../services/module-contents.service';
-import { Reference } from '@angular/compiler/src/render3/r3_ast';
+import { IModuleContent } from '../Interfaces/IModuleContent';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class ModuleComponent implements OnInit, OnChanges {
   @Input() moduleId: number;
   @Output() cancel = new EventEmitter();
 
-  moduleContents: any[] = [];
+  moduleContents: IModuleContent[] = [];
   partNumber: number = 0;
 
   videoId: string;

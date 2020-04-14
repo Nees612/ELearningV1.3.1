@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ModulesService } from '../services/modules.service';
 import { AssigmentsService } from '../services/assigments.service';
 import { UsersService } from '../services/users.service';
+import { IModule } from '../Interfaces/IModule';
+import { INewAssigment } from '../Interfaces/INewAssigment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-assigment',
@@ -10,18 +13,16 @@ import { UsersService } from '../services/users.service';
 })
 export class NewAssigmentComponent implements OnInit {
 
-  modules: any[];
+  modules: IModule[];
   selectedModuleId: number = 1;
 
   isAdminLoggedIn: boolean = false;
 
-  title: string;
-  description: string;
-  url: string;
+  newAssigment: INewAssigment = { Title: '', Description: '', Url: null, ModuleId: this.selectedModuleId };
 
   errors: any[] = [];
 
-  constructor(private modulesService: ModulesService, private assigmentsService: AssigmentsService, private usersService: UsersService) { }
+  constructor(private modulesService: ModulesService, private assigmentsService: AssigmentsService, private usersService: UsersService, private router: Router) { }
 
   ngOnInit() {
     this.usersService.isUserLoggedIn().subscribe(() => {
@@ -41,14 +42,9 @@ export class NewAssigmentComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
-    let newAssigment = {
-      title: this.title,
-      description: this.description,
-      url: this.url,
-      moduleId: +this.selectedModuleId
-    }
-    this.assigmentsService.addAssigment(newAssigment).subscribe(() => {
+    this.assigmentsService.addAssigment(this.newAssigment).subscribe(() => {
       alert('Assigment added succesfully.');
+      this.router.navigate(['/assigments']);
     }, error => {
       let errors = error.json().errors;
       for (let key in errors) {

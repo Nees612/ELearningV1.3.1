@@ -5,10 +5,10 @@
   <div>
     <div class="cell-1">
       <div class="card-body">
-        <label><strong>Username:</strong></label><input class="form-control" [(ngModel)]="username" placeholder="Username" /><br />
-        <label><strong>Email:</strong></label><input class="form-control" type="email" [(ngModel)]="email" placeholder="example@gmail.com" /><br />
-        <label><strong>Phone number:</strong></label><input class="form-control" type="text" [(ngModel)]="phoneNumber" placeholder="Phone number" /><br />
-        <label><strong>Password:</strong></label><input class="form-control" type="password" [(ngModel)]="password" placeholder="Password" /><br />
+        <label><strong>Username:</strong></label><input class="form-control" [(ngModel)]="newUser.Username" placeholder="Username" /><br />
+        <label><strong>Email:</strong></label><input class="form-control" type="email" [(ngModel)]="newUser.Email" placeholder="example@gmail.com" /><br />
+        <label><strong>Phone number:</strong></label><input class="form-control" type="text" [(ngModel)]="newUser.PhoneNumber" placeholder="Phone number" /><br />
+        <label><strong>Password:</strong></label><input class="form-control" type="password" [(ngModel)]="newUser.Password" placeholder="Password" /><br />
         <label><strong>Password again:</strong></label><input class="form-control" type="password" [(ngModel)]="passwordAgain" placeholder="Password Again" /><br />
         <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
         <a [routerLink]='["/home"]'><button class="btn btn-danger">Cancel</button></a>

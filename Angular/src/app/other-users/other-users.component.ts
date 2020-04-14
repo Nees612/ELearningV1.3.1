@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../services/users.service';
-import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
+import { IUser } from '../Interfaces/IUser';
+import { Role } from '../Roles/Role';
 
 @Component({
   selector: 'app-other-users',
@@ -10,8 +11,8 @@ import { Router } from '@angular/router';
 })
 export class OtherUsersComponent implements OnInit {
 
-  admins: any[];
-  students: any[];
+  admins: IUser[];
+  students: IUser[];
 
   isAdmin: boolean = false;
   isUserLoggedIn: boolean = false;
@@ -48,13 +49,13 @@ export class OtherUsersComponent implements OnInit {
   }
 
   private getAdmins() {
-    this.usersService.getUsersByRole('Admin').subscribe(response => {
+    this.usersService.getUsersByRole(Role.Admin).subscribe(response => {
       this.admins = response.json();
     });
   }
 
   private getStudents() {
-    this.usersService.getUsersByRole('Student').subscribe(response => {
+    this.usersService.getUsersByRole(Role.Student).subscribe(response => {
       this.students = response.json();
     })
   }

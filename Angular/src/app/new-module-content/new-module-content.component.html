@@ -6,9 +6,9 @@
     <div>
       <div class="cell-1">
         <div class="card-body">
-          <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="title" placeholder="Title" /><br />
-          <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="description" placeholder="Description" /><br />
-          <label><strong>Assigment Url:</strong></label><input class="form-control" [(ngModel)]="assigmentUrl" placeholder="Assigment Url (optional)" /><br />
+          <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.Title" placeholder="Title" /><br />
+          <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.Description" placeholder="Description" /><br />
+          <label><strong>Assigment Url:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.AssigmentUrl" placeholder="Assigment Url (optional)" /><br />
           <label><strong>Module:</strong></label><br />
           <select [(ngModel)]="selectedModuleId" class="browser-default custom-select">
             <option *ngFor="let module of modules" value="{{ module.id }}">{{module.title}}</option>
@@ -27,7 +27,7 @@
     </div>
     <div class="cell-3">
       <label><strong>Lesson:</strong></label>
-      <textarea class="form-control textbox" [(ngModel)]="lesson" placeholder="Lesson"></textarea>
+      <textarea class="form-control textbox" [(ngModel)]="newModuleContent.Lesson" placeholder="Lesson"></textarea>
     </div>
   </div>
 </div>

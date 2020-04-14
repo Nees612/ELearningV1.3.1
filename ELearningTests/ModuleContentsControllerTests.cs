@@ -355,6 +355,7 @@ namespace ELearningTests
             var moduleContentsController = new ModuleContentsController(unitOfWork, cookieManager);
             moduleContentsController.ControllerContext = new ControllerContext() { HttpContext = context };
         }
+
     }
 }
 

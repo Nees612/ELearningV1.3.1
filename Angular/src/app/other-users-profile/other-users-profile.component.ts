@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../services/users.service';
+import { IUser } from '../Interfaces/IUser';
 
 @Component({
   selector: 'app-other-users-profile',
@@ -10,7 +11,7 @@ import { UsersService } from '../services/users.service';
 export class OtherUsersProfileComponent implements OnInit {
 
   isUserLoggedIn: boolean = false;
-  selectedUser: any;
+  selectedUser: IUser;
 
   constructor(private router: Router, private route: ActivatedRoute, private usersService: UsersService) { }
 

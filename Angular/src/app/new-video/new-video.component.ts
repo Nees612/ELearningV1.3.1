@@ -4,6 +4,8 @@ import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
 import { ModuleContentsService } from '../services/module-contents.service';
+import { IModuleContent } from '../Interfaces/IModuleContent';
+import { INewVideo } from '../Interfaces/INewVideo';
 
 @Component({
   selector: 'app-new-video',
@@ -12,13 +14,12 @@ import { ModuleContentsService } from '../services/module-contents.service';
 })
 export class NewVideoComponent implements OnInit {
 
-  title: string;
-  description: string;
-  url: string;
 
-  moduleContents: any[];
+  moduleContents: IModuleContent[];
 
   selectedContentId: number = 1;
+
+  newVideo: INewVideo = { Title: '', Description: '', Url: '', ModuleContentId: this.selectedContentId }
 
   errors: any[] = [];
 
@@ -42,13 +43,7 @@ export class NewVideoComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
-    let video = {
-      Title: this.title,
-      Description: this.description,
-      Url: this.url,
-      ModuleContentId: +this.selectedContentId
-    }
-    this.videosService.addVideo(video).subscribe(() => {
+    this.videosService.addVideo(this.newVideo).subscribe(() => {
       alert('New video succesfully added.');
       this.router.navigate(['/home']);
     }, error => {

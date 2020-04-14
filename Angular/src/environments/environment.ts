@@ -12,7 +12,8 @@ export const environment = {
   PROGRAMMING_BASICS: 'Programing Basics',
   WEB_TECHNOLOGIES: 'Web technologies',
   OOP: 'OOP',
-  ADVANCED: 'Advanced'
+  ADVANCED: 'Advanced',
+  COOKIE_ID: 'tokenCookie'
 
 };
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
+import { INewUser } from '../Interfaces/INewUser';
 
 
 @Component({
@@ -10,10 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  username: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
+  newUser: INewUser = { Username: '', Email: '', PhoneNumber: '', Password: '' }
   passwordAgain: string;
 
   errors: any[] = [];
@@ -27,14 +25,8 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
-    if (this.password === this.passwordAgain) {
-      let data = {
-        Username: this.username === '' ? null : this.username,
-        Email: this.email === '' ? null : this.email,
-        PhoneNumber: this.phoneNumber === '' ? null : this.phoneNumber,
-        Password: this.password === '' ? null : this.password
-      }
-      this.usersService.createUser(data).subscribe(() => {
+    if (this.newUser.Password === this.passwordAgain) {
+      this.usersService.createUser(this.newUser).subscribe(() => {
         alert("Your account succesfully created !");
         this.router.navigate(['login']);
       }, error => {

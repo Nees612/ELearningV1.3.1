@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
 import { ModuleContentsService } from '../services/module-contents.service';
 import { UsersService } from '../services/users.service';
+import { IModuleContent } from '../Interfaces/IModuleContent';
 
 @Component({
   selector: 'app-change-content-order',
@@ -12,8 +13,8 @@ export class ChangeContentOrderComponent implements OnInit, OnChanges {
   @Input() moduleId: number;
   @Output() cancel = new EventEmitter()
 
-  moduleContents: any[] = [];
-
+  moduleContents: IModuleContent[] = [];
+  
   constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
   ngOnInit() {

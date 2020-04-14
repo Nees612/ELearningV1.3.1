@@ -1,5 +1,5 @@
 <div class="my-profile">
-  <div class="myp-container">
+  <div *ngIf="user" class="myp-container">
     <div class="cell">
       <h3>My Profile</h3>
     </div>
@@ -10,11 +10,11 @@
     </div>
     <div class="cell-1">
       <div *ngIf="!isEditActive">
-        <p><strong>Username:    </strong>{{ userName }}</p>
-        <p><strong>Phone number:   </strong>{{ phoneNumber }}</p>
-        <p><strong>Email:   </strong>{{ email }}</p>
+        <p><strong>Username:    </strong>{{ user.userName }}</p>
+        <p><strong>Phone number:   </strong>{{ user.phoneNumber }}</p>
+        <p><strong>Email:   </strong>{{ user.email }}</p>
         <hr />
-        <p><strong>Role:    </strong>{{ role }}</p>
+        <p><strong>Role:    </strong>{{ user.role }}</p>
         <hr />
         <input style="width: 120px;" type="button" class="btn btn-primary" value="Edit" (click)="onEditClick()" />
       </div>
@@ -22,13 +22,13 @@
     <div class="cell-1">
       <div *ngIf="isEditActive">
         <p><strong>Username: </strong></p>
-        <input class="form-control" type="text" [(ngModel)]="newUserName" />
+        <input class="form-control" type="text" [(ngModel)]="updatedUser.UserName" />
         <p><strong>Phone number: </strong></p>
-        <input class="form-control" type="text" [(ngModel)]="newPhoneNumber" />
+        <input class="form-control" type="text" [(ngModel)]="updatedUser.PhoneNumber" />
         <p><strong>Email:</strong></p>
-        <input class="form-control" type="text" [(ngModel)]="newEmail" />
+        <input class="form-control" type="text" [(ngModel)]="updatedUser.Email" />
         <hr />
-        <p><strong>Role:</strong> {{ role }}</p>
+        <p><strong>Role:</strong> {{ user.role }}</p>
         <hr />
         <div style="text-align: center;">
           <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onCancel()" />

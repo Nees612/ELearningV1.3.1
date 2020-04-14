@@ -6,9 +6,10 @@
     <div>
       <div class="cell-1">
         <div class="card-body">
-          <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="title" placeholder="Title" /><br />
-          <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="description" placeholder="Description" /><br />
-          <label><strong>Url:</strong></label><input class="form-control" [(ngModel)]="url" placeholder="Url" /><br />
+          <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="newVideo.Title" placeholder="Title" /><br />
+          <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="newVideo.Description" placeholder="Description" /><br />
+          <label><strong>Url:</strong></label><input class="form-control" [(ngModel)]="newVideo.Url" placeholder="Url" /><br />
+          <p>(Only youtube videos are supported !)</p>
           <label><strong>ModuleContent:</strong></label><br />
           <select [(ngModel)]="selectedContentId" class="browser-default custom-select">
             <option *ngFor="let content of moduleContents" value="{{ content.id }}">{{content.title}}</option>
