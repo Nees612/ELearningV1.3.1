@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   userName: string;
 
+  isAdmin: boolean = false;
+
   selectedModule: IModule;
   selectedForChangeOrder: IModule;
 
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit {
     })
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
+      this.isAdmin = this.usersService.isAdmin();
       this.userName = this.usersService.getCurrentUserName();
       this.getModules();
     }, () => {
