@@ -1,15 +1,27 @@
-<div *ngIf="isUserLoggedIn">
-  <h3>Welcome {{ userName }} , feel free to choose a module !</h3>
-  <div class="row-module">
-    <div class="card column" *ngFor="let module of modules">
-      <input *ngIf="isAdmin" type="button" class="btn btn-primary change-order-btn" value="Change content order" (click)="onChangeOrder(module)" />
-      <div class="card-body">
-        <h5 class="card-title">{{ module.title }}</h5>
-        <p class="card-text">{{ module.description }}</p>
-        <input type="button" class="btn btn-primary custombtn" (click)="onModuleClick(module)" value="Start module" />
-        <input type="button" class="btn btn-success custombtn" *ngIf="module.title !== 'Advanced'" (click)="onSolveRandomAssigment(module.title)" value="Random practice" />
+<div class="body" *ngIf="isUserLoggedIn">
+  <div class="container">
+    <div class="row">
+      <div class="col mt-4">
+        <h5>Welcome back {{ userName }} !</h5>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h6>Ready to jump back in ?</h6>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="card module m-auto" *ngFor="let module of modules">
+        <div class="card-title mx-auto mt-2">
+          <h5>{{ module.title }}</h5>
+        </div>
+        <div class="card-body">
+          <p>{{ module.description }}</p>
+        </div>
+        <input type="button" (click)="onModuleClick(module)" value="Start module" />
+        <input type="button" (click)="onSolveRandomAssigment(module.title)" value="Random practice" />
+        <input *ngIf="isAdmin" type="button" value="Change content order" (click)="onChangeOrder(module)" />
       </div>
     </div>
   </div>
-  <hr />
 </div>

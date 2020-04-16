@@ -1,25 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
   <a class="navbar-brand">
-    <img width="50px" height="50px" src="assets/img/logo.png" />
+    <img class="nav-img" src="assets/img/logo.png" />
   </a>
   <div *ngIf="isAuthorized" class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]='["/home"]'>Home</a>
       </li>
-      <li class="navbar-item">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]='["/assigments"]'>Assigments</a>
       </li>
-      <li class="navbar-item">
+      <li class="nav-item">
         <a class="nav-link" [routerLink]='["/all_profiles"]'>See All Profile</a>
       </li>
-      <li *ngIf="isAdmin" class="navbar-item">
+      <li *ngIf="isAdmin" class="nav-item">
         <a class="nav-link" [routerLink]='["/new_module_content"]'>Add New Module Content</a>
       </li>
-      <li *ngIf="isAdmin" class="navbar-item">
+      <li *ngIf="isAdmin" class="nav-item">
         <a class="nav-link" [routerLink]='["/add_video"]'>Add Tutorial Video</a>
       </li>
-      <li *ngIf="isAdmin" class="navbar-item">
+      <li *ngIf="isAdmin" class="nav-item">
         <a class="nav-link" [routerLink]='["/new_assigment"]'>Add New Assigment</a>
       </li>
     </ul>
