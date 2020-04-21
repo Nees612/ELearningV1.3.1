@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, OnChanges, Inject } from '@angular/core';
 import { VideosService } from '../services/videos.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { EventEmitter } from '@angular/core';
 import { UsersService } from '../services/users.service';
 import { IVideo } from '../Interfaces/IVideo';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-video',
@@ -21,10 +22,12 @@ export class VideoComponent implements OnInit, OnChanges {
   safeUrl: SafeResourceUrl;
   videos: IVideo[];
 
+  selectedVideo: IVideo;
+
   hasVideo: boolean;
   isAdmin: boolean;
 
-  constructor(private videosService: VideosService, private sanitizer: DomSanitizer, private usersService: UsersService) { }
+  constructor(private videosService: VideosService, private sanitizer: DomSanitizer, private usersService: UsersService, @Inject(DOCUMENT) private _document) { }
 
   ngOnInit() {
     this.isAdmin = this.usersService.isAdmin();
@@ -51,14 +54,18 @@ export class VideoComponent implements OnInit, OnChanges {
     return url;
   }
 
-  playVideo(url) {
+  playVideo(video: IVideo) {
+    this.selectedVideo = video;
     this.playingVideo.emit();
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    //this._document.body.style.background = '#343a40';
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(video.url);
     this.showVideo = true;
   }
 
   onVideoClosed() {
     this.videoClosed.emit();
+    this.selectedVideo = null;
+    //this._document.body.style.background = '#FFF';
     this.showVideo = false;
   }
 

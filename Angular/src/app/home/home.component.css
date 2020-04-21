@@ -1,8 +1,29 @@
-.body {
+.body-collapsed {
+  margin: 1% 1% 0% 1%;
+}
+
+.body-expanded {
   margin: 0 12% 0 12%;
+}
+
+.collapsed {
+  float: left;
+  width: 20%;
+}
+
+.expanded {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .module {
   width: 15rem;
   height: 15rem;
+}
+
+.module-component {
+  margin: 1% 1% 0% 1%;
 }

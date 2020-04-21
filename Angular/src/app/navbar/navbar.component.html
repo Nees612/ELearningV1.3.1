@@ -25,23 +25,27 @@
     </ul>
   </div>
   <div>
-    <div class="cstm-nav-item" *ngIf="!isAuthorized">
-      <a [routerLink]='["/registration"]'>Registration</a>
-      <a [routerLink]='["/login"]'>Login</a>
+    <div *ngIf="!isAuthorized">
+      <div class="cstm-nav-item">
+        <a [routerLink]='["/registration"]'>Registration</a>
+        <a [routerLink]='["/login"]'>Login</a>
+      </div>
     </div>
-    <div class="cstm-nav-item" *ngIf="isAuthorized">
-      <a [routerLink]='["/my_profile"]'>
-        <img class="nav-img" src="assets/img/avatar.png" />
-      </a>
-    </div>
-    <div class="cstm-nav-item">
-      <label>[{{ userRole }}]</label>
-    </div>
-    <div class="cstm-nav-item">
-      <label><strong>{{ userName }}</strong></label>
-    </div>
-    <div class="cstm-nav-item">
-      <img (click)="onLogout()" class="nav-img" src="assets/img/logout.png" />
+    <div *ngIf="isAuthorized">
+      <div class="cstm-nav-item">
+        <a [routerLink]='["/my_profile"]'>
+          <img class="nav-img" src="assets/img/avatar.png" />
+        </a>
+      </div>
+      <div class="cstm-nav-item">
+        <label>[{{ userRole }}]</label>
+      </div>
+      <div class="cstm-nav-item">
+        <label><strong>{{ userName }}</strong></label>
+      </div>
+      <div class="cstm-nav-item">
+        <img (click)="onLogout()" class="nav-img" src="assets/img/logout.png" />
+      </div>
     </div>
   </div>
 </nav>

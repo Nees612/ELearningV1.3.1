@@ -1,32 +1,34 @@
-<div *ngIf="!showVideo">
-  <hr />
-  <h3>Videos</h3>
-  <div *ngIf="hasVideo" class="video-row">
-    <div class="video" *ngFor="let video of videos">
-      <input *ngIf="isAdmin" type="button" class="btn btn-danger Xbtn" value="X" (click)="onDelete(video.id)" />
-      <div (click)="playVideo(video.url)" class="card-body">
-        <h5>{{ video.title }}</h5>
-        <img width="250px" height="150px" [src]="setBackGround(video.youtubeId)" />
-        <h6>{{ video.description }}</h6>
-      </div>
-    </div>
-  </div>
-  <div style="text-align:center" *ngIf="!hasVideo">
-    <h2>There is no video for this part :(</h2>
-    <a *ngIf="isAdmin" [routerLink]='["/add_video"]'><button class="btn btn-success">Add Tutorial Video</button></a>
-  </div>
-</div>
-<div *ngIf="showVideo">
-  <div class="cstm-modal" tabindex="-1" role="dialog">
-    <div class="cstm-modal-dialog" role="document">
-      <div class="cstm-modal-content">
-        <div class="cstm-modal-header">
-          <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onVideoClosed()" />
+<div class="container">
+  <div *ngIf="!showVideo">
+    <hr />
+    <h5>Videos</h5>
+    <div *ngIf="hasVideo" class="row w-100">
+      <div class="video card cmt-opacity " *ngFor="let video of videos">
+        <div *ngIf="isAdmin" (click)="onDelete(video.id)">
+          <mdb-icon class="float-right" fas icon="trash-alt"></mdb-icon>
         </div>
-        <div class="modal-body">
-          <iframe *ngIf="safeUrl" class="video-player" [src]="safeUrl"></iframe>
+        <div (click)="playVideo(video)" class="card-body">
+          <p class="card-title mx-auto">{{ video.title }}</p>
+          <img class="video-img" [src]="setBackGround(video.youtubeId)" />
+          <p class="card-subtitle text-muted mt-2 text-truncate">{{ video.description }}</p>
         </div>
       </div>
     </div>
+    <div style="text-align:center" *ngIf="!hasVideo">
+      <h2>There is no video for this part :(</h2>
+      <a *ngIf="isAdmin" [routerLink]='["/add_video"]'><button class="btn btn-success">Add Tutorial Video</button></a>
+    </div>
   </div>
+  <div *ngIf="showVideo">
+    <div class="p-3 mb-2 bg-dark text-white mx-auto">
+      <div (click)="onVideoClosed()">
+        <mdb-icon class="float-right mb-2" far icon="times-circle" size="2x"></mdb-icon>
+      </div>
+      <div class="mx-auto">
+        <iframe *ngIf="safeUrl" class="video-player" [src]="safeUrl"></iframe>
+      </div>
+      <p class="card-subtitle mt-2">{{ selectedVideo.description }}</p>
+    </div>
+  </div>
+
 </div>

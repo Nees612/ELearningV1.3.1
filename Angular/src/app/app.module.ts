@@ -24,6 +24,7 @@ import { NewVideoComponent } from './new-video/new-video.component';
 import { VideosService } from './services/videos.service';
 import { NewModuleContentComponent } from './new-module-content/new-module-content.component';
 import { ChangeContentOrderComponent } from './change-content-order/change-content-order.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ChangeContentOrderComponent } from './change-content-order/change-conte
     ChangeContentOrderComponent
   ],
   imports: [
+    MDBBootstrapModule.forRoot(),
     BrowserModule,
     HttpModule,
     FormsModule,

@@ -9,53 +9,21 @@
   overflow-y: hidden;
 }
 
+.video-img {
+  width: 150px;
+  height: 100px;
+}
+
 .video {
   border-spacing: 10px;
-  background: rgba(0,0,0,0.7);
   padding: 10px;
-  width: 20rem;
+  width: 15rem;
   margin: 5px;
   border-radius: 5px;
 }
 
-.cstm-modal {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 1050;
-  overflow: hidden;
-  outline: 0;
-}
-
-.cstm-modal-dialog {
-  pointer-events: none;
-  height: 100%;
-}
-
-.cstm-modal-header {
-  display: flex;
-  -webkit-box-align: start;
-  align-items: flex-start;
-  -webkit-box-pack: justify;
-  justify-content: space-between;
-  padding: 1rem 1rem;
-}
-
-.cstm-modal-content {
-  text-align: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  width: 100%;
-  height: 100%;
-  pointer-events: auto;
-  background-color: rgba(0,0,0,0.98);
-  background-clip: padding-box;
-  outline: 0;
-}
-
 .video-player {
+  width: 100%;
   height: 500px;
-  width: 950px;
+  margin: auto;
 }

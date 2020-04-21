@@ -1,3 +1,118 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "~bootstrap/dist/css/bootstrap.css";
+
+.cmt-opacity {
+  background: rgba(255,255,255,0.7);
+  transition: .25s ease-in-out !important;
+}
+
+  .cmt-opacity:hover {
+    background: rgba(255,255,255,1);
+  }
+
+body {
+  overflow-x: hidden;
+  background-image: url('assets/img/bg3.jpg');
+  background-size: cover;
+}
+
+.opacity-0 {
+  opacity: 0 !important;
+}
+
+.opacity-1 {
+  opacity: 0.2 !important;
+}
+
+.opacity-2 {
+  opacity: 0.4 !important;
+}
+
+.opacity-3 {
+  opacity: 0.6 !important;
+}
+
+.opacity-4 {
+  opacity: .8 !important;
+}
+
+.opacity-5 {
+  opacity: 1 !important;
+}
+
+
+/* Maybe even support hover opacity shifts */
+.opacity-0h5 {
+  opacity: 0 !important;
+  transition: opacity .25s ease-in-out !important;
+  -moz-transition: opacity .25s ease-in-out !important;
+  -webkit-transition: opacity .25s ease-in-out !important;
+}
+
+  .opacity-0h5:hover {
+    opacity: 1 !important;
+  }
+
+
+div {
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+  -ms-animation: fadein 1s; /* Internet Explorer */
+  -o-animation: fadein 1s; /* Opera < 12.1 */
+  animation: fadein 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}

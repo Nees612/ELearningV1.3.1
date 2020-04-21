@@ -1,13 +1,21 @@
-<div *ngIf="isUserLoggedIn">
-  <div *ngIf="!showVideo && moduleContents.length > 0" class="module-content">
-    <input type="button" class="btn btn-danger Xbtn" value="X" (click)="onCancel()" />
+<div [ngClass]="showVideo ? 'dark' : 'ligth' " *ngIf="isUserLoggedIn">
+  <div class="cmt-opacity rounded mt-1 p-2" *ngIf="!showVideo && moduleContents.length > 0">
     <div>
-      <input type="button" [disabled]="!hasNext" class="btn btn-primary custombtn" style="float: right;" value="Next" (click)="NextContent()" />
-      <input type="button" [disabled]="!hasPrevious" class="btn btn-primary custombtn" style="float: right;" value="Back" (click)="PreviousContent()" />
-      <input *ngIf="isAdminLoggedIn" type="button" class="btn btn-danger" style="margin: 0% 1% 0% 0%;" value="Delete" (click)="onDelete(moduleContents[partNumber].id)" />
-      <input *ngIf="isAdminLoggedIn" type="button" class="btn btn-primary" value="Edit" (click)="onEdit()" />
+      <div class="row float-left">
+        <div class="col">
+          <mdb-icon (click)="onEdit()" fas icon="edit" size="2x"></mdb-icon>
+          <mdb-icon (click)="onDelete(moduleContents[partNumber].id)" fas icon="trash-alt" size="2x"></mdb-icon>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mdb-icon class="float-right" (click)="onCancel()" far icon="times-circle" size="2x"></mdb-icon>
+          <mdb-icon class="float-right mr-2 " (click)="NextContent()" fas icon="angle-right" size="3x"></mdb-icon>
+          <mdb-icon class="float-right mr-2 " (click)="PreviousContent()" fas icon="angle-left" size="3x"></mdb-icon>
+        </div>
+      </div>
     </div>
-    <div *ngIf="!isEditActive">
+    <div class="d-block" *ngIf="!isEditActive">
       <h2>{{ moduleContents[partNumber].title }}</h2>
       <h5>{{ moduleContents[partNumber].description }}</h5><br />
       <div>
@@ -37,7 +45,7 @@
     </div>
   </div>
   <app-video *ngIf="moduleContents[partNumber]" [contentId]="moduleContents[partNumber].id" (playingVideo)="onVideoPlay()" (videoClosed)="onVideoClosed()"></app-video>
-  <div style="text-align:center;" *ngIf="!moduleContents.length > 0">
+  <div style="text-align:center;" *ngIf="! (moduleContents.length > 0)">
     <h2>There is no content for this module :(</h2>
     <a *ngIf="isAdminLoggedIn" [routerLink]='["/new_module_content"]'><button class="btn btn-success">Add New Module Content</button></a>
   </div>

@@ -13,6 +13,7 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   @Input() moduleId: number;
   @Output() cancel = new EventEmitter();
+  @Output() changeBg = new EventEmitter();
 
   moduleContents: IModuleContent[] = [];
   partNumber: number = 0;
@@ -60,8 +61,10 @@ export class ModuleComponent implements OnInit, OnChanges {
   }
 
   NextContent() {
-    this.partNumber += 1;
-    this.hasPrevious = true;
+    if (this.hasNext) {
+      this.partNumber += 1;
+      this.hasPrevious = true;
+    }
     if (this.partNumber < this.moduleContents.length - 1) {
       this.hasNext = true;
     } else {
@@ -70,8 +73,10 @@ export class ModuleComponent implements OnInit, OnChanges {
   }
 
   PreviousContent() {
-    this.partNumber -= 1;
-    this.hasNext = true;
+    if (this.hasPrevious) {
+      this.partNumber -= 1;
+      this.hasNext = true;
+    }
     if (this.partNumber > 0) {
       this.hasPrevious = true;
     } else {
@@ -85,9 +90,11 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   onVideoPlay() {
     this.showVideo = true;
+
   }
 
   onVideoClosed() {
+
     this.showVideo = false;
   }
 

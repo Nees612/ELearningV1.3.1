@@ -1,27 +1,41 @@
-<div class="body" *ngIf="isUserLoggedIn">
-  <div class="container">
-    <div class="row">
+<div [ngClass]="collapsed ? 'body-collapsed' : 'body-expanded' " *ngIf="isUserLoggedIn">
+  <div [ngClass]="collapsed ? 'collapsed' : 'expanded'">
+    <div *ngIf="!collapsed" class="row">
       <div class="col mt-4">
         <h5>Welcome back {{ userName }} !</h5>
       </div>
     </div>
-    <div class="row">
+    <div *ngIf="!collapsed" class="row">
       <div class="col">
         <h6>Ready to jump back in ?</h6>
       </div>
     </div>
-    <div class="row mt-4">
-      <div class="card module m-auto" *ngFor="let module of modules">
-        <div class="card-title mx-auto mt-2">
+    <div class="row" [ngClass]="collapsed ? 'mt-0' : 'mt-4' ">
+      <div class="card cmt-opacity module mx-auto mb-2 mt-2" *ngFor="let module of modules">
+        <div class="m-1" *ngIf="isAdmin" (click)="onChangeOrder(module)">
+          <mdb-icon class="float-right" fas icon="cog"></mdb-icon>
+        </div>
+        <div class="mx-auto mt-2">
           <h5>{{ module.title }}</h5>
         </div>
-        <div class="card-body">
-          <p>{{ module.description }}</p>
+        <div class="card-body ">
+          <p class="card-subtitle text-muted text-justify">{{ module.description }}</p>
         </div>
-        <input type="button" (click)="onModuleClick(module)" value="Start module" />
-        <input type="button" (click)="onSolveRandomAssigment(module.title)" value="Random practice" />
-        <input *ngIf="isAdmin" type="button" value="Change content order" (click)="onChangeOrder(module)" />
+        <div class="card-footer">
+          <div class="d-inline " (click)="onSolveRandomAssigment(module.title)">
+            <mdb-icon fas icon="random"></mdb-icon>
+          </div>
+          <div class="d-inline float-right" (click)="onModuleClick(module)">
+            <mdb-icon fas icon="play"></mdb-icon>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="selectedForChangeOrder">
+    <app-change-content-order [moduleId]="selectedForChangeOrder.id" (cancel)="onClosedChangeOrder()"></app-change-content-order>
+  </div>
+  <div class="row" *ngIf="selectedModule">
+    <app-module class="w-100" [moduleId]="selectedModule.id" (cancel)="onModuleCancel()"></app-module>
   </div>
 </div>

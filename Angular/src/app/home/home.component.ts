@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
 
   modules: IModule[];
 
+  collapsed: boolean = false;
+
   constructor(private modulesService: ModulesService, private usersService: UsersService, private assigmentsService: AssigmentsService, private router: Router) { }
 
   ngOnInit() {
@@ -50,10 +52,12 @@ export class HomeComponent implements OnInit {
   onModuleClick(module: IModule) {
     this.selectedForChangeOrder = null;
     this.selectedModule = module;
+    this.collapsed = true;
   }
 
   onModuleCancel() {
     this.selectedModule = null;
+    this.collapsed = false;
   }
 
   onSolveRandomAssigment(moduleName: string) {
@@ -71,4 +75,5 @@ export class HomeComponent implements OnInit {
   onClosedChangeOrder() {
     this.selectedForChangeOrder = null;
   }
+
 }
