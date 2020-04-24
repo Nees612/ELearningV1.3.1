@@ -16,5 +16,10 @@ namespace ELearningV1._3._1.Managers
             var s = Url.Split('/');
             return s[s.Length - 1];
         }
+
+        public bool IsValidYoutubeUrl(string Url)
+        {
+            return (Url.Contains("youtu.be") || Url.Contains("youtube"));
+        }
     }
 }

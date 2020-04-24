@@ -66,5 +66,14 @@ namespace ELearningV1._3._1.Managers
             return tokenS.Claims.First(c => c.Type.Equals("user_role")).Value;
         }
 
+        public string GetUserIdFromToken(string header)
+        {
+            var token = header.Replace("Bearer ", string.Empty);
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+
+            return tokenS.Claims.First(c => c.Type.Equals("id")).Value;
+        }
     }
 }

@@ -17,6 +17,8 @@ export class OtherUsersComponent implements OnInit {
   isAdmin: boolean = false;
   isUserLoggedIn: boolean = false;
 
+  currentUserName: string;
+
 
   constructor(private usersService: UsersService, private router: Router) { }
 
@@ -24,6 +26,7 @@ export class OtherUsersComponent implements OnInit {
     this.usersService.isUserLoggedIn().subscribe(() => {
       this.isUserLoggedIn = true;
       this.isAdmin = this.usersService.isAdmin();
+      this.currentUserName = this.usersService.getCurrentUserName();
       this.getAdmins();
       this.getAllUsers();
     }, () => {
@@ -60,4 +63,15 @@ export class OtherUsersComponent implements OnInit {
     })
   }
 
+  onPromote(student: IUser) {
+    this.usersService.promoteUser(student.id).subscribe(() => {
+      this.getAllUsers();
+    })
+  }
+
+  onDemote(admin: IUser) {
+    this.usersService.demoteUser(admin.id).subscribe(() => {
+      this.getAllUsers();
+    })
+  }
 }

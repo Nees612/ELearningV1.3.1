@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { VideosService } from '../services/videos.service';
-import { ModulesService } from '../services/modules.service';
 import { UsersService } from '../services/users.service';
 import { Router } from '@angular/router';
 import { ModuleContentsService } from '../services/module-contents.service';
@@ -17,9 +16,9 @@ export class NewVideoComponent implements OnInit {
 
   moduleContents: IModuleContent[];
 
-  selectedContentId: number = 1;
+  selectedContentId: number;
 
-  newVideo: INewVideo = { Title: '', Description: '', Url: '', ModuleContentId: this.selectedContentId }
+  newVideo: INewVideo = { Title: '', Description: '', Url: '', ModuleContentId: 0 }
 
   errors: any[] = [];
 
@@ -33,6 +32,7 @@ export class NewVideoComponent implements OnInit {
         this.isAdminLoggedIn = true;
         this.moduleContentsService.getAllModuleContents().subscribe(response => {
           this.moduleContents = response.json();
+          this.selectedContentId = this.moduleContents[0].id;
         });
       }
     }, () => {
@@ -43,6 +43,7 @@ export class NewVideoComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
+    this.newVideo.ModuleContentId = +this.selectedContentId;
     this.videosService.addVideo(this.newVideo).subscribe(() => {
       alert('New video succesfully added.');
       this.router.navigate(['/home']);

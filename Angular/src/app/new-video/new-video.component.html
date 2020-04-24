@@ -4,7 +4,7 @@
       <h2>Add New Video</h2>
     </div>
     <div>
-      <div class="cell-1">
+      <div class="cell-1 cmt-opacity rounded">
         <div class="card-body">
           <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="newVideo.Title" placeholder="Title" /><br />
           <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="newVideo.Description" placeholder="Description" /><br />
@@ -15,8 +15,8 @@
             <option *ngFor="let content of moduleContents" value="{{ content.id }}">{{content.title}}</option>
           </select><br />
           <div>
-            <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-            <a [routerLink]='["/home"]'><button class="btn btn-danger" id="cancel-btn">Cancel</button></a>
+            <button [disabled]="!selectedContentId" type="button" class="btn btn-primary mx-auto m-2" (click)="onSubmit()">Submit</button>
+            <a [routerLink]='["/home"]'><button class="btn btn-danger mx-auto m-2 float-right" id="cancel-btn">Cancel</button></a>
           </div>
         </div>
       </div>

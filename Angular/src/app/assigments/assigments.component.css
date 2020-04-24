@@ -2,12 +2,9 @@
   white-space: pre-line;
 }
 
-.row {
-  justify-content: center;
-  white-space: nowrap;
-  width: 100%; /*Optional*/
-  margin-right: 0;
-  margin-left: 0;
+.assigment {
+  width: 18rem;
+  height: 15rem;
 }
 
 button {
@@ -17,11 +14,4 @@ button {
 a {
   font-weight: bold;
   font-size: large;
-}
-
-.assigment {
-  background: rgba(0,0,0,0.5);
-  margin: 5px;
-  width: 18rem;
-  height: 14rem;
 }

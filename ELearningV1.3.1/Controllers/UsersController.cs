@@ -43,6 +43,53 @@ namespace ELearningV1._3._1.Controllers
             return Ok(Users);
         }
 
+        [HttpGet("ChangeRole/{Method}/{Id}")]
+        public async Task<IActionResult> PromoteUser(string Method, string Id)
+        {
+            if (Id == null)
+            {
+                return BadRequest("Id cannot be null.");
+            }
+
+            var RequestUserId = _cookieManager.GetUserIdFromToken(Request.Headers["Authorization"]);
+            var UserWithRequestUserId = await _repository.Users.Get(u => u.Id.Equals(RequestUserId));
+
+            if (UserWithRequestUserId.Role.Equals(Role.Admin.ToString()))
+            {
+                var User = await _repository.Users.Get(u => u.Id.Equals(Id));
+
+                if (User == null)
+                {
+                    return NotFound(Id);
+                }
+
+                if (Method.Equals("Promote"))
+                {
+                    User.Role = Role.Admin.ToString();
+
+                    await _userManager.RemoveFromRoleAsync(User, Role.Student.ToString());
+                    await _userManager.AddToRoleAsync(User, Role.Admin.ToString());
+
+                }
+                else if (Method.Equals("Demote"))
+                {
+                    User.Role = Role.Student.ToString();
+
+                    await _userManager.RemoveFromRoleAsync(User, Role.Admin.ToString());
+                    await _userManager.AddToRoleAsync(User, Role.Student.ToString());
+                }
+
+                _repository.Users.Update(User);
+
+                await _repository.Complete();
+                return Ok();
+            }
+
+            return BadRequest("Only admins can change role.");
+        }
+
+
+
         [HttpGet("Users_by_role/{role}")]
         public async Task<IActionResult> GetUsersByRole(string role)
         {
@@ -132,7 +179,7 @@ namespace ELearningV1._3._1.Controllers
 
 
         [HttpPost("Registration")]
-        public async Task<IActionResult> Registration([FromBody] UserRegistrationViewModel newUser)
+        public async Task<IActionResult> Registration([FromBody] UserRegistrationViewModel newUser, string role)
         {
             if (newUser == null)
             {

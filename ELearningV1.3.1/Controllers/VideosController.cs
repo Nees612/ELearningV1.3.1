@@ -69,8 +69,16 @@ namespace ELearningV1._3._1.Controllers
 
             var userRole = _cookieManager.GetRoleFromToken(Request.Headers["Authorization"]);
 
+            if (!_videoManager.IsValidYoutubeUrl(video.Url))
+            {
+                var ErrorContext = new ErrorContext();
+                ErrorContext.Errors.Add("Url is not valid youtube url");
+                return BadRequest(ErrorContext);
+            }
+
             if (userRole.Equals(Role.Admin.ToString()))
             {
+
                 var ModuleContent = await _repository.ModuleContents.GetById(video.ModuleContentId);
 
                 if (ModuleContent == null)
@@ -80,12 +88,14 @@ namespace ELearningV1._3._1.Controllers
 
                 string embedLink = _videoManager.ConvertUrl(video.Url);
                 string YoutubeId = _videoManager.GetYoutubeId(embedLink);
+
                 var Video = new Video { Title = video.Title, Description = video.Description, Url = embedLink, YoutubeId = YoutubeId, ModuleContent = ModuleContent };
 
                 _repository.Videos.Add(Video);
                 await _repository.Complete();
 
                 return Ok();
+
             }
             return BadRequest("Only Admins can add videos.");
         }

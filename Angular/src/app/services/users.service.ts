@@ -5,6 +5,7 @@ import { environment } from '../../environments/environment';
 import * as jwt_decode from "jwt-decode";
 import { HeadersService } from './headers.service';
 import { Role } from '../Roles/Role';
+import { IUser } from '../Interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -64,7 +65,7 @@ export class UsersService {
     }
   }
 
-  getCurrentUserName() {
+  getCurrentUserName(): string {
     if (this.cookieService.check(environment.COOKIE_ID)) {
       return this.token.user;
     }
@@ -110,4 +111,11 @@ export class UsersService {
     return this.http.put(environment.API_USERS_URL + '/' + this.getUserId(), data, { headers: this.headersService.getHeaders(), withCredentials: true });
   }
 
+  promoteUser(studentId: string) {
+    return this.http.get(environment.API_USERS_URL + '/ChangeRole/Promote/' + studentId, { headers: this.headersService.getHeaders() });
+  }
+
+  demoteUser(adminId: string) {
+    return this.http.get(environment.API_USERS_URL + '/ChangeRole/Demote/' + adminId, { headers: this.headersService.getHeaders() });
+  }
 }

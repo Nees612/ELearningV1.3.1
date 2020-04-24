@@ -1,50 +1,21 @@
-<div>
+<div class="m-2 w-100">
   <div *ngIf="isUserLoggedIn">
-    <h3>Programing Basics:</h3>
-    <hr />
-    <div>
-      <div class="row">
-        <div class="card assigment"  *ngFor="let assigment of prgBasicAssigments">
-          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
-          <div class="break-lines card-body">
-            <h5 class="card-title">{{ assigment.title }}</h5>
-            <p class="card-text">{{ assigment.description }}</p>
-            <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
+    <div *ngFor="let module of assigmentsByModule | keyvalue">
+      <h3>{{ module.key }}:</h3>
+      <hr />
+      <div>
+        <div class="row">
+          <div class="card cmt-opacity mx-auto assigment m-1" *ngFor="let assigment of module.value">
+            <mdb-icon *ngIf="isAdmin" (click)="onDelete(assigment.id)" class="float-right mt-2 ml-2 mr-2" fas icon="trash-alt"></mdb-icon>
+            <div class="card-body">
+              <h5 class="card-title">{{ (assigment.title.length>30)? (assigment.title | slice:0:30)+'...':(assigment.title) }}</h5>
+              <p class="card-text">{{ (assigment.description.length>80)? (assigment.description | slice:0:80)+'...':(assigment.description) }}</p>
+              <a href="{{ assigment.url }}" target="_blank">Solve This Assignment</a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <h3>Web technologies:</h3>
-    <hr />
-    <div>
-      <div class="row">
-        <div class="card assigment"  *ngFor="let assigment of webAssigments">
-          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
-          <div class="break-lines card-body">
-            <h5 class="card-title">{{ assigment.title }}</h5>
-            <p class="card-text">{{ assigment.description }}</p>
-            <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h3>OOP:</h3>
-    <hr />
-    <div>
-      <div class="row">
-        <div class="card assigment"  *ngFor="let assigment of oopAssigments">
-          <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(assigment.id)" />
-          <div class="break-lines card-body">
-            <h5 class="card-title">{{ assigment.title }}</h5>
-            <p class="card-text">{{ assigment.description }}</p>
-            <a href="{{ assigment.url }}" target="_blank">Solve This Assigment</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="!isUserLoggedIn">
-    <h3>Login or registrate for further details.</h3>
   </div>
 </div>
 

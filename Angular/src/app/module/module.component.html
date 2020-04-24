@@ -2,7 +2,7 @@
   <div class="cmt-opacity rounded mt-1 p-2" *ngIf="!showVideo && moduleContents.length > 0">
     <div>
       <div class="row float-left">
-        <div class="col">
+        <div *ngIf="isAdminLoggedIn" class="col">
           <mdb-icon (click)="onEdit()" fas icon="edit" size="2x"></mdb-icon>
           <mdb-icon (click)="onDelete(moduleContents[partNumber].id)" fas icon="trash-alt" size="2x"></mdb-icon>
         </div>
@@ -21,7 +21,7 @@
       <div>
         <p>{{ moduleContents[partNumber].lesson }}</p>
         <div *ngIf="moduleContents[partNumber].assigmentUrl">
-          <label>Checkout your assigment on this link :</label><a target="_blank" href="{{ moduleContents[partNumber].assigmentUrl }}">
+          <label>For more information:</label><a class="ml-2" target="_blank" href="{{ moduleContents[partNumber].assigmentUrl }}">
             <strong>{{ moduleContents[partNumber].assigmentUrl }}</strong>
           </a><br />
         </div>
@@ -40,13 +40,23 @@
           <input [(ngModel)]="moduleContents[partNumber].assigmentUrl" type="text" class="form-control" />
         </div>
       </div>
+      <div class="card-body card-align-errors">
+        <div *ngFor="let error of errors" class="alert alert-danger">
+          {{ error }}
+        </div>
+      </div>
       <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onEditCancel()" />
       <input style="width: 120px;" type="button" class="btn btn-success" value="Save" (click)="onSave(moduleContents[partNumber].id)" />
     </div>
   </div>
   <app-video *ngIf="moduleContents[partNumber]" [contentId]="moduleContents[partNumber].id" (playingVideo)="onVideoPlay()" (videoClosed)="onVideoClosed()"></app-video>
-  <div style="text-align:center;" *ngIf="! (moduleContents.length > 0)">
-    <h2>There is no content for this module :(</h2>
-    <a *ngIf="isAdminLoggedIn" [routerLink]='["/new_module_content"]'><button class="btn btn-success">Add New Module Content</button></a>
+  <div class="mt-5 w-100" *ngIf="! (moduleContents.length > 0)">
+    <div class="w-100 d-block mx-auto">
+      <mdb-icon class="float-right" (click)="onCancel()" far icon="times-circle" size="2x"></mdb-icon>
+    </div>
+    <div class="w-100 d-block mx-auto">
+      <p class="h2 mx-auto">There is no content for this module :(</p>
+      <a class="mx-auto" *ngIf="isAdminLoggedIn" [routerLink]='["/new_module_content"]'><button class="btn btn-success">Add New Module Content</button></a>
+    </div>
   </div>
 </div>

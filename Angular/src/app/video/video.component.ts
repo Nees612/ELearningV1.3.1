@@ -27,7 +27,7 @@ export class VideoComponent implements OnInit, OnChanges {
   hasVideo: boolean;
   isAdmin: boolean;
 
-  constructor(private videosService: VideosService, private sanitizer: DomSanitizer, private usersService: UsersService, @Inject(DOCUMENT) private _document) { }
+  constructor(private videosService: VideosService, private sanitizer: DomSanitizer, private usersService: UsersService) { }
 
   ngOnInit() {
     this.isAdmin = this.usersService.isAdmin();
@@ -57,7 +57,6 @@ export class VideoComponent implements OnInit, OnChanges {
   playVideo(video: IVideo) {
     this.selectedVideo = video;
     this.playingVideo.emit();
-    //this._document.body.style.background = '#343a40';
     this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(video.url);
     this.showVideo = true;
   }
@@ -65,7 +64,6 @@ export class VideoComponent implements OnInit, OnChanges {
   onVideoClosed() {
     this.videoClosed.emit();
     this.selectedVideo = null;
-    //this._document.body.style.background = '#FFF';
     this.showVideo = false;
   }
 

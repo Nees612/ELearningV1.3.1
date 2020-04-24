@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AssigmentsService } from '../services/assigments.service';
 import { UsersService } from '../services/users.service';
-import { environment } from '../../environments/environment';
 import { IAssigment } from '../Interfaces/IAssigment';
+import { ModulesService } from '../services/modules.service';
+import { IModule } from '../Interfaces/IModule';
 
 @Component({
   selector: 'app-assigments',
@@ -14,11 +15,9 @@ export class AssigmentsComponent implements OnInit {
   isUserLoggedIn: boolean = false;
   isAdmin: boolean = false;
 
-  prgBasicAssigments: IAssigment[];
-  webAssigments: IAssigment[];
-  oopAssigments: IAssigment[];
+  assigmentsByModule: { [title: string]: IAssigment; } = {};
 
-  constructor(private assigmentsService: AssigmentsService, private usersService: UsersService) { }
+  constructor(private assigmentsService: AssigmentsService, private usersService: UsersService, private modulesService: ModulesService) { }
 
   ngOnInit() {
     this.usersService.isUserLoggedIn().subscribe(() => {
@@ -32,14 +31,14 @@ export class AssigmentsComponent implements OnInit {
   }
 
   private getAllAssigmentSortedByModule() {
-    this.assigmentsService.getAssigmentsByModuleName(environment.PROGRAMMING_BASICS).subscribe(response => {
-      this.prgBasicAssigments = response.json();
-    })
-    this.assigmentsService.getAssigmentsByModuleName(environment.WEB_TECHNOLOGIES).subscribe(response => {
-      this.webAssigments = response.json();
-    })
-    this.assigmentsService.getAssigmentsByModuleName(environment.OOP).subscribe(response => {
-      this.oopAssigments = response.json();
+    this.modulesService.getAllModules().subscribe(response => {
+      let modules = response.json();
+      modules = <IModule[]>modules;
+      for (let module of modules) {
+        this.assigmentsService.getAssigmentsByModuleName(module.title).subscribe(response => {
+          this.assigmentsByModule[module.title] = response.json();
+        })
+      }
     })
   }
 

@@ -1,4 +1,4 @@
-<div [ngClass]="collapsed ? 'body-collapsed' : 'body-expanded' " *ngIf="isUserLoggedIn">
+<div id="home" [ngClass]="collapsed ? 'body-collapsed' : 'body-expanded' " *ngIf="isUserLoggedIn">
   <div [ngClass]="collapsed ? 'collapsed' : 'expanded'">
     <div *ngIf="!collapsed" class="row">
       <div class="col mt-4">
@@ -11,29 +11,47 @@
       </div>
     </div>
     <div class="row" [ngClass]="collapsed ? 'mt-0' : 'mt-4' ">
-      <div class="card cmt-opacity module mx-auto mb-2 mt-2" *ngFor="let module of modules">
-        <div class="m-1" *ngIf="isAdmin" (click)="onChangeOrder(module)">
-          <mdb-icon class="float-right" fas icon="cog"></mdb-icon>
-        </div>
-        <div class="mx-auto mt-2">
-          <h5>{{ module.title }}</h5>
-        </div>
-        <div class="card-body ">
-          <p class="card-subtitle text-muted text-justify">{{ module.description }}</p>
-        </div>
-        <div class="card-footer">
-          <div class="d-inline " (click)="onSolveRandomAssigment(module.title)">
-            <mdb-icon fas icon="random"></mdb-icon>
+      <mdb-icon *ngIf="isAdmin && !isEdit && !collapsed" (click)="onEdit()" class="float-right" fas icon="edit" size="3x"></mdb-icon>
+      <div class="mx-auto" *ngFor="let module of modules">
+        <div *ngIf="!isEdit" class="card cmt-opacity module mx-auto mb-2 mt-2">
+          <div class="m-1" *ngIf="isAdmin">
+            <mdb-icon (click)="onChangeOrder(module)" class="float-left" fas icon="cog"></mdb-icon>
+            <mdb-icon (click)="onDelete(module)" class="float-right" fas icon="trash-alt"></mdb-icon>
           </div>
-          <div class="d-inline float-right" (click)="onModuleClick(module)">
-            <mdb-icon fas icon="play"></mdb-icon>
+          <div class="mx-auto mt-2">
+            <h5>{{ module.title }}</h5>
+          </div>
+          <div class="card-body ">
+            <p class="card-subtitle text-muted text-justify">{{ (module.description.length>100)? (module.description | slice:0:100)+'...':(module.description)  }}</p>
+          </div>
+          <div class="card-footer">
+            <div class="d-inline " (click)="onSolveRandomAssigment(module.title)">
+              <mdb-icon fas icon="random"></mdb-icon>
+            </div>
+            <div class="d-inline float-right" (click)="onModuleClick(module)">
+              <mdb-icon fas icon="play"></mdb-icon>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isEdit" class="card cmt-opacity module mx-auto mb-2 mt-2">
+          <div class="mx-auto mt-2">
+            <p class="font-weight-bold m-0">Title:</p>
+            <input type="text" [(ngModel)]="module.title" class="form-control m-0" />
+          </div>
+          <div class="card-body pt-0 ">
+            <p class="font-weight-bold m-0 ">Description:</p>
+            <textarea class="form-control h-75" [(ngModel)]="module.description"></textarea>
           </div>
         </div>
       </div>
+      <mdb-icon *ngIf="isEdit" class="float-right" (click)="onEditCancel()" far icon="times-circle" size="3x"></mdb-icon>
+    </div>
+    <div class="w-100">
+      <input *ngIf="isEdit" style="width: 120px;" type="button" class="btn btn-success" value="Save" (click)="onSave()" />
     </div>
   </div>
-  <div *ngIf="selectedForChangeOrder">
-    <app-change-content-order [moduleId]="selectedForChangeOrder.id" (cancel)="onClosedChangeOrder()"></app-change-content-order>
+  <div class="row" *ngIf="selectedForChangeOrder">
+    <app-change-content-order class="w-100" [moduleName]="selectedForChangeOrder.title" [moduleId]="selectedForChangeOrder.id" (cancel)="onClosedChangeOrder()"></app-change-content-order>
   </div>
   <div class="row" *ngIf="selectedModule">
     <app-module class="w-100" [moduleId]="selectedModule.id" (cancel)="onModuleCancel()"></app-module>

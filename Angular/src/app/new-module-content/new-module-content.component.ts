@@ -15,9 +15,9 @@ export class NewModuleContentComponent implements OnInit {
 
 
   modules: IModule[];
-  selectedModuleId: number = 1;
+  selectedModuleId: number;
 
-  newModuleContent: INewModuleContent = { Title: '', Description: '', AssigmentUrl: null, Lesson: '', ModuleId: this.selectedModuleId }
+  newModuleContent: INewModuleContent = { Title: '', Description: '', AssigmentUrl: null, Lesson: '', ModuleId: 0 }
 
   errors: any[] = [];
 
@@ -31,6 +31,8 @@ export class NewModuleContentComponent implements OnInit {
         this.isAdminLoggedIn = true;
         this.modulesService.getAllModules().subscribe(response => {
           this.modules = response.json();
+          this.selectedModuleId = this.modules[0].id;
+          console.log(this.selectedModuleId);
         })
       }
     })
@@ -38,8 +40,10 @@ export class NewModuleContentComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
+    console.log(this.selectedModuleId);
+    this.newModuleContent.ModuleId = +this.selectedModuleId;
     this.moduleContentsService.addModuleContent(this.newModuleContent).subscribe(() => {
-      alert('New Module contents succesfully added !');
+      alert('New Module content succesfully added !');
       this.router.navigate(['/home']);
     }, error => {
       let errors = error.json().errors;

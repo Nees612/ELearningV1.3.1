@@ -11,10 +11,11 @@ import { IModuleContent } from '../Interfaces/IModuleContent';
 export class ChangeContentOrderComponent implements OnInit, OnChanges {
 
   @Input() moduleId: number;
+  @Input() moduleName: string;
   @Output() cancel = new EventEmitter()
 
   moduleContents: IModuleContent[] = [];
-  
+
   constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
   ngOnInit() {

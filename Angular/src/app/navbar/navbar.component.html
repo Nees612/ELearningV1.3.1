@@ -8,10 +8,10 @@
         <a class="nav-link" [routerLink]='["/home"]'>Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]='["/assigments"]'>Assigments</a>
+        <a class="nav-link" [routerLink]='["/all_profiles"]'>Profiles</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]='["/all_profiles"]'>See All Profile</a>
+        <a class="nav-link" [routerLink]='["/assigments"]'>Assigments</a>
       </li>
       <li *ngIf="isAdmin" class="nav-item">
         <a class="nav-link" [routerLink]='["/new_module_content"]'>Add New Module Content</a>
@@ -20,32 +20,33 @@
         <a class="nav-link" [routerLink]='["/add_video"]'>Add Tutorial Video</a>
       </li>
       <li *ngIf="isAdmin" class="nav-item">
-        <a class="nav-link" [routerLink]='["/new_assigment"]'>Add New Assigment</a>
+        <a class="nav-link" [routerLink]='["/new_assigment"]'>Add New Assignment</a>
+      </li>
+      <li *ngIf="isAdmin" class="nav-item">
+        <a class="nav-link" [routerLink]='["/new_module"]'>Add New Module</a>
       </li>
     </ul>
   </div>
-  <div>
-    <div *ngIf="!isAuthorized">
-      <div class="cstm-nav-item">
-        <a [routerLink]='["/registration"]'>Registration</a>
-        <a [routerLink]='["/login"]'>Login</a>
-      </div>
+  <div *ngIf="!isAuthorized" class="w-100">
+    <div class="cstm-nav-item float-right">
+      <a class="m-2 font-weight-bold" [routerLink]='["/registration"]'>Registration</a>
+      <a class="m-2 font-weight-bold" [routerLink]='["/login"]'>Login</a>
     </div>
-    <div *ngIf="isAuthorized">
-      <div class="cstm-nav-item">
-        <a [routerLink]='["/my_profile"]'>
-          <img class="nav-img" src="assets/img/avatar.png" />
-        </a>
-      </div>
-      <div class="cstm-nav-item">
-        <label>[{{ userRole }}]</label>
-      </div>
-      <div class="cstm-nav-item">
-        <label><strong>{{ userName }}</strong></label>
-      </div>
-      <div class="cstm-nav-item">
-        <img (click)="onLogout()" class="nav-img" src="assets/img/logout.png" />
-      </div>
+  </div>
+  <div *ngIf="isAuthorized">
+    <div class="cstm-nav-item">
+      <a [routerLink]='["/my_profile"]'>
+        <img class="nav-img" src="assets/img/avatar.png" />
+      </a>
+    </div>
+    <div class="cstm-nav-item">
+      <label>[{{ userRole }}]</label>
+    </div>
+    <div class="cstm-nav-item">
+      <label><strong>{{ userName }}</strong></label>
+    </div>
+    <div class="cstm-nav-item">
+      <img (click)="onLogout()" class="nav-img" src="assets/img/logout.png" />
     </div>
   </div>
 </nav>

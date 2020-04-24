@@ -1,33 +1,40 @@
-<div *ngIf="isAdminLoggedIn">
-  <div class="nmc-container">
-    <div class="cell">
-      <h2>New Module Content</h2>
-    </div>
-    <div>
-      <div class="cell-1">
-        <div class="card-body">
-          <label><strong>Title:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.Title" placeholder="Title" /><br />
-          <label><strong>Description:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.Description" placeholder="Description" /><br />
-          <label><strong>Assigment Url:</strong></label><input class="form-control" [(ngModel)]="newModuleContent.AssigmentUrl" placeholder="Assigment Url (optional)" /><br />
-          <label><strong>Module:</strong></label><br />
-          <select [(ngModel)]="selectedModuleId" class="browser-default custom-select">
+<div class="w-100 m-2" *ngIf="isAdminLoggedIn">
+  <div class="row">
+    <p class="mx-auto h3">New Module Content</p>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="ml-4 cmt-opacity rounded p-2">
+        <p class="font-weight-bold">Title:</p>
+        <input [(ngModel)]="newModuleContent.Title" type="text" class="form-control" placeholder="Title" />
+        <p class="font-weight-bold">Description:</p>
+        <input [(ngModel)]="newModuleContent.Description" type="text" class="form-control" placeholder="Description" />
+        <p class="font-weight-bold">Lesson Text:</p>
+        <textarea style="height: 250px; resize:none;" [(ngModel)]="newModuleContent.Lesson" type="text" class="form-control" placeholder="Lesson text"></textarea>
+        <div>
+          <p class="font-weight-bold">Link for another page: </p>
+          <input [(ngModel)]="newModuleContent.AssigmentUrl" type="text" class="form-control" placeholder="Link (optional)" />
+        </div>
+        <div class="d-inline mr-2">
+          <p class="mx-auto font-weight-bold">Module:</p>
+          <select [(ngModel)]="selectedModuleId" class="browser-default custom-select w-50">
             <option *ngFor="let module of modules" value="{{ module.id }}">{{module.title}}</option>
-          </select><br />
-          <button type="button" class="btn btn-primary" (click)="onSubmit()">Submit</button>
-          <a [routerLink]='["/home"]'><button class="btn btn-danger" id="cancel-btn">Cancel</button></a>
+          </select>
+        </div>
+        <div class="d-inline">
+          <button type="button" class="btn btn-primary mr-2 ml-2" (click)="onSubmit()">Submit</button>
+          <a [routerLink]='["/home"]'><button class="btn btn-danger mr-2 ml-2" id="cancel-btn">Cancel</button></a>
         </div>
       </div>
     </div>
-    <div class="cell-2">
-      <div class="card-body card-align-errors">
-        <div *ngFor="let error of errors" class="alert alert-danger">
-          {{ error }}
+    <div class="col">
+      <div *ngIf="errors.length > 0" class="w-75 mt-5">
+        <div>
+          <div *ngFor="let error of errors" class="alert alert-danger w-50 mx-auto">
+            {{ error }}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="cell-3">
-      <label><strong>Lesson:</strong></label>
-      <textarea class="form-control textbox" [(ngModel)]="newModuleContent.Lesson" placeholder="Lesson"></textarea>
     </div>
   </div>
 </div>

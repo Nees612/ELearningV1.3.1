@@ -14,11 +14,11 @@ import { Router } from '@angular/router';
 export class NewAssigmentComponent implements OnInit {
 
   modules: IModule[];
-  selectedModuleId: number = 1;
+  selectedModuleId: number ;
 
   isAdminLoggedIn: boolean = false;
 
-  newAssigment: INewAssigment = { Title: '', Description: '', Url: null, ModuleId: this.selectedModuleId };
+  newAssigment: INewAssigment = { Title: '', Description: '', Url: null, ModuleId: 0 };
 
   errors: any[] = [];
 
@@ -30,7 +30,7 @@ export class NewAssigmentComponent implements OnInit {
         this.isAdminLoggedIn = true;
         this.modulesService.getAllModules().subscribe(response => {
           this.modules = response.json();
-          this.modules.pop();
+          this.selectedModuleId = this.modules[0].id;
         });
       }
     }, () => {
@@ -42,6 +42,7 @@ export class NewAssigmentComponent implements OnInit {
 
   onSubmit() {
     this.errors = [];
+    this.newAssigment.ModuleId = +this.selectedModuleId;
     this.assigmentsService.addAssigment(this.newAssigment).subscribe(() => {
       alert('Assigment added succesfully.');
       this.router.navigate(['/assigments']);

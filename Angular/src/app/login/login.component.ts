@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       this.usersService.raiseTokenEvent();
       this.router.navigate(['/home']);
     }, error => {
-      console.log(error.json());
       let errors = error.json().errors;
       for (let key in errors) {
         let value = errors[key];

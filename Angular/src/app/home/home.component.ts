@@ -14,10 +14,11 @@ import { IModule } from '../Interfaces/IModule';
 export class HomeComponent implements OnInit {
   currentModuleId: number;
 
+  isEdit: boolean = false;
   isUserLoggedIn: boolean = false;
+  isAdmin: boolean = false;
   userName: string;
 
-  isAdmin: boolean = false;
 
   selectedModule: IModule;
   selectedForChangeOrder: IModule;
@@ -70,10 +71,32 @@ export class HomeComponent implements OnInit {
   onChangeOrder(module: IModule) {
     this.selectedModule = null;
     this.selectedForChangeOrder = module;
+    this.collapsed = true;
   }
 
   onClosedChangeOrder() {
     this.selectedForChangeOrder = null;
+    this.collapsed = false;
   }
 
+  onDelete(module: IModule) {
+    this.modulesService.deleteModule(module.id).subscribe(() => {
+      this.getModules();
+    })
+  }
+
+  onEdit() {
+    this.isEdit = true;
+  }
+
+  onEditCancel() {
+    this.isEdit = false;
+  }
+
+  onSave() {
+    for (let module of this.modules) {
+      this.modulesService.updateModule(module).subscribe();
+    }
+    this.isEdit = false;
+  }
 }

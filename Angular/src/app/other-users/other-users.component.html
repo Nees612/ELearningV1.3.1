@@ -1,25 +1,31 @@
-<div>
+<div class="m-2 w-100">
   <div *ngIf="isUserLoggedIn">
     <h3>Admins:</h3>
     <hr />
-    <div class="students-container">
-      <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let admin of admins">
+    <div class="row">
+      <div class="card user mx-auto d-inline cmt-opacity mb-2" *ngFor="let admin of admins">
         <div class="card-body">
-          <h4 class="card-title">{{ admin.userName }}</h4>
-          <p class="card-text">{{ admin.email }}</p>
-          <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(admin.id)">
+          <p class="card-title h4">{{ admin.userName }}</p>
+          <p class="font-weight-bold mt-3 ml-2 mb-0">Email:</p>
+          <p class="card-text ml-4 mt-0">{{ admin.email }}</p>
+          <div class="w-100">
+            <button *ngIf="isAdmin && admin.userName != currentUserName " class="btn btn-danger mx-auto" (click)="onDemote(admin)">Demote</button>
+          </div>
         </div>
       </div>
     </div>
     <h3>Students:</h3>
     <hr />
-    <div class="students-container">
-      <div class="card column" style="width: 18rem; height: 12rem; margin: 10px 0 0 0;" *ngFor="let student of students">
-        <input type="button" class="btn btn-danger Xbtn" value="X" *ngIf="isAdmin" (click)="onDelete(student.id)" />
+    <div class="row mr-1">
+      <div class="card user mx-auto d-inline cmt-opacity mb-2" *ngFor="let student of students">
+        <mdb-icon *ngIf="isAdmin" (click)="onDelete(student.id)" class="float-right m-2" fas icon="trash-alt"></mdb-icon>
         <div class="card-body">
-          <h4 class="card-title">{{ student.userName }}</h4>
-          <p class="card-text">{{ student.email }}</p>
-          <input type="button" class="btn btn-primary" value="See Profile" (click)="onSeeProfile(student.id)">
+          <p class="card-title h4">{{ student.userName }}</p>
+          <p class="font-weight-bold mt-3 ml-2 mb-0">Email:</p>
+          <p class="card-text ml-4 mt-0">{{ student.email }}</p>
+          <div class="w-100">
+            <button *ngIf="isAdmin" class="btn btn-primary mx-auto" (click)="onPromote(student)">Promote</button>
+          </div>
         </div>
       </div>
     </div>

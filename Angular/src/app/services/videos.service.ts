@@ -23,6 +23,7 @@ export class VideosService {
   }
 
   deleteVideo(id) {
-    return this.http.delete(environment.API_VIDEOS_URL + '/' + id, { headers: this.headersService.getHeaders() })
+    return this.http.delete(environment.API_VIDEOS_URL + '/' + id, { headers: this.headersService.getHeaders() });
   }
+
 }

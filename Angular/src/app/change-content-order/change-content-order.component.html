@@ -1,12 +1,15 @@
-<div *ngIf="moduleContents.length > 0" class="module-content">
-  <div>
-    <div *ngFor="let moduleContent of moduleContents; let i = index">
-      <p>{{ moduleContents[i].title }}</p>
-      <input class="contentId" [(ngModel)]="moduleContents[i].contentId" />
-    </div>
+<div *ngIf="moduleContents.length > 0">
+  <p class="h2 mb-3">Change the content order of {{ moduleName }} module.</p>
+  <div class="cmt-opacity rounded p-2 mx-auto contents">
     <div>
-      <input style="width: 120px;" type="button" class="btn btn-danger" value="Cancel" (click)="onCancel()" />
-      <input style="width: 120px;" type="button" class="btn btn-success" value="Save" (click)="onSave()" />
+      <div *ngFor="let moduleContent of moduleContents; let i = index">
+        <p class="d-inline font-weight-bold">{{ moduleContents[i].title }}</p>
+        <input class="contentId d-inline ml-2" [(ngModel)]="moduleContents[i].contentId" />
+      </div>
+      <div>
+        <input style="width: 120px;" type="button" class="btn btn-danger m-2" value="Cancel" (click)="onCancel()" />
+        <input style="width: 120px;" type="button" class="btn btn-success m-2 float-right" value="Save" (click)="onSave()" />
+      </div>
     </div>
   </div>
 </div>

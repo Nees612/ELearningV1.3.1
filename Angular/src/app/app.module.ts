@@ -25,6 +25,7 @@ import { VideosService } from './services/videos.service';
 import { NewModuleContentComponent } from './new-module-content/new-module-content.component';
 import { ChangeContentOrderComponent } from './change-content-order/change-content-order.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { NewModuleComponent } from './new-module/new-module.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
     VideoComponent,
     NewVideoComponent,
     NewModuleContentComponent,
-    ChangeContentOrderComponent
+    ChangeContentOrderComponent,
+    NewModuleComponent
   ],
   imports: [
     MDBBootstrapModule.forRoot(),
@@ -61,7 +63,8 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
       { path: 'profile/:Id', component: OtherUsersProfileComponent },
       { path: 'new_assigment', component: NewAssigmentComponent },
       { path: 'add_video', component: NewVideoComponent },
-      { path: 'new_module_content', component: NewModuleContentComponent }
+      { path: 'new_module_content', component: NewModuleContentComponent },
+      { path: 'new_module', component: NewModuleComponent }
     ])
   ],
   providers: [CookieService, ModulesService, AssigmentsService, UsersService, HeadersService, VideosService],

@@ -12,5 +12,6 @@ namespace ELearningV1._3._1.Interfaces
         CookieOptions CreateCookieOption(int? expireTime = 1400);
         string GenerateJSONWebToken(User userInfo, int? expireTime = 1400);
         string GetRoleFromToken(string token);
+        string GetUserIdFromToken(string token);
     }
 }

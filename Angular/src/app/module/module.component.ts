@@ -13,7 +13,6 @@ export class ModuleComponent implements OnInit, OnChanges {
 
   @Input() moduleId: number;
   @Output() cancel = new EventEmitter();
-  @Output() changeBg = new EventEmitter();
 
   moduleContents: IModuleContent[] = [];
   partNumber: number = 0;
@@ -28,6 +27,8 @@ export class ModuleComponent implements OnInit, OnChanges {
   isAdminLoggedIn: boolean;
 
   isEditActive: boolean = false;
+
+  errors: any[] = [];
 
   constructor(private moduleContentsService: ModuleContentsService, private usersService: UsersService) { }
 
@@ -56,6 +57,7 @@ export class ModuleComponent implements OnInit, OnChanges {
   private getContent() {
     this.moduleContentsService.getModuleContentByModuleId(this.moduleId).subscribe(response => {
       this.moduleContents = response.json();
+      this.partNumber = 0;
       this.hasNext = true;
     });
   }
@@ -105,6 +107,7 @@ export class ModuleComponent implements OnInit, OnChanges {
   }
 
   onEditCancel() {
+    this.errors = [];
     this.isEditActive = false;
     this.getContent();
   }
@@ -114,6 +117,7 @@ export class ModuleComponent implements OnInit, OnChanges {
   }
 
   onSave(id) {
+    this.errors = [];
     let moduleContent = {
       Title: this.moduleContents[this.partNumber].title,
       Description: this.moduleContents[this.partNumber].description,
@@ -123,8 +127,13 @@ export class ModuleComponent implements OnInit, OnChanges {
     this.moduleContentsService.updateModuleContent(moduleContent, id).subscribe(() => {
       this.getContent();
       this.isEditActive = false;
-    })
+    }, error => {
+      let errors = error.json().errors;
+      for (let key in errors) {
+        let value = errors[key];
+        this.errors.push(value);
+      }
+    });
   }
-
 
 }
