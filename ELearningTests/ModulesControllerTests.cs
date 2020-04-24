@@ -16,12 +16,13 @@ namespace ELearningTests
         public async void GetAll_Called_RetunsOkWithListOfModules()
         {
             IUnitOfWork unitOfWork = Substitute.For<IUnitOfWork>();
+            ICookieManager cookieManager = Substitute.For<ICookieManager>();
 
             var testModules = new List<Module>() { new Module(), new Module(), new Module(), new Module() };
 
             unitOfWork.Modules.GetAll().Returns(testModules);
 
-            var modulesController = new ModulesController(unitOfWork);
+            var modulesController = new ModulesController(unitOfWork, cookieManager);
 
             var result = await modulesController.GetAll();
             var okObjectResult = Assert.IsType<OkObjectResult>(result);
